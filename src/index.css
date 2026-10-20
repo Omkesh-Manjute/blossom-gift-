@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-outfit: 'Outfit', sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-script: 'Dancing Script', 'Great Vibes', cursive;
+    --font-mono: 'JetBrains Mono', monospace;
+    --brand-pink: #E8436E;
+    --brand-dark-pink: #D82B5A;
+    --brand-wine: #9E1B42;
+    --stripe-color: #fff;
+  }
+
+  body {
+    font-family: var(--font-outfit);
+    color: #1f2937;
+    background-color: #FAFAF8;
+  }
+
+  .font-script {
+    font-family: var(--font-script);
+  }
+}
+
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(3deg);
+  }
+}
+
+.animate-float {
+  animation: floatParticle 4s ease-in-out infinite;
+}

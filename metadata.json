@@ -1,0 +1,8 @@
+{
+  "name": "BLOSSOM GIFT – Personalized Gifts & Storefront",
+  "description": "Production MVP e-commerce platform and store management portal for BLOSSOM GIFT in Gondia, featuring customized gifts with photo upload, Cash on Delivery, and live order tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
