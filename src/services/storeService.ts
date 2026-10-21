@@ -1,21 +1,24 @@
-import { Product, Order, OrderStatus, StoreSettings, CartItem } from '../types';
+import { Product, Order, OrderStatus, StoreSettings, CartItem, Customer, Category, Coupon, Review } from '../types';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'blossom_gift_products_v5', // v5 with multi-variant options (Color, Size, Model Year) & price deltas
-  ORDERS: 'blossom_gift_orders_v2',
-  SETTINGS: 'blossom_gift_settings_v2',
+  PRODUCTS: 'blossom_gift_products_v10',
+  ORDERS: 'blossom_gift_orders_v10',
+  SETTINGS: 'blossom_gift_settings_v10',
+  CUSTOMERS: 'blossom_gift_customers_v10',
+  COUPONS: 'blossom_gift_coupons_v10',
+  REVIEWS: 'blossom_gift_reviews_v10',
 };
 
 export const INITIAL_SETTINGS: StoreSettings = {
   businessName: 'BLOSSOM GIFT',
-  tagline: 'Personalized Gifts, Toys & Handcrafted Moments',
-  address: 'Gupta Complex, Near N.M.D. College, Gondia, Maharashtra - 441614',
+  tagline: 'Gift, Greet & Toys Whole Sale & Retail',
+  address: 'Gupta Complex, Near N.M.D. College, Gondia (M.S.)',
   city: 'Gondia',
   state: 'Maharashtra',
   pincode: '441614',
-  phones: ['+91 8208589775', '+91 9673155741'],
+  phones: ['8208589775', '9673155741'],
   whatsapp: '918208589775',
-  email: 'blossomgiftgondia@gmail.com',
+  email: 'blossomgift@gmail.com',
   currency: 'INR',
   currencySymbol: '₹',
   deliveryFee: 50,
@@ -26,1100 +29,1081 @@ export const INITIAL_SETTINGS: StoreSettings = {
 export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'prod-01',
-    name: 'Personalized Ceramic Magic Photo Mug',
-    slug: 'personalized-magic-photo-mug',
-    description: 'Heat-sensitive glossy ceramic mug that reveals your high-resolution custom photo and romantic or birthday message when hot beverage is poured. Grade-A ceramic.',
-    price: 299,
-    comparePrice: 499,
+    name: 'Rose Teddy Bear',
+    slug: 'rose-teddy-bear',
+    description: 'Exquisite handcrafted red rose teddy bear made of soft synthetic everlasting foam roses with luxury black satin ribbon. The ultimate romantic gesture for birthdays, anniversaries, and special moments.',
+    price: 699,
+    comparePrice: 899,
     stock: 45,
-    category: 'Customized Mugs',
+    category: 'Toys & Soft Toys',
     occasions: ['Birthday', 'Anniversary', "Valentine's Day"],
     isCustomizable: true,
-    customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1577937927133-66ef06acdf18?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Best Seller', 'Heat Sensitive', 'Personalized', 'Deal of the Day'],
+    customizationType: 'text_only',
+    images: ['/extracted/rose_teddy_bear.png'],
+    tags: ['Best Seller', 'Handcrafted', 'Everlasting Roses', 'Romance'],
+    badge: 'Best Seller',
     status: 'active',
     preparationHours: 12,
     rating: 4.9,
-    reviewsCount: 184,
+    reviewsCount: 186,
+    salesCount: 86,
     variants: [
-      { id: 'v1', name: 'Color Style', value: 'Magic Black Heat Reveal', priceDelta: 0 },
-      { id: 'v2', name: 'Color Style', value: 'Pearl White Classic', priceDelta: -30 },
-      { id: 'v3', name: 'Color Style', value: 'Heart Handle Pink', priceDelta: 40 },
+      { id: 'v-rose-1', name: 'Color', value: 'Classic Crimson Red', priceDelta: 0 },
+      { id: 'v-rose-2', name: 'Color', value: 'Blush Pink', priceDelta: 50 },
+      { id: 'v-rose-3', name: 'Gift Box', value: 'With Clear Display Gift Box', priceDelta: 150 },
     ],
   },
   {
     id: 'prod-02',
-    name: 'Handcrafted Oak Personalized Photo Frame',
-    slug: 'handcrafted-oak-photo-frame',
-    description: 'Handcrafted solid oak wood frame with premium anti-glare glass matting. Includes high-clarity archival photographic print of your photo and custom laser inscription.',
-    price: 599,
-    comparePrice: 899,
-    stock: 28,
-    category: 'Photo Frames',
-    occasions: ['Anniversary', 'Wedding', 'Birthday'],
+    name: 'Personalized Photo Mug',
+    slug: 'personalized-photo-mug',
+    description: 'Premium grade-A ceramic glossy white mug with high-resolution photo print and custom text. Heat-durable, dishwasher-safe, with brilliant permanent color vibrancy.',
+    price: 299,
+    comparePrice: 399,
+    stock: 72,
+    category: 'Photo Mugs',
+    occasions: ['Birthday', 'Anniversary', 'Wedding', "Valentine's Day"],
     isCustomizable: true,
     customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Handcrafted', 'Solid Wood', 'Anniversary Favorite'],
+    images: ['/extracted/personalized_photo_mug.png'],
+    tags: ['-20%', 'Personalized', 'Ceramic 11oz', 'Best Quality'],
+    badge: '-20%',
     status: 'active',
-    preparationHours: 24,
-    rating: 4.8,
-    reviewsCount: 126,
+    preparationHours: 6,
+    rating: 4.9,
+    reviewsCount: 240,
+    salesCount: 72,
     variants: [
-      { id: 'vf1', name: 'Size', value: '8x10 Inch Desktop Stand', priceDelta: 0 },
-      { id: 'vf2', name: 'Size', value: '12x18 Inch Wall Hanging', priceDelta: 250 },
+      { id: 'v-mug-1', name: 'Type', value: 'Classic White Glossy', priceDelta: 0 },
+      { id: 'v-mug-2', name: 'Type', value: 'Magic Heat-Reveal Black', priceDelta: 100 },
+      { id: 'v-mug-3', name: 'Type', value: 'Heart Shaped Handle', priceDelta: 50 },
     ],
   },
   {
     id: 'prod-03',
-    name: 'Royal Blossom Luxury Gourmet Hamper',
-    slug: 'royal-blossom-luxury-hamper',
-    description: 'Deluxe hand-woven basket featuring Ferrero Rocher & Lindt chocolates, artisanal soy wax scented jar candle, customized golden foil card, and fragrant potpourri.',
-    price: 1299,
-    comparePrice: 1799,
-    stock: 14,
-    category: 'Gift Hampers',
-    occasions: ['Festivals', 'Wedding', 'Birthday'],
-    isCustomizable: true,
-    customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Luxury Basket', 'Gourmet', 'Gift Ready', 'Premium'],
-    status: 'active',
-    preparationHours: 18,
-    rating: 5.0,
-    reviewsCount: 92,
-  },
-  {
-    id: 'prod-04',
-    name: 'Custom Engraved 3D Acrylic LED Lamp',
-    slug: 'custom-engraved-led-lamp',
-    description: 'Warm golden LED night lamp engraved with your custom portrait outline and names on optical-grade acrylic with polished solid beechwood base. USB powered.',
-    price: 799,
-    comparePrice: 1199,
-    stock: 22,
-    category: 'LED Lamps',
-    occasions: ['Anniversary', "Valentine's Day", 'Birthday'],
-    isCustomizable: true,
-    customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1543157148-f81513253798?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Warm Light', 'Optical Acrylic', 'Romantic', 'Trending'],
-    status: 'active',
-    preparationHours: 24,
-    rating: 4.9,
-    reviewsCount: 145,
-  },
-  {
-    id: 'prod-05',
-    name: 'Handmade 4-Layer Explosion Gift Box',
-    slug: 'handmade-explosion-gift-box',
-    description: 'Intricately crafted multi-layered surprise explosion box holding up to 16 photo pockets, personal love notes, and a centerpiece jewelry or watch holder.',
-    price: 649,
-    comparePrice: 999,
-    stock: 18,
-    category: 'Explosion Boxes',
-    occasions: ['Birthday', 'Anniversary', "Valentine's Day"],
-    isCustomizable: true,
-    customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Surprise Box', 'Handmade Craft', '16 Photo Slots'],
-    status: 'active',
-    preparationHours: 36,
-    rating: 4.7,
-    reviewsCount: 88,
-  },
-  {
-    id: 'prod-06',
-    name: 'Gold Foil Custom Letterpress Greeting Card',
-    slug: 'gold-foil-greeting-card',
-    description: 'Heavyweight 350 GSM cotton card with metallic gold hot-foil embossing, calligraphy recipient name, and your heartfelt custom message printed inside with wax-sealed envelope.',
-    price: 149,
-    comparePrice: 249,
-    stock: 85,
-    category: 'Greeting Cards',
-    occasions: ['Birthday', 'Anniversary', "Valentine's Day", 'Festivals'],
-    isCustomizable: true,
-    customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Letterpress', 'Gold Foil', 'Keepsake', 'Wax Seal'],
-    status: 'active',
-    preparationHours: 6,
-    rating: 4.9,
-    reviewsCount: 210,
-  },
-  {
-    id: 'prod-07',
-    name: 'Cute Fluffy Teddy & Imported Chocolates Combo',
-    slug: 'cute-teddy-chocolate-combo',
-    description: 'Fluffy 12-inch super-soft cuddle teddy bear with heart embroidery, Cadbury Celebrations pack, and customized ribbon note. Perfect for birthday surprises.',
-    price: 449,
-    comparePrice: 699,
-    stock: 35,
-    category: 'Toys',
-    occasions: ['Birthday', "Valentine's Day"],
-    isCustomizable: true,
-    customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Plush Soft', 'Sweet Treat', 'Instant Smile', 'Cute'],
-    status: 'active',
-    preparationHours: 6,
-    rating: 4.8,
-    reviewsCount: 115,
-  },
-  {
-    id: 'prod-08',
-    name: 'Crystal Cut Holographic Photo Keychain',
-    slug: 'crystal-holographic-photo-keychain',
-    description: 'Beveled K9 optical crystal keychain laser-engraved with your photo inside. Features rotatable LED illumination in crystal cap. Lifetime clarity guarantee.',
-    price: 199,
-    comparePrice: 349,
-    stock: 55,
-    category: 'Accessories',
-    occasions: ['Birthday', 'Anniversary', "Valentine's Day"],
-    isCustomizable: true,
-    customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['K9 Crystal', 'LED Light', 'Compact Gift', 'Pocket Size'],
-    status: 'active',
-    preparationHours: 12,
-    rating: 4.6,
-    reviewsCount: 68,
-  },
-  {
-    id: 'prod-09',
-    name: 'Personalized Velvet Touch Memory Cushion',
-    slug: 'personalized-velvet-photo-cushion',
-    description: 'Ultra-soft micro-velvet square cushion (16x16 inch) printed with vivid photographic sublimation of your favorite memories. Includes plush siliconized fiber filler.',
-    price: 499,
-    comparePrice: 799,
-    stock: 30,
-    category: 'Customized Gifts',
-    occasions: ['Birthday', 'Anniversary', "Valentine's Day"],
-    isCustomizable: true,
-    customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Soft Velvet', 'Washable Cover', 'Sublimation Print'],
-    status: 'active',
-    preparationHours: 18,
-    rating: 4.9,
-    reviewsCount: 78,
-  },
-  {
-    id: 'prod-10',
-    name: 'Heart-Handle Classic White Ceramic Couple Mug',
-    slug: 'heart-handle-couple-mug',
-    description: 'Romantic dual photo ceramic mug with sculpted heart-shaped handle. Specially coated for dishwasher-safe brilliant color retention for anniversary celebrations.',
-    price: 349,
-    comparePrice: 549,
-    stock: 40,
-    category: 'Customized Mugs',
-    occasions: ['Anniversary', "Valentine's Day", 'Wedding'],
-    isCustomizable: true,
-    customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Heart Handle', 'Ceramic 11oz', 'Couple Gift'],
-    status: 'active',
-    preparationHours: 12,
-    rating: 4.9,
-    reviewsCount: 134,
-  },
-  {
-    id: 'prod-11',
-    name: 'Ferrero Rocher & Red Rose Luxury Velvet Bouquet',
-    slug: 'ferrero-red-rose-luxury-bouquet',
-    description: '16 golden Ferrero Rocher chocolates paired with premium long-stem Dutch red roses, wrapped in matte blush florist paper with golden satin ribbons.',
+    name: 'LED Photo Frame',
+    slug: 'led-photo-frame',
+    description: 'Ultra-clear illuminated couple photo frame crafted from fine polished wood with warm golden fairy-light bulbs and decorative hearts. Crystal-clear photo display that brings romantic memories to life.',
     price: 899,
-    comparePrice: 1299,
-    stock: 15,
-    category: 'Combos',
-    occasions: ['Birthday', 'Anniversary', "Valentine's Day"],
-    isCustomizable: true,
-    customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Fresh Flowers', 'Ferrero Chocolates', 'Same Day Gondia'],
-    status: 'active',
-    preparationHours: 4,
-    rating: 5.0,
-    reviewsCount: 88,
-  },
-  {
-    id: 'prod-12',
-    name: 'Handcrafted Laser-Engraved Wooden Desk Clock',
-    slug: 'laser-engraved-wooden-desk-clock',
-    description: 'Polished teakwood desktop timepiece with precision quartz silent movement. Custom laser-engraved with anniversary dates, company logo, or personalized family motto.',
-    price: 699,
-    comparePrice: 1099,
-    stock: 20,
-    category: 'Customized Gifts',
-    occasions: ['Anniversary', 'Wedding', 'Festivals'],
-    isCustomizable: true,
-    customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Solid Teakwood', 'Silent Quartz', 'Executive Keepsake'],
-    status: 'active',
-    preparationHours: 24,
-    rating: 4.7,
-    reviewsCount: 52,
-  },
-  // --- TOYS / RC CARS ---
-  {
-    id: 'prod-13',
-    name: 'Vintage Diecast Metal Classic Roadster Toy Car',
-    slug: 'vintage-diecast-metal-classic-roadster',
-    description: 'Heavyweight zinc alloy 1:32 scale vintage roadster featuring pull-back motor action, opening gull-wing doors, detailed engine interior, and real rubber tires. Ideal collector toy for kids and adults.',
-    price: 449,
-    comparePrice: 699,
-    stock: 25,
-    category: 'Toys/RC Cars',
-    occasions: ['Birthday', 'Best Sellers'],
-    isCustomizable: true,
-    customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Toys/RC Cars', 'Diecast Metal', 'Pullback Motor', 'Collector Edition', 'Kids Favorite', 'Vintage Roadster'],
-    status: 'active',
-    preparationHours: 6,
-    rating: 4.9,
-    reviewsCount: 76,
-    variants: [
-      { id: 'rc1-c1', name: 'Color', value: 'Matte Vintage Red', priceDelta: 0 },
-      { id: 'rc1-c2', name: 'Color', value: 'Midnight Onyx Black', priceDelta: 30 },
-      { id: 'rc1-c3', name: 'Color', value: 'Speed Canary Yellow', priceDelta: 30 },
-      { id: 'rc1-y1', name: 'Model Year', value: '1967 Classic Edition', priceDelta: 0 },
-      { id: 'rc1-y2', name: 'Model Year', value: '1970 Collector Chrome Edition', priceDelta: 120 },
-    ],
-  },
-  {
-    id: 'prod-14',
-    name: 'High-Speed 4WD RC Off-Road Monster Stunt Car',
-    slug: 'high-speed-4wd-rc-monster-stunt-car',
-    description: '2.4GHz remote-controlled 4WD all-terrain monster crawler with 360-degree stunt spins, shock absorber suspension, dual rechargeable battery packs, and anti-crash bumper guard.',
-    price: 899,
-    comparePrice: 1399,
-    stock: 18,
-    category: 'Toys/RC Cars',
-    occasions: ['Birthday', 'Festivals'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Toys/RC Cars', 'RC Remote Control', '4WD Off-Road', 'Rechargeable', 'Stunt Action', 'High Speed Buggy'],
-    status: 'active',
-    preparationHours: 4,
-    rating: 4.8,
-    reviewsCount: 64,
-    variants: [
-      { id: 'rc2-y1', name: 'Model Year', value: '2024 Turbo Crawler', priceDelta: 0 },
-      { id: 'rc2-y2', name: 'Model Year', value: '2025 Brushless High-Torque Pro', priceDelta: 250 },
-      { id: 'rc2-c1', name: 'Color', value: 'Toxic Neon Green', priceDelta: 0 },
-      { id: 'rc2-c2', name: 'Color', value: 'Blaze Lava Orange', priceDelta: 40 },
-      { id: 'rc2-c3', name: 'Color', value: 'Stealth Camo Black', priceDelta: 70 },
-    ],
-  },
-  {
-    id: 'prod-15',
-    name: 'Diecast Sports Supercar with Acrylic Display Case',
-    slug: 'diecast-sports-supercar-acrylic-case',
-    description: 'Precision scale replica sports supercar featuring functioning LED headlights, realistic revving engine sound effects on press, and a crystal-clear acrylic dustproof showcase display box.',
-    price: 649,
-    comparePrice: 999,
-    stock: 22,
-    category: 'Toys/RC Cars',
-    occasions: ['Birthday', 'Anniversary'],
-    isCustomizable: true,
-    customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Toys/RC Cars', 'LED Lights & Sound', 'Collector Showcase', 'Diecast Alloy', 'Display Case', 'Supercar'],
-    status: 'active',
-    preparationHours: 12,
-    rating: 4.9,
-    reviewsCount: 58,
-    variants: [
-      { id: 'rc-sc1', name: 'Color', value: 'Apex Rosso Corsa Red', priceDelta: 0 },
-      { id: 'rc-sc2', name: 'Color', value: 'Giallo Modena Yellow', priceDelta: 30 },
-      { id: 'rc-sc3', name: 'Color', value: 'Nero Daytona Gloss Black', priceDelta: 50 },
-      { id: 'rc-sc4', name: 'Display Case', value: 'Standard Acrylic Cover', priceDelta: 0 },
-      { id: 'rc-sc5', name: 'Display Case', value: 'Illuminated LED Base Case', priceDelta: 150 },
-    ],
-  },
-  {
-    id: 'prod-16',
-    name: 'Handmade Natural Wooden Train & Track Set',
-    slug: 'handmade-natural-wooden-train-set',
-    description: 'Safe non-toxic organic beechwood magnetic engine and 3 passenger carriages with smooth rounded edges. Eco-friendly Montessori developmental toy for imaginative toddler play.',
-    price: 399,
-    comparePrice: 599,
-    stock: 30,
-    category: 'Toys/RC Cars',
-    occasions: ['Birthday'],
-    isCustomizable: true,
-    customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Toys/RC Cars', 'Non-Toxic Beechwood', 'Magnetic Link', 'Montessori Toy', 'Eco-Friendly', 'Toddler Toys'],
-    status: 'active',
-    preparationHours: 6,
-    rating: 4.7,
-    reviewsCount: 42,
-    variants: [
-      { id: 'wt1', name: 'Edition', value: 'Natural Raw Beechwood', priceDelta: 0 },
-      { id: 'wt2', name: 'Edition', value: 'Vibrant Pastel Painted', priceDelta: 60 },
-      { id: 'wt3', name: 'Track Extension', value: 'Basic 12-Piece Oval', priceDelta: 0 },
-      { id: 'wt4', name: 'Track Extension', value: 'Deluxe 24-Piece Bridge Pack', priceDelta: 180 },
-    ],
-  },
-  {
-    id: 'prod-26',
-    name: 'Gesture-Sensing 360° Stunt RC Twist Climbing Car',
-    slug: 'gesture-sensing-stunt-rc-twist-car',
-    description: 'Futuristic dual-control stunt vehicle operated through a gesture-sensing smart wristband or 2.4GHz remote. Bionic spine deformation allows it to conquer rugs, gravel, and grass with 360° tumbling flips and colorful LED side flares.',
-    price: 1199,
-    comparePrice: 1799,
-    stock: 16,
-    category: 'Toys/RC Cars',
-    occasions: ['Birthday', 'Festivals'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Toys/RC Cars', 'Gesture Sensor Watch', 'Stunt Car', 'Bionic Spine', 'Mecanum Drift', 'Rechargeable Battery'],
-    status: 'active',
-    preparationHours: 6,
-    rating: 4.9,
-    reviewsCount: 51,
-    variants: [
-      { id: 'rc3-y1', name: 'Model Year', value: '2024 Dual-Motor Standard', priceDelta: 0 },
-      { id: 'rc3-y2', name: 'Model Year', value: '2025 Extreme Bionic Edition', priceDelta: 200 },
-      { id: 'rc3-c1', name: 'Color', value: 'Cyber Matrix Cyan', priceDelta: 0 },
-      { id: 'rc3-c2', name: 'Color', value: 'Plasma Ruby Red', priceDelta: 50 },
-      { id: 'rc3-c3', name: 'Color', value: 'Galactic Emerald Green', priceDelta: 50 },
-    ],
-  },
-  {
-    id: 'prod-27',
-    name: '1:16 High-Speed Turbo Drift RC Racing Car with Extra Tires',
-    slug: 'high-speed-turbo-drift-rc-racing-car',
-    description: '28 km/h drift racer equipped with 2 sets of interchangeable wheels (high-grip racing rubber & slick drift wheels), working front LED headlights, and 2.4GHz proportional pistol-grip throttle for precision drifting.',
-    price: 999,
-    comparePrice: 1549,
-    stock: 20,
-    category: 'Toys/RC Cars',
-    occasions: ['Birthday', 'Best Sellers'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Toys/RC Cars', 'Turbo Drift', '28 km/h Speed', 'Drift Tires Included', 'LED Headlights', 'Pistol Remote'],
-    status: 'active',
-    preparationHours: 4,
-    rating: 4.8,
-    reviewsCount: 39,
-    variants: [
-      { id: 'rc4-y1', name: 'Model Year', value: '2024 Street Drift Spec', priceDelta: 0 },
-      { id: 'rc4-y2', name: 'Model Year', value: '2025 Track Championship Spec', priceDelta: 300 },
-      { id: 'rc4-c1', name: 'Color', value: 'Fast & Furious Hyper Blue', priceDelta: 0 },
-      { id: 'rc4-c2', name: 'Color', value: 'Midnight Carbon Ghost', priceDelta: 100 },
-      { id: 'rc4-c3', name: 'Color', value: 'Sunset Tokyo Drift Orange', priceDelta: 70 },
-    ],
-  },
-
-  // --- WALL WATCHES ---
-  {
-    id: 'prod-17',
-    name: 'Nordic Minimalist 3D Wooden Silent Wall Watch',
-    slug: 'nordic-minimalist-wooden-silent-wall-watch',
-    description: 'Elegant circular Scandinavian wall watch handcrafted with natural walnut & birch wood layers. Ultra-silent Japanese quartz sweep movement with zero ticking noise and rose gold brushed aluminum hands.',
-    price: 749,
     comparePrice: 1199,
-    stock: 24,
-    category: 'Wall Watches',
-    occasions: ['Anniversary', 'Wedding', 'Festivals'],
-    isCustomizable: true,
-    customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Wall Watches', 'Silent Sweep Quartz', 'Natural Walnut', 'Nordic Decor', '14-Inch Diameter', 'Living Room Watch'],
-    status: 'active',
-    preparationHours: 18,
-    rating: 4.8,
-    reviewsCount: 94,
-    variants: [
-      { id: 'ww1-c1', name: 'Color', value: 'Natural Walnut', priceDelta: 0 },
-      { id: 'ww1-c2', name: 'Color', value: 'Birch White Oak', priceDelta: 50 },
-      { id: 'ww1-c3', name: 'Color', value: 'Smoked Ebony Black', priceDelta: 90 },
-      { id: 'ww1-s1', name: 'Size', value: '12-Inch Compact', priceDelta: 0 },
-      { id: 'ww1-s2', name: 'Size', value: '14-Inch Standard', priceDelta: 150 },
-      { id: 'ww1-s3', name: 'Size', value: '16-Inch Grand Salon', priceDelta: 320 },
-    ],
-  },
-  {
-    id: 'prod-18',
-    name: 'Personalized Family Photo Dial Wall Watch',
-    slug: 'personalized-family-photo-dial-wall-watch',
-    description: '14-inch customized wall watch displaying your cherished family memories at each hour marker. Scratch-resistant acrylic face with gold finish hands and precision silent quartz timekeeping.',
-    price: 849,
-    comparePrice: 1299,
-    stock: 19,
-    category: 'Wall Watches',
+    stock: 28,
+    category: 'Customized Gifts',
     occasions: ['Anniversary', 'Birthday', 'Wedding'],
     isCustomizable: true,
     customizationType: 'photo_and_text',
-    images: [
-      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Wall Watches', 'Custom Photo Dial', '14-Inch Big Dial', 'Silent Movement', 'Family Keepsake', 'Personalized Gift'],
+    images: ['/products/led_photo_frame_hd.png'],
+    tags: ['Warm LED', 'Solid Wood', 'Personalized', 'Keepsake'],
+    badge: 'Popular Glow',
     status: 'active',
     preparationHours: 24,
     rating: 4.9,
-    reviewsCount: 112,
+    reviewsCount: 178,
+    salesCount: 42,
     variants: [
-      { id: 'ww2-c1', name: 'Color', value: 'Antique Champagne Gold', priceDelta: 0 },
-      { id: 'ww2-c2', name: 'Color', value: 'Royal Rose Gold', priceDelta: 80 },
-      { id: 'ww2-c3', name: 'Color', value: 'Matte Midnight Black', priceDelta: 50 },
-      { id: 'ww2-s1', name: 'Size', value: '12-Inch Standard', priceDelta: 0 },
-      { id: 'ww2-s2', name: 'Size', value: '14-Inch Large', priceDelta: 180 },
-      { id: 'ww2-s3', name: 'Size', value: '16-Inch Executive Big Dial', priceDelta: 380 },
+      { id: 'v-frame-1', name: 'Size', value: 'Square 8x8 Inch', priceDelta: 0 },
+      { id: 'v-frame-2', name: 'Size', value: 'Grand 12x12 Inch', priceDelta: 300 },
     ],
   },
   {
-    id: 'prod-19',
-    name: 'Vintage Industrial Roman Numerals Metal Gear Wall Watch',
-    slug: 'vintage-industrial-metal-gear-wall-watch',
-    description: 'Rustic 16-inch oversized wrought iron skeleton wall watch with antique bronze finish, cutout Roman numerals, and moving decorative mechanical gears. Statement piece for living rooms and offices.',
-    price: 1199,
-    comparePrice: 1799,
-    stock: 12,
-    category: 'Wall Watches',
-    occasions: ['Wedding', 'Festivals', 'Anniversary'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Wall Watches', 'Wrought Iron', 'Industrial Rustic', '16-Inch Oversized', 'Antique Bronze', 'Mechanical Gears'],
-    status: 'active',
-    preparationHours: 12,
-    rating: 4.8,
-    reviewsCount: 67,
-    variants: [
-      { id: 'ww3-c1', name: 'Color', value: 'Rustic Antique Bronze', priceDelta: 0 },
-      { id: 'ww3-c2', name: 'Color', value: 'Cast Iron Matte Black', priceDelta: 70 },
-      { id: 'ww3-c3', name: 'Color', value: 'Aged Copper Patina', priceDelta: 120 },
-      { id: 'ww3-s1', name: 'Size', value: '16-Inch Classic', priceDelta: 0 },
-      { id: 'ww3-s2', name: 'Size', value: '20-Inch Oversized Statement', priceDelta: 350 },
-    ],
-  },
-  {
-    id: 'prod-20',
-    name: 'Luxury Double-Sided Railway Station Hanging Wall Watch',
-    slug: 'luxury-double-sided-railway-station-wall-watch',
-    description: '360-degree dual-dial antique station wall timepiece suspended from an ornamental wrought-iron scroll bracket. Features vintage parchment dials, glass lens casing, and ultra-quiet twin quartz movements.',
-    price: 1299,
-    comparePrice: 1999,
-    stock: 14,
-    category: 'Wall Watches',
-    occasions: ['Anniversary', 'Wedding', 'Festivals'],
+    id: 'prod-04',
+    name: 'Greeting Cards',
+    slug: 'greeting-cards',
+    description: 'Artisanal handmade Happy Birthday & celebration greeting cards with embossed gold-foil details, floral illustrations, and elegant envelope with wax stamp.',
+    price: 49,
+    comparePrice: 79,
+    stock: 120,
+    category: 'Greeting Cards',
+    occasions: ['Birthday', 'Anniversary', 'Wedding', 'Festivals'],
     isCustomizable: true,
     customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Wall Watches', 'Double Sided Watch', 'Railway Station Style', 'Wrought Iron Bracket', 'Dual Quartz', 'Vintage Timepiece'],
+    images: ['/extracted/greeting_cards.png'],
+    tags: ['Handmade', 'Floral Design', 'Gold Foil', 'Letterpress'],
     status: 'active',
-    preparationHours: 18,
-    rating: 5.0,
-    reviewsCount: 83,
-    variants: [
-      { id: 'ww-rs1', name: 'Bracket Finish', value: 'Victorian Wrought Black', priceDelta: 0 },
-      { id: 'ww-rs2', name: 'Bracket Finish', value: 'Antique Brushed Brass', priceDelta: 120 },
-      { id: 'ww-rs3', name: 'Size', value: '10-Inch Station Dial', priceDelta: 0 },
-      { id: 'ww-rs4', name: 'Size', value: '14-Inch Grand Junction Dial', priceDelta: 280 },
-    ],
-  },
-  {
-    id: 'prod-28',
-    name: 'Modern Sunburst Crystal Jewel Gold Metal Wall Watch',
-    slug: 'modern-sunburst-crystal-gold-metal-wall-watch',
-    description: 'Spectacular 20-inch oversized statement wall watch radiating hand-set multifaceted crystal glass jewels on electroplated golden steel rays. High-torque silent movement with crystal clear numeric dial.',
-    price: 1349,
-    comparePrice: 2199,
-    stock: 15,
-    category: 'Wall Watches',
-    occasions: ['Anniversary', 'Wedding', 'Festivals'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Wall Watches', 'Crystal Sunburst', 'Gold Electroplate', '20-Inch Statement', 'Glam Luxury', 'Silent Movement'],
-    status: 'active',
-    preparationHours: 16,
+    preparationHours: 2,
     rating: 4.9,
-    reviewsCount: 62,
-    variants: [
-      { id: 'ww4-c1', name: 'Color', value: 'Electroplated 24K Gold', priceDelta: 0 },
-      { id: 'ww4-c2', name: 'Color', value: 'Platinum Mirror Silver', priceDelta: 90 },
-      { id: 'ww4-s1', name: 'Size', value: '18-Inch Wall Accent', priceDelta: 0 },
-      { id: 'ww4-s2', name: 'Size', value: '24-Inch Statement Grand', priceDelta: 450 },
-    ],
+    reviewsCount: 310,
+    salesCount: 64,
   },
   {
-    id: 'prod-29',
-    name: 'Contemporary Marble Texture & Brass Trim Silent Wall Watch',
-    slug: 'contemporary-marble-brass-silent-wall-watch',
-    description: 'Luxurious 12-inch minimalist wall watch crafted with natural grey vein white marble composite dial, embossed satin brass hour indices, and tapered golden second hand. Absolutely silent sweep action.',
-    price: 849,
+    id: 'prod-05',
+    name: 'Gift Hampers',
+    slug: 'gift-hampers',
+    description: 'Luxurious gift hamper box filled with premium chocolates, assorted dry fruits, scented candle, and personalized congratulatory greeting card with festive satin ribbon.',
+    price: 999,
     comparePrice: 1299,
-    stock: 20,
-    category: 'Wall Watches',
-    occasions: ['Birthday', 'Anniversary', 'Festivals'],
+    stock: 22,
+    category: 'Gift Hampers',
+    occasions: ['Festivals', 'Wedding', 'Birthday', 'Anniversary'],
     isCustomizable: true,
     customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Wall Watches', 'White Marble Texture', 'Brass Accents', 'Scandinavian Modern', 'Sweep Second Hand', 'Bedroom Watch'],
+    images: ['/extracted/gift_hampers.png'],
+    tags: ['Popular', 'Luxury Hamper', 'Gourmet Chocolates', 'Dry Fruits'],
+    badge: 'Popular',
     status: 'active',
     preparationHours: 12,
-    rating: 4.8,
-    reviewsCount: 45,
+    rating: 5.0,
+    reviewsCount: 98,
+    salesCount: 48,
     variants: [
-      { id: 'ww5-c1', name: 'Color', value: 'Carrara White Marble & Brass', priceDelta: 0 },
-      { id: 'ww5-c2', name: 'Color', value: 'Nero Marquina Black & Gold', priceDelta: 110 },
-      { id: 'ww5-c3', name: 'Color', value: 'Emerald Green Jade & Rose Gold', priceDelta: 160 },
-      { id: 'ww5-s1', name: 'Size', value: '12-Inch Diameter', priceDelta: 0 },
-      { id: 'ww5-s2', name: 'Size', value: '15-Inch Diameter', priceDelta: 220 },
+      { id: 'v-hamper-1', name: 'Size', value: 'Classic Deluxe Hamper', priceDelta: 0 },
+      { id: 'v-hamper-2', name: 'Size', value: 'Grand Royal Hamper', priceDelta: 500 },
     ],
   },
-
-  // --- DECORATIVE ITEMS & HOME ACCENTS ---
   {
-    id: 'prod-21',
-    name: 'Handcrafted Brass Peacock Urli Bowl for Floating Flowers',
-    slug: 'brass-peacock-urli-bowl-floating-flowers',
-    description: 'Traditional 10-inch polished brass urli with intricate peacock carvings and rim diya holders. Perfect aesthetic centerpiece for Diwali, home entrance, or pooja room with rose petals and floating candles.',
+    id: 'prod-06',
+    name: 'Personalized Keychain',
+    slug: 'personalized-keychain',
+    description: 'Charming laser-cut acrylic heart keychain with crystal resin petals and personalized cursive calligraphy name. Lightweight, durable, and scratch-resistant.',
+    price: 199,
+    comparePrice: 299,
+    stock: 65,
+    category: 'Customized Gifts',
+    occasions: ['Birthday', 'Anniversary', "Valentine's Day"],
+    isCustomizable: true,
+    customizationType: 'text_only',
+    images: ['/extracted/personalized_keychain.png'],
+    tags: ['Acrylic Heart', 'Custom Name', 'Keychain', 'Cute Gift'],
+    status: 'active',
+    preparationHours: 8,
+    rating: 4.7,
+    reviewsCount: 165,
+    salesCount: 46,
+  },
+  {
+    id: 'prod-07',
+    name: 'High-Speed 4WD Stunt RC Racing Car',
+    slug: 'high-speed-rc-drift-car',
+    description: 'High-torque 4WD remote control racing car with rubber drift tires, working LED headlamps, 2.4GHz remote controller, and rechargeable USB battery pack. Reaches up to 25 km/h.',
+    price: 899,
+    comparePrice: 1499,
+    stock: 24,
+    category: 'Toys & Soft Toys',
+    occasions: ['Birthday', 'Festivals'],
+    isCustomizable: false,
+    customizationType: 'none',
+    images: ['/products/rc_car_toy.jpg'],
+    tags: ['RC Car', 'High Speed', 'Kids Favorite', 'Rechargeable'],
+    badge: 'Trending Toy',
+    status: 'active',
+    preparationHours: 1,
+    rating: 4.9,
+    reviewsCount: 112,
+    salesCount: 55,
+    variants: [
+      { id: 'v-rc-1', name: 'Color', value: 'Inferno Red', priceDelta: 0 },
+      { id: 'v-rc-2', name: 'Color', value: 'Cyber Cyan', priceDelta: 50 },
+    ],
+  },
+  {
+    id: 'prod-08',
+    name: 'Luxury Coral Velvet Gifting Handbag',
+    slug: 'luxury-coral-velvet-gifting-bag',
+    description: 'Elegant structured luxury handbag with silver twist-lock clasp, top handle, detachable cross-body shoulder strap, and spacious satin-lined compartments.',
+    price: 1199,
+    comparePrice: 1899,
+    stock: 18,
+    category: 'Bags & Clutches',
+    occasions: ['Anniversary', 'Birthday', 'Wedding'],
+    isCustomizable: true,
+    customizationType: 'text_only',
+    images: ['/products/gift_tote_bag.jpg'],
+    tags: ['Luxury Bag', 'Fashion', 'Handbag', 'Designer'],
+    badge: 'Luxury',
+    status: 'active',
+    preparationHours: 4,
+    rating: 4.8,
+    reviewsCount: 84,
+    salesCount: 39,
+  },
+  {
+    id: 'prod-09',
+    name: 'Fluffy Cuddle Teddy Bear (Brown 16-Inch)',
+    slug: 'fluffy-cuddle-teddy-brown',
+    description: 'Ultra-soft 16-inch plush cuddle teddy bear with adorable button eyes and satin bow tie. 100% hypoallergenic siliconized cotton filling.',
     price: 799,
-    comparePrice: 1199,
-    stock: 20,
-    category: 'Decorative Items',
+    comparePrice: 1099,
+    stock: 28,
+    category: 'Toys & Soft Toys',
+    occasions: ['Birthday', "Valentine's Day"],
+    isCustomizable: true,
+    customizationType: 'text_only',
+    images: ['/products/brown_teddy_bear.jpg'],
+    tags: ['Plush Toy', 'Super Soft', 'Kids & Loved Ones'],
+    badge: 'Super Soft',
+    status: 'active',
+    preparationHours: 2,
+    rating: 4.9,
+    reviewsCount: 135,
+    salesCount: 62,
+  },
+  {
+    id: 'prod-10',
+    name: 'Custom White Ceramic Coffee Mug',
+    slug: 'custom-white-ceramic-mug',
+    description: 'Bright white 11oz ceramic sublimation coffee mug with photo and typography text. Microwave safe and dishwasher proof.',
+    price: 249,
+    comparePrice: 349,
+    stock: 45,
+    category: 'Photo Mugs',
+    occasions: ['Birthday', 'Anniversary'],
+    isCustomizable: true,
+    customizationType: 'photo_and_text',
+    images: ['/products/white_photo_mug.jpg'],
+    tags: ['White Ceramic', '11oz', 'Sublimation'],
+    status: 'active',
+    preparationHours: 4,
+    rating: 4.7,
+    reviewsCount: 92,
+    salesCount: 44,
+  },
+  {
+    id: 'prod-11',
+    name: 'Royal Hardboard Magnetic Gift Box',
+    slug: 'royal-hardboard-gift-box',
+    description: 'Rigid luxury presentation packaging box with magnetic snap flap, pre-tied satin ribbon, and soft velvet cushion bed.',
+    price: 399,
+    comparePrice: 599,
+    stock: 35,
+    category: 'Gift Hampers',
     occasions: ['Festivals', 'Wedding'],
     isCustomizable: false,
     customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1606744837616-56c9a5c6a6eb?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Decorative Items', 'Pure Brass', 'Traditional Urli', 'Floating Flowers', 'Pooja Decor', 'Festive Urli'],
+    images: ['/products/premium_gift_box.jpg'],
+    tags: ['Rigid Hardboard', 'Magnetic Flap', 'Gift Ready'],
+    badge: 'Premium Box',
     status: 'active',
-    preparationHours: 12,
+    preparationHours: 1,
     rating: 4.9,
-    reviewsCount: 95,
+    reviewsCount: 65,
+    salesCount: 50,
   },
   {
-    id: 'prod-22',
-    name: 'Nordic Fluted Ceramic Donut Vase with Dried Pampas Grass',
-    slug: 'nordic-ceramic-donut-vase-pampas-grass',
-    description: 'Modern aesthetic hollow round donut ceramic flower vase with matte textured finish. Comes complete with a bouquet of fluffy natural dried pampas grass and bunny tails for chic tabletop decor.',
-    price: 549,
-    comparePrice: 849,
-    stock: 28,
-    category: 'Decorative Items',
-    occasions: ['Birthday', 'Anniversary', 'Festivals'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Decorative Items', 'Nordic Donut Vase', 'Pampas Grass Bouquet', 'Boho Aesthetic', 'Tabletop Decor', 'Modern Pottery'],
-    status: 'active',
-    preparationHours: 6,
-    rating: 4.8,
-    reviewsCount: 71,
-  },
-  {
-    id: 'prod-23',
-    name: '3D Laser-Engraved Crystal Galaxy Solar System Globe Lamp',
-    slug: '3d-crystal-galaxy-solar-system-globe-lamp',
-    description: '80mm solid optical K9 crystal sphere with internal 3D laser-engraved planetary solar system, seated on an illuminated beechwood base with warm glowing LED ambient night light.',
-    price: 699,
-    comparePrice: 1099,
-    stock: 25,
-    category: 'Decorative Items',
-    occasions: ['Birthday', 'Festivals'],
+    id: 'prod-12',
+    name: '3D Musical Pop-Up Birthday Greeting Card',
+    slug: '3d-musical-popup-birthday-card',
+    description: 'Intricately laser-cut 3D pop-up celebration greeting card with warm LED candle light and happy birthday melody upon opening.',
+    price: 149,
+    comparePrice: 249,
+    stock: 80,
+    category: 'Greeting Cards',
+    occasions: ['Birthday'],
     isCustomizable: true,
     customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Decorative Items', 'K9 Crystal Sphere', 'Solar System 3D', 'Warm Glow Base', 'Ambient Lighting', 'Galaxy Lamp'],
+    images: ['/products/birthday_popup_card.jpg'],
+    tags: ['3D Pop-Up', 'Musical', 'Laser Cut'],
+    badge: '3D Pop-Up',
     status: 'active',
-    preparationHours: 12,
-    rating: 4.9,
-    reviewsCount: 88,
+    preparationHours: 2,
+    rating: 4.8,
+    reviewsCount: 94,
+    salesCount: 58,
   },
   {
-    id: 'prod-24',
-    name: 'Artisanal Botanical Scented Soy Candle Hamper (Set of 4)',
-    slug: 'artisanal-botanical-scented-soy-candle-hamper',
-    description: '100% natural soy wax candles infused with pure therapeutic essential oils in frosted amber glass jars: French Lavender, Madagascan Vanilla, English Rose, and Mysore Sandalwood.',
+    id: 'prod-13',
+    name: 'Vintage Roman Dial Solid Wood Wall Clock (16-Inch)',
+    slug: 'vintage-roman-dial-wall-clock',
+    description: 'Handcrafted solid teakwood 16-inch grand wall clock with embossed Roman numerals, champagne gold hands, and silent sweep quartz movement (no ticking sound).',
+    price: 1499,
+    comparePrice: 2299,
+    stock: 15,
+    category: 'Wall Watches',
+    occasions: ['Anniversary', 'Wedding', 'Festivals'],
+    isCustomizable: true,
+    customizationType: 'text_only',
+    images: ['/products/wall_watch_clock.jpg'],
+    tags: ['Wall Clock', 'Solid Wood', 'Silent Sweep', 'Home Decor'],
+    badge: 'Silent Sweep',
+    status: 'active',
+    preparationHours: 6,
+    rating: 4.9,
+    reviewsCount: 78,
+    salesCount: 29,
+  },
+  {
+    id: 'prod-14',
+    name: 'Royal Champagne Brass Silent Sweep Wall Clock',
+    slug: 'royal-champagne-brass-wall-clock',
+    description: 'Luxury brushed metallic brass finish round wall clock with anti-reflective glass and precision Japanese quartz movement. Perfect living room centerpiece.',
+    price: 1899,
+    comparePrice: 2699,
+    stock: 12,
+    category: 'Wall Watches',
+    occasions: ['Wedding', 'Festivals'],
+    isCustomizable: false,
+    customizationType: 'none',
+    images: ['https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=900&auto=format&fit=crop&q=90'],
+    tags: ['Brass Finish', 'Luxury Clock', 'Living Room'],
+    badge: 'Royal Decor',
+    status: 'active',
+    preparationHours: 6,
+    rating: 5.0,
+    reviewsCount: 52,
+    salesCount: 22,
+  },
+  {
+    id: 'prod-vy-1',
+    name: 'Bags for Every Occasion',
+    slug: 'bags-for-every-occasion',
+    description: 'Accessorize with our fashionable bags. Whether it is for work, casual outings, or celebratory parties, find the perfect design to complement your style.',
+    price: 799,
+    comparePrice: 1299,
+    stock: 25,
+    category: 'Bags & Clutches',
+    occasions: ['Birthday', 'Anniversary', 'Wedding'],
+    isCustomizable: false,
+    customizationType: 'none',
+    images: ['/products/vyaparify/bags_occasion.jpg'],
+    tags: ['Fashion Bags', 'Premium Material', 'Gondia Store', 'Trending'],
+    badge: 'Store Special',
+    status: 'active',
+    preparationHours: 2,
+    rating: 4.8,
+    reviewsCount: 64,
+    salesCount: 38,
+  },
+  {
+    id: 'prod-vy-2',
+    name: 'Trendy Compact Sling Bags',
+    slug: 'trendy-compact-sling-bags',
+    description: 'Keep your essentials close at hand with our versatile sling bags. Lightweight, chic, and practical for on-the-go lifestyle.',
     price: 499,
     comparePrice: 799,
-    stock: 35,
-    category: 'Decorative Items',
-    occasions: ['Festivals', 'Birthday', 'Anniversary'],
+    stock: 30,
+    category: 'Bags & Clutches',
+    occasions: ['Birthday', 'Casual Gifting'],
+    isCustomizable: false,
+    customizationType: 'none',
+    images: ['/products/vyaparify/sling_bags.jpg'],
+    tags: ['Sling Bag', 'Lightweight', 'Everyday Use'],
+    badge: 'Popular',
+    status: 'active',
+    preparationHours: 2,
+    rating: 4.7,
+    reviewsCount: 48,
+    salesCount: 42,
+  },
+  {
+    id: 'prod-vy-3',
+    name: 'Explore Our Wide Range of Toys',
+    slug: 'explore-wide-range-of-toys',
+    description: 'Ignite your child’s imagination with our extensive collection of action toys, racing cars, educational games, and cute models.',
+    price: 699,
+    comparePrice: 999,
+    stock: 40,
+    category: 'Toys & Soft Toys',
+    occasions: ['Birthday', 'Festivals'],
+    isCustomizable: false,
+    customizationType: 'none',
+    images: ['/products/vyaparify/toys_range.jpg'],
+    tags: ['Kids Toys', 'Action Figures', 'Safe Materials', 'Gondia Store'],
+    badge: 'Kids Favorite',
+    status: 'active',
+    preparationHours: 1,
+    rating: 4.9,
+    reviewsCount: 92,
+    salesCount: 65,
+  },
+  {
+    id: 'prod-vy-4',
+    name: 'Assorted Gourmet Gift Chocolates',
+    slug: 'assorted-gourmet-gift-chocolates',
+    description: 'Satisfy sweet cravings with delectable imported and handcrafted chocolates. Rich dark and creamy milk pralines packaged for gifting.',
+    price: 349,
+    comparePrice: 499,
+    stock: 50,
+    category: 'Gift Hampers',
+    occasions: ['Birthday', 'Anniversary', 'Valentine\'s Day', 'Festivals'],
     isCustomizable: true,
     customizationType: 'text_only',
-    images: [
-      'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Decorative Items', '100% Soy Wax', 'Essential Oils', 'Set of 4 Jars', 'Aromatherapy Gift', 'Scented Candles'],
+    images: ['/products/vyaparify/chocolate.jpg'],
+    tags: ['Chocolates', 'Gourmet', 'Gift Hamper', 'Sweet Surprise'],
+    badge: 'Sweet Treat',
     status: 'active',
-    preparationHours: 6,
+    preparationHours: 1,
+    rating: 4.9,
+    reviewsCount: 110,
+    salesCount: 78,
+  },
+  {
+    id: 'prod-vy-5',
+    name: 'Elegant Neck Pendants for Every Neckline',
+    slug: 'neck-pendants-for-every-neckline',
+    description: 'Add a touch of sparkling elegance to any outfit with our hand-picked pendant necklaces. Fine craftsmanship with brilliant polish.',
+    price: 299,
+    comparePrice: 499,
+    stock: 35,
+    category: 'Accessories',
+    occasions: ['Birthday', 'Anniversary', 'Valentine\'s Day'],
+    isCustomizable: false,
+    customizationType: 'none',
+    images: ['/products/vyaparify/neck_pendants.jpg'],
+    tags: ['Pendants', 'Fashion Jewellery', 'Gift for Her'],
+    badge: 'Trending',
+    status: 'active',
+    preparationHours: 2,
+    rating: 4.8,
+    reviewsCount: 56,
+    salesCount: 34,
+  },
+  {
+    id: 'prod-vy-6',
+    name: 'Sparkling Charm Bracelets for All Occasions',
+    slug: 'bracelets-for-all-occasions',
+    description: 'Accessorize with our stunning bracelets. From delicate minimalist designs to bold statement charms, find the piece that shines.',
+    price: 249,
+    comparePrice: 399,
+    stock: 45,
+    category: 'Accessories',
+    occasions: ['Birthday', 'Valentine\'s Day', 'Friendship Day'],
+    isCustomizable: false,
+    customizationType: 'none',
+    images: ['/products/vyaparify/bracelets.jpg'],
+    tags: ['Bracelets', 'Charm', 'Fashion Jewellery'],
+    status: 'active',
+    preparationHours: 2,
+    rating: 4.7,
+    reviewsCount: 42,
+    salesCount: 29,
+  },
+  {
+    id: 'prod-vy-7',
+    name: 'Fashionable UV Goggles for Every Look',
+    slug: 'fashionable-goggles-for-every-look',
+    description: 'Make a bold style statement with our modern UV-protected sunglasses. Ergonomic frame, scratch-resistant lenses, and trendsetting aesthetics.',
+    price: 399,
+    comparePrice: 699,
+    stock: 30,
+    category: 'Accessories',
+    occasions: ['Birthday', 'Casual Gifting'],
+    isCustomizable: false,
+    customizationType: 'none',
+    images: ['/products/vyaparify/goggles.jpg'],
+    tags: ['Goggles', 'Sunglasses', 'UV Protection', 'Fashion'],
+    badge: 'Hot Style',
+    status: 'active',
+    preparationHours: 1,
+    rating: 4.8,
+    reviewsCount: 68,
+    salesCount: 45,
+  },
+  {
+    id: 'prod-vy-8',
+    name: 'Fashionable Wallets for Him and Her',
+    slug: 'fashionable-wallets-him-her',
+    description: 'Stay stylishly organized with our premium leatherette wallets. Designed with multiple card slots, coin pocket, and secure closure.',
+    price: 349,
+    comparePrice: 599,
+    stock: 40,
+    category: 'Bags & Clutches',
+    occasions: ['Birthday', 'Anniversary'],
+    isCustomizable: true,
+    customizationType: 'text_only',
+    images: ['/products/vyaparify/wallets.jpg'],
+    tags: ['Wallets', 'Leatherette', 'Gift for Him', 'Gift for Her'],
+    status: 'active',
+    preparationHours: 2,
+    rating: 4.8,
+    reviewsCount: 52,
+    salesCount: 37,
+  },
+  {
+    id: 'prod-vy-9',
+    name: 'Romantic Couple Watches (Special Bond Edition)',
+    slug: 'romantic-couple-watches-bond-edition',
+    description: 'Celebrate your sacred bond with matching his & hers luxury couple watches. Water-resistant stainless steel case with precision quartz movement.',
+    price: 1199,
+    comparePrice: 1899,
+    stock: 20,
+    category: 'Customized Gifts',
+    occasions: ['Anniversary', 'Wedding', 'Valentine\'s Day'],
+    isCustomizable: true,
+    customizationType: 'text_only',
+    images: ['/products/vyaparify/couple_watches.jpg'],
+    tags: ['Couple Watches', 'Matching Watches', 'Romantic Gift', 'Luxury'],
+    badge: 'Best for Couples',
+    status: 'active',
+    preparationHours: 4,
+    rating: 5.0,
+    reviewsCount: 88,
+    salesCount: 52,
+  },
+  {
+    id: 'prod-vy-10',
+    name: 'Cuddle Teddy Bear Comfort Gift',
+    slug: 'cuddle-teddy-bear-comfort-gift',
+    description: 'Perfect for gifting or adding comfort to any space. Ultra-soft hugging plush fur with lovable expression, safe for children and sweethearts.',
+    price: 449,
+    comparePrice: 699,
+    stock: 35,
+    category: 'Toys & Soft Toys',
+    occasions: ['Birthday', 'Valentine\'s Day'],
+    isCustomizable: true,
+    customizationType: 'text_only',
+    images: ['/products/vyaparify/teddy_bear.jpg'],
+    tags: ['Teddy Bear', 'Soft Toy', 'Hugging Plush'],
+    badge: 'Cute Hugs',
+    status: 'active',
+    preparationHours: 1,
     rating: 4.9,
     reviewsCount: 104,
+    salesCount: 71,
+  },
+];
+
+export const INITIAL_CUSTOMERS: Customer[] = [
+  {
+    id: 'cust-1',
+    name: 'Priya Sharma',
+    phone: '9876543210',
+    email: 'priyasharma@gmail.com',
+    city: 'Gondia',
+    date: '17 Oct 2026',
+    totalOrders: 3,
+    totalSpent: 2197,
+    avatarColor: 'bg-purple-500',
+    initial: 'P',
   },
   {
-    id: 'prod-25',
-    name: 'Handmade Macramé Boho Wall Hanging Shelf with Pine Base',
-    slug: 'handmade-macrame-boho-wall-hanging-shelf',
-    description: 'Hand-knotted 100% natural cotton macramé cord wall tapestry supporting a solid pine floating shelf. Ideal for displaying small potted succulents, crystals, or scented candles.',
-    price: 599,
-    comparePrice: 899,
-    stock: 16,
-    category: 'Decorative Items',
-    occasions: ['Anniversary', 'Festivals'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Decorative Items', 'Hand-knotted Macrame', 'Pine Wood Shelf', 'Boho Wall Art', 'Aesthetic Home', 'Hanging Shelf'],
-    status: 'active',
-    preparationHours: 12,
-    rating: 4.8,
-    reviewsCount: 49,
+    id: 'cust-2',
+    name: 'Rahul Verma',
+    phone: '8765432109',
+    email: 'rahulverma@gmail.com',
+    city: 'Gondia',
+    date: '17 Oct 2026',
+    totalOrders: 2,
+    totalSpent: 2598,
+    avatarColor: 'bg-rose-500',
+    initial: 'R',
   },
   {
-    id: 'prod-30',
-    name: 'Golden Ginkgo Biloba Botanical Metal Wall Art Sculpture',
-    slug: 'golden-ginkgo-biloba-metal-wall-art-sculpture',
-    description: 'Exquisite 24-inch handcrafted metallic wall sculpture depicting overlapping Ginkgo leaves with lustrous champagne gold and warm bronze anti-rust baked enamel finishes. Instantly elevates living room and hallway walls.',
-    price: 1149,
-    comparePrice: 1799,
-    stock: 14,
-    category: 'Decorative Items',
-    occasions: ['Wedding', 'Festivals', 'Anniversary'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Decorative Items', 'Metal Wall Sculpture', 'Golden Ginkgo Leaf', '24-Inch Wall Art', 'Luxury Living Room', 'Handmade Metal'],
-    status: 'active',
-    preparationHours: 14,
-    rating: 4.9,
-    reviewsCount: 56,
+    id: 'cust-3',
+    name: 'Neha Gupta',
+    phone: '7654321098',
+    email: 'nehagupta@gmail.com',
+    city: 'Gondia',
+    date: '16 Oct 2026',
+    totalOrders: 1,
+    totalSpent: 499,
+    avatarColor: 'bg-coral-500',
+    initial: 'N',
   },
   {
-    id: 'prod-31',
-    name: 'Serene Meditating Buddha Figurine with Lotus Tealight Holder',
-    slug: 'serene-meditating-buddha-figurine-tealight-holder',
-    description: 'Graceful 9-inch meditating Dhyana Buddha idol cast in premium high-density polyresin with antique stone finish and golden highlights. Features an integrated lotus tealight bowl for soothing spiritual serenity and positive vibes.',
-    price: 599,
-    comparePrice: 949,
-    stock: 25,
-    category: 'Decorative Items',
-    occasions: ['Festivals', 'Birthday', 'Wedding'],
-    isCustomizable: false,
-    customizationType: 'none',
-    images: [
-      'https://images.unsplash.com/photo-1606744837616-56c9a5c6a6eb?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
-    ],
-    tags: ['Decorative Items', 'Meditating Buddha', 'Lotus Tealight Holder', 'Spiritual Decor', 'Zen Corner', 'Pooja & Gifting'],
-    status: 'active',
-    preparationHours: 8,
-    rating: 4.9,
-    reviewsCount: 68,
+    id: 'cust-4',
+    name: 'Amit Sahu',
+    phone: '9876123456',
+    email: 'amitsahu@gmail.com',
+    city: 'Gondia',
+    date: '16 Oct 2026',
+    totalOrders: 2,
+    totalSpent: 1898,
+    avatarColor: 'bg-amber-500',
+    initial: 'A',
+  },
+  {
+    id: 'cust-5',
+    name: 'Sneha Patil',
+    phone: '9123456789',
+    email: 'snehapatil@gmail.com',
+    city: 'Gondia',
+    date: '15 Oct 2026',
+    totalOrders: 1,
+    totalSpent: 799,
+    avatarColor: 'bg-pink-500',
+    initial: 'S',
   },
 ];
 
 export const INITIAL_ORDERS: Order[] = [
   {
-    id: 'ord-101',
-    orderNumber: 'BG-2026-4091',
-    customerName: 'Rahul Verma',
-    customerPhone: '9823415678',
-    customerEmail: 'rahul.verma@example.com',
-    deliveryAddress: 'Plot 42, Ramnagar, Near Civil Hospital',
-    city: 'Gondia',
-    state: 'Maharashtra',
-    pincode: '441601',
-    deliveryNotes: 'Please ring bell twice. Call before arrival.',
-    paymentMethod: 'Cash on Delivery',
-    paymentStatus: 'Pending COD',
-    items: [
-      {
-        cartItemId: 'item-101-1',
-        product: INITIAL_PRODUCTS[0],
-        quantity: 1,
-        giftWrapFee: 49,
-        unitPrice: 299,
-        totalPrice: 348,
-        customization: {
-          recipientName: 'Priya',
-          customMessage: 'Happy 3rd Anniversary Love!',
-          photoUrl: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&auto=format&fit=crop&q=80',
-          photoFileName: 'anniversary_couple_photo.jpg',
-          giftWrap: 'luxury_satin_box',
-        },
-      },
-    ],
-    subtotal: 348,
-    deliveryFee: 50,
-    discount: 0,
-    totalAmount: 398,
-    status: 'Preparing / Customized',
-    statusHistory: [
-      {
-        id: 'sh-1',
-        status: 'Order Placed',
-        notes: 'Order submitted via Cash on Delivery',
-        timestamp: new Date(Date.now() - 3600000 * 5).toISOString(),
-        changedBy: 'Customer',
-      },
-      {
-        id: 'sh-2',
-        status: 'Confirmed',
-        notes: 'Order confirmed with customer via phone call',
-        timestamp: new Date(Date.now() - 3600000 * 3).toISOString(),
-        changedBy: 'Admin (Omkesh)',
-      },
-      {
-        id: 'sh-3',
-        status: 'Preparing / Customized',
-        notes: 'Custom ceramic photo print in heat curing oven',
-        timestamp: new Date(Date.now() - 3600000 * 1).toISOString(),
-        changedBy: 'Admin (Omkesh)',
-      },
-    ],
-    createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
-    updatedAt: new Date(Date.now() - 3600000 * 1).toISOString(),
-  },
-  {
-    id: 'ord-102',
-    orderNumber: 'BG-2026-3812',
-    customerName: 'Sneha Kulkarni',
-    customerPhone: '9422187654',
-    customerEmail: 'sneha.k@example.com',
-    deliveryAddress: 'Flat 302, Sai Kripa Heights, Ring Road',
+    id: 'order-1250',
+    orderNumber: 'BG1250',
+    customerName: 'Priya Sharma',
+    customerPhone: '9876543210',
+    customerEmail: 'priya@gmail.com',
+    deliveryAddress: 'Flat 302, Rail Toly',
     city: 'Gondia',
     state: 'Maharashtra',
     pincode: '441614',
-    deliveryNotes: 'Leave with security guard if not available',
     paymentMethod: 'Cash on Delivery',
-    paymentStatus: 'Paid on Delivery',
+    paymentStatus: 'Pending COD',
+    subtotal: 649,
+    deliveryFee: 50,
+    discount: 0,
+    totalAmount: 699,
+    status: 'Pending',
+    createdAt: '2026-10-17T10:30:00Z',
+    updatedAt: '2026-10-17T10:30:00Z',
+    statusHistory: [
+      {
+        id: 'sh-1',
+        status: 'Pending',
+        timestamp: '2026-10-17T10:30:00Z',
+        changedBy: 'System',
+        notes: 'Order placed by customer via Storefront',
+      },
+    ],
     items: [
       {
-        cartItemId: 'item-102-1',
-        product: INITIAL_PRODUCTS[2],
+        cartItemId: 'item-1a',
+        product: INITIAL_PRODUCTS[1], // Personalized Photo Mug
         quantity: 1,
         giftWrapFee: 0,
-        unitPrice: 1299,
-        totalPrice: 1299,
+        unitPrice: 299,
+        totalPrice: 299,
         customization: {
-          recipientName: 'Mrunal & Aniket',
-          customMessage: 'Wishing you a lifetime of joy and happiness!',
+          recipientName: 'Priya',
+          customMessage: 'Happy Birthday to my bestie!',
           giftWrap: 'none',
         },
       },
+      {
+        cartItemId: 'item-1b',
+        product: INITIAL_PRODUCTS[0], // Rose Teddy Bear
+        quantity: 1,
+        giftWrapFee: 0,
+        unitPrice: 350,
+        totalPrice: 350,
+      },
     ],
-    subtotal: 1299,
-    deliveryFee: 0,
+  },
+  {
+    id: 'order-1249',
+    orderNumber: 'BG1249',
+    customerName: 'Rahul Verma',
+    customerPhone: '8765432109',
+    deliveryAddress: 'Civil Lines, Near Circuit House',
+    city: 'Gondia',
+    state: 'Maharashtra',
+    pincode: '441601',
+    paymentMethod: 'Cash on Delivery',
+    paymentStatus: 'Pending COD',
+    subtotal: 1249,
+    deliveryFee: 50,
     discount: 0,
     totalAmount: 1299,
-    status: 'Delivered / Completed',
+    status: 'Confirmed',
+    createdAt: '2026-10-17T09:15:00Z',
+    updatedAt: '2026-10-17T09:40:00Z',
+    statusHistory: [
+      {
+        id: 'sh-2',
+        status: 'Confirmed',
+        timestamp: '2026-10-17T09:40:00Z',
+        changedBy: 'Admin',
+        notes: 'Order confirmed with customer on phone',
+      },
+    ],
+    items: [
+      {
+        cartItemId: 'item-2a',
+        product: INITIAL_PRODUCTS[4], // Gift Hampers
+        quantity: 1,
+        giftWrapFee: 0,
+        unitPrice: 999,
+        totalPrice: 999,
+      },
+      {
+        cartItemId: 'item-2b',
+        product: INITIAL_PRODUCTS[3], // Greeting Cards
+        quantity: 1,
+        giftWrapFee: 0,
+        unitPrice: 49,
+        totalPrice: 49,
+      },
+    ],
+  },
+  {
+    id: 'order-1248',
+    orderNumber: 'BG1248',
+    customerName: 'Neha Gupta',
+    customerPhone: '7654321098',
+    deliveryAddress: 'Sindhi Colony, Ring Road',
+    city: 'Gondia',
+    state: 'Maharashtra',
+    pincode: '441614',
+    paymentMethod: 'Cash on Delivery',
+    paymentStatus: 'Pending COD',
+    subtotal: 449,
+    deliveryFee: 50,
+    discount: 0,
+    totalAmount: 499,
+    status: 'Preparing',
+    createdAt: '2026-10-16T16:20:00Z',
+    updatedAt: '2026-10-16T17:10:00Z',
+    statusHistory: [
+      {
+        id: 'sh-3',
+        status: 'Preparing',
+        timestamp: '2026-10-16T17:10:00Z',
+        changedBy: 'Print Hub',
+        notes: 'Sublimation printing in progress',
+      },
+    ],
+    items: [
+      {
+        cartItemId: 'item-3a',
+        product: INITIAL_PRODUCTS[1], // Personalized Photo Mug
+        quantity: 1,
+        giftWrapFee: 0,
+        unitPrice: 299,
+        totalPrice: 299,
+      },
+    ],
+  },
+  {
+    id: 'order-1247',
+    orderNumber: 'BG1247',
+    customerName: 'Amit Sahu',
+    customerPhone: '9876123456',
+    deliveryAddress: 'Gandhi Ward, Main Market',
+    city: 'Gondia',
+    state: 'Maharashtra',
+    pincode: '441601',
+    paymentMethod: 'Cash on Delivery',
+    paymentStatus: 'Pending COD',
+    subtotal: 949,
+    deliveryFee: 50,
+    discount: 0,
+    totalAmount: 999,
+    status: 'Ready',
+    createdAt: '2026-10-16T12:00:00Z',
+    updatedAt: '2026-10-16T15:30:00Z',
     statusHistory: [
       {
         id: 'sh-4',
-        status: 'Order Placed',
-        timestamp: new Date(Date.now() - 86400000 * 2).toISOString(),
-        changedBy: 'Customer',
-      },
-      {
-        id: 'sh-5',
-        status: 'Delivered / Completed',
-        notes: 'Cash collected ₹1299. Handed to customer.',
-        timestamp: new Date(Date.now() - 86400000 * 1).toISOString(),
-        changedBy: 'Delivery Agent',
+        status: 'Ready',
+        timestamp: '2026-10-16T15:30:00Z',
+        changedBy: 'Admin',
+        notes: 'Packed with luxury gift wrap and sealed',
       },
     ],
-    createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    updatedAt: new Date(Date.now() - 86400000 * 1).toISOString(),
+    items: [
+      {
+        cartItemId: 'item-4a',
+        product: INITIAL_PRODUCTS[2], // LED Photo Frame
+        quantity: 1,
+        giftWrapFee: 0,
+        unitPrice: 899,
+        totalPrice: 899,
+      },
+    ],
+  },
+  {
+    id: 'order-1246',
+    orderNumber: 'BG1246',
+    customerName: 'Sneha Patil',
+    customerPhone: '9123456789',
+    deliveryAddress: 'Ramnagar, Near Hanuman Mandir',
+    city: 'Gondia',
+    state: 'Maharashtra',
+    pincode: '441614',
+    paymentMethod: 'Cash on Delivery',
+    paymentStatus: 'Paid on Delivery',
+    subtotal: 749,
+    deliveryFee: 50,
+    discount: 0,
+    totalAmount: 799,
+    status: 'Delivered',
+    createdAt: '2026-10-15T14:10:00Z',
+    updatedAt: '2026-10-15T18:45:00Z',
+    statusHistory: [
+      {
+        id: 'sh-5',
+        status: 'Delivered',
+        timestamp: '2026-10-15T18:45:00Z',
+        changedBy: 'Delivery Rider',
+        notes: 'Delivered to recipient, cash collected',
+      },
+    ],
+    items: [
+      {
+        cartItemId: 'item-5a',
+        product: INITIAL_PRODUCTS[6], // Teddy Bear (Brown)
+        quantity: 1,
+        giftWrapFee: 0,
+        unitPrice: 749,
+        totalPrice: 749,
+      },
+    ],
   },
 ];
 
+export const INITIAL_CATEGORIES: Category[] = [
+  { id: 'cat-1', name: 'Birthday Gifts', slug: 'birthday-gifts', iconName: 'Cake', colorBg: '#FCE7F3', colorText: '#BE185D', itemCount: 42, description: 'Celebrate birthdays with heartfelt gifts' },
+  { id: 'cat-2', name: 'Anniversary Gifts', slug: 'anniversary-gifts', iconName: 'Heart', colorBg: '#FFE4E6', colorText: '#E11D48', itemCount: 36, description: 'Romantic couple gifts and mementos' },
+  { id: 'cat-3', name: 'Wedding Gifts', slug: 'wedding-gifts', iconName: 'Users', colorBg: '#FEF3C7', colorText: '#D97706', itemCount: 28, description: 'Grand presents for newly married couples' },
+  { id: 'cat-4', name: 'Toys & Soft Toys', slug: 'toys-soft-toys', iconName: 'Smile', colorBg: '#D1FAE5', colorText: '#059669', itemCount: 54, description: 'Teddy bears, plush toys and RC cars' },
+  { id: 'cat-5', name: 'Greeting Cards', slug: 'greeting-cards', iconName: 'Mail', colorBg: '#F3E8FF', colorText: '#7C3AED', itemCount: 65, description: 'Handcrafted floral and pop-up cards' },
+  { id: 'cat-6', name: 'Photo Mugs', slug: 'photo-mugs', iconName: 'Coffee', colorBg: '#E0F2FE', colorText: '#0284C7', itemCount: 32, description: 'Magic heat reveal and custom ceramic mugs' },
+  { id: 'cat-7', name: 'Gift Hampers', slug: 'gift-hampers', iconName: 'Gift', colorBg: '#FEE2E2', colorText: '#DC2626', itemCount: 24, description: 'Gourmet chocolates and festive hampers' },
+  { id: 'cat-8', name: 'Customized Gifts', slug: 'customized-gifts', iconName: 'Sparkles', colorBg: '#FEF9C3', colorText: '#CA8A04', itemCount: 48, description: 'LED lamps, laser keychains and frames' },
+  { id: 'cat-9', name: 'Bags & Clutches', slug: 'bags-clutches', iconName: 'ShoppingBag', colorBg: '#FFE4E6', colorText: '#E11D48', itemCount: 32, description: 'Designer handbags, sling bags and wallets' },
+  { id: 'cat-10', name: 'Wall Watches', slug: 'wall-watches', iconName: 'Clock', colorBg: '#FEF3C7', colorText: '#B45309', itemCount: 18, description: 'Antique wooden and metallic silent wall clocks' },
+  { id: 'cat-11', name: 'Accessories', slug: 'accessories', iconName: 'Sparkles', colorBg: '#F3E8FF', colorText: '#9333EA', itemCount: 26, description: 'Bracelets, neck pendants, and fashionable goggles' },
+];
+
+export const INITIAL_COUPONS: Coupon[] = [
+  { id: 'c-1', code: 'BLOSSOM10', discountPercent: 10, minOrder: 499, expiryDate: '2026-12-31', usageLimit: 500, usedCount: 142, isActive: true },
+  { id: 'c-2', code: 'FESTIVE50', discountPercent: 15, discountAmount: 50, minOrder: 999, expiryDate: '2026-11-15', usageLimit: 200, usedCount: 89, isActive: true },
+  { id: 'c-3', code: 'GONDIAFIRST', discountPercent: 20, minOrder: 399, expiryDate: '2026-10-31', usageLimit: 1000, usedCount: 312, isActive: true },
+];
+
+export const INITIAL_REVIEWS: Review[] = [
+  { id: 'rev-1', customerName: 'Pooja Tiwari', rating: 5, comment: 'The Magic Photo Mug was unbelievable! When my sister poured hot tea, her picture appeared. Gondia delivery was within 8 hours!', productName: 'Personalized Photo Mug', date: '16 Oct 2026', status: 'Approved' },
+  { id: 'rev-2', customerName: 'Vikas Meshram', rating: 5, comment: 'Ordered the Rose Teddy Bear for our anniversary. The packaging and flowers were super fresh and beautiful.', productName: 'Rose Teddy Bear', date: '15 Oct 2026', status: 'Approved' },
+  { id: 'rev-3', customerName: 'Anjali Agrawal', rating: 5, comment: 'The LED Photo Frame looks so royal in our living room! Thanks Blossom Gift Gondia.', productName: 'LED Photo Frame', date: '14 Oct 2026', status: 'Approved' },
+];
+
+export interface CreateOrderParams {
+  customerName: string;
+  customerPhone: string;
+  customerEmail?: string;
+  deliveryAddress: string;
+  city?: string;
+  state?: string;
+  pincode?: string;
+  deliveryNotes?: string;
+  items: CartItem[];
+  subtotal?: number;
+  deliveryFee?: number;
+  discount?: number;
+  totalAmount?: number;
+  paymentMethod?: 'Cash on Delivery' | 'UPI / Online' | 'Prepaid';
+  paymentStatus?: 'Pending COD' | 'Paid on Delivery' | 'Paid Online';
+  status?: OrderStatus;
+}
+
 class StoreService {
-  private getStorage<T>(key: string, fallback: T): T {
+  private products: Product[] = [];
+  private orders: Order[] = [];
+  private settings: StoreSettings = INITIAL_SETTINGS;
+  private customers: Customer[] = [];
+  private coupons: Coupon[] = [];
+  private reviews: Review[] = [];
+
+  constructor() {
+    this.init();
+  }
+
+  private init() {
     try {
-      const data = localStorage.getItem(key);
-      if (!data) return fallback;
-      return JSON.parse(data) as T;
+      const p = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+      this.products = p ? JSON.parse(p) : INITIAL_PRODUCTS;
+
+      const o = localStorage.getItem(STORAGE_KEYS.ORDERS);
+      this.orders = o ? JSON.parse(o) : INITIAL_ORDERS;
+
+      const s = localStorage.getItem(STORAGE_KEYS.SETTINGS);
+      this.settings = s ? JSON.parse(s) : INITIAL_SETTINGS;
+
+      const c = localStorage.getItem(STORAGE_KEYS.CUSTOMERS);
+      this.customers = c ? JSON.parse(c) : INITIAL_CUSTOMERS;
+
+      const cp = localStorage.getItem(STORAGE_KEYS.COUPONS);
+      this.coupons = cp ? JSON.parse(cp) : INITIAL_COUPONS;
+
+      const r = localStorage.getItem(STORAGE_KEYS.REVIEWS);
+      this.reviews = r ? JSON.parse(r) : INITIAL_REVIEWS;
     } catch {
-      return fallback;
+      this.products = INITIAL_PRODUCTS;
+      this.orders = INITIAL_ORDERS;
+      this.settings = INITIAL_SETTINGS;
+      this.customers = INITIAL_CUSTOMERS;
+      this.coupons = INITIAL_COUPONS;
+      this.reviews = INITIAL_REVIEWS;
     }
   }
 
-  private setStorage<T>(key: string, value: T): void {
+  private persist() {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(this.products));
+      localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(this.orders));
+      localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(this.settings));
+      localStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(this.customers));
+      localStorage.setItem(STORAGE_KEYS.COUPONS, JSON.stringify(this.coupons));
+      localStorage.setItem(STORAGE_KEYS.REVIEWS, JSON.stringify(this.reviews));
       window.dispatchEvent(new Event('store_data_updated'));
     } catch (e) {
-      console.error('Storage write error', e);
+      console.error('Failed to persist store data', e);
     }
   }
 
+  // PRODUCTS
   getProducts(): Product[] {
-    const list = this.getStorage<Product[]>(STORAGE_KEYS.PRODUCTS, []);
-    if (!list || list.length === 0) {
-      this.setStorage(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
-      return INITIAL_PRODUCTS;
-    }
-    // Auto-merge any newly added initial products and update categories/tags
-    let hasNew = false;
-    const merged = [...list];
-    for (const initP of INITIAL_PRODUCTS) {
-      const idx = merged.findIndex((p) => p.id === initP.id);
-      if (idx === -1) {
-        merged.push(initP);
-        hasNew = true;
-      } else {
-        // Keep user stock/price edits if any, but ensure updated categories/tags/images/variants are synced
-        if (
-          merged[idx].category !== initP.category ||
-          merged[idx].images?.[0] !== initP.images?.[0] ||
-          (!merged[idx].variants && initP.variants) ||
-          (initP.variants && merged[idx].variants && merged[idx].variants!.length < initP.variants.length)
-        ) {
-          merged[idx] = {
-            ...merged[idx],
-            category: initP.category,
-            tags: initP.tags,
-            images: initP.images,
-            name: initP.name,
-            description: initP.description,
-            variants: initP.variants || merged[idx].variants,
-          };
-          hasNew = true;
-        }
-      }
-    }
-    if (hasNew) {
-      this.setStorage(STORAGE_KEYS.PRODUCTS, merged);
-      return merged;
-    }
-    return list;
+    return this.products;
   }
 
   getProductById(id: string): Product | undefined {
-    return this.getProducts().find((p) => p.id === id);
+    return this.products.find((p) => p.id === id);
   }
 
-  saveProduct(product: Product): void {
-    const products = this.getProducts();
-    const idx = products.findIndex((p) => p.id === product.id);
+  saveProduct(product: Product): Product {
+    const idx = this.products.findIndex((p) => p.id === product.id);
     if (idx >= 0) {
-      products[idx] = product;
+      this.products[idx] = product;
     } else {
-      products.unshift(product);
+      this.products.unshift(product);
     }
-    this.setStorage(STORAGE_KEYS.PRODUCTS, products);
+    this.persist();
+    return product;
   }
 
-  deleteProduct(id: string): void {
-    const products = this.getProducts().filter((p) => p.id !== id);
-    this.setStorage(STORAGE_KEYS.PRODUCTS, products);
+  deleteProduct(id: string) {
+    this.products = this.products.filter((p) => p.id !== id);
+    this.persist();
   }
 
+  // ORDERS
   getOrders(): Order[] {
-    const orders = this.getStorage<Order[]>(STORAGE_KEYS.ORDERS, []);
-    if (!orders || orders.length === 0) {
-      this.setStorage(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
-      return INITIAL_ORDERS;
-    }
-    return orders;
+    return this.orders;
   }
 
-  findOrder(orderNumber: string, phone: string): Order | undefined {
-    const cleanNum = orderNumber.trim().toUpperCase();
-    const cleanPhone = phone.trim().replace(/\D/g, '');
-    return this.getOrders().find((o) => {
-      const matchesNum = o.orderNumber.toUpperCase() === cleanNum;
-      const orderPhone = o.customerPhone.replace(/\D/g, '');
-      const matchesPhone = orderPhone.endsWith(cleanPhone) || cleanPhone.endsWith(orderPhone);
-      return matchesNum && matchesPhone;
+  getOrderById(id: string): Order | undefined {
+    return this.orders.find((o) => o.id === id || o.orderNumber === id);
+  }
+
+  findOrder(orderNumber: string, phone?: string): Order | undefined {
+    const cleanNum = orderNumber.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const cleanPhone = phone ? phone.trim().replace(/[^0-9]/g, '').slice(-10) : '';
+
+    return this.orders.find((o) => {
+      const oNum = o.orderNumber.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const numMatch = oNum === cleanNum || o.id === orderNumber.trim();
+      if (!numMatch) return false;
+      if (cleanPhone) {
+        const oPhone = o.customerPhone.replace(/[^0-9]/g, '').slice(-10);
+        return oPhone === cleanPhone;
+      }
+      return true;
     });
   }
 
-  createOrder(payload: {
-    customerName: string;
-    customerPhone: string;
-    customerEmail?: string;
-    deliveryAddress: string;
-    city: string;
-    state: string;
-    pincode: string;
-    deliveryNotes?: string;
-    items: CartItem[];
-  }): Order {
-    const settings = this.getSettings();
-    const subtotal = payload.items.reduce((sum, item) => sum + item.totalPrice, 0);
-    const deliveryFee = subtotal >= settings.freeDeliveryThreshold ? 0 : settings.deliveryFee;
-    const totalAmount = subtotal + deliveryFee;
-
-    const orderNumber = `BG-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    const now = new Date().toISOString();
+  createOrder(orderData: CreateOrderParams): Order {
+    const subtotal = orderData.subtotal ?? orderData.items.reduce((sum, item) => sum + item.totalPrice, 0);
+    const deliveryFee = orderData.deliveryFee ?? (subtotal >= this.settings.freeDeliveryThreshold ? 0 : this.settings.deliveryFee);
+    const discount = orderData.discount ?? 0;
+    const totalAmount = orderData.totalAmount ?? (subtotal + deliveryFee - discount);
+    const status: OrderStatus = orderData.status ?? 'Pending';
+    const orderNumber = `BG${Math.floor(1251 + Math.random() * 8000)}`;
 
     const newOrder: Order = {
       id: `ord-${Date.now()}`,
       orderNumber,
-      customerName: payload.customerName.trim(),
-      customerPhone: payload.customerPhone.trim(),
-      customerEmail: payload.customerEmail?.trim(),
-      deliveryAddress: payload.deliveryAddress.trim(),
-      city: payload.city.trim() || 'Gondia',
-      state: payload.state.trim() || 'Maharashtra',
-      pincode: payload.pincode.trim(),
-      deliveryNotes: payload.deliveryNotes?.trim(),
-      paymentMethod: 'Cash on Delivery',
-      paymentStatus: 'Pending COD',
-      items: payload.items,
+      customerName: orderData.customerName,
+      customerPhone: orderData.customerPhone,
+      customerEmail: orderData.customerEmail,
+      deliveryAddress: orderData.deliveryAddress,
+      city: orderData.city || 'Gondia',
+      state: orderData.state || 'Maharashtra',
+      pincode: orderData.pincode || '441614',
+      deliveryNotes: orderData.deliveryNotes,
+      paymentMethod: orderData.paymentMethod || 'Cash on Delivery',
+      paymentStatus: orderData.paymentStatus || 'Pending COD',
+      items: orderData.items,
       subtotal,
       deliveryFee,
-      discount: 0,
+      discount,
       totalAmount,
-      status: 'Order Placed',
+      status,
       statusHistory: [
         {
           id: `sh-${Date.now()}`,
-          status: 'Order Placed',
-          notes: 'Customer placed order with Cash on Delivery',
-          timestamp: now,
+          status,
+          timestamp: new Date().toISOString(),
           changedBy: 'Customer',
+          notes: 'Order received via Storefront',
         },
       ],
-      createdAt: now,
-      updatedAt: now,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
 
-    // Save order
-    const orders = this.getOrders();
-    orders.unshift(newOrder);
-    this.setStorage(STORAGE_KEYS.ORDERS, orders);
+    this.orders.unshift(newOrder);
 
-    // Decrement product inventory
-    const products = this.getProducts();
-    for (const item of payload.items) {
-      const p = products.find((prod) => prod.id === item.product.id);
-      if (p) {
-        p.stock = Math.max(0, p.stock - item.quantity);
-      }
+    // Add or update customer
+    const existingCust = this.customers.find((c) => c.phone === orderData.customerPhone);
+    if (existingCust) {
+      existingCust.totalOrders += 1;
+      existingCust.totalSpent += newOrder.totalAmount;
+    } else {
+      this.customers.unshift({
+        id: `cust-${Date.now()}`,
+        name: orderData.customerName,
+        phone: orderData.customerPhone,
+        email: orderData.customerEmail || '',
+        city: newOrder.city,
+        date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+        totalOrders: 1,
+        totalSpent: newOrder.totalAmount,
+        avatarColor: 'bg-rose-500',
+        initial: orderData.customerName.charAt(0).toUpperCase() || 'C',
+      });
     }
-    this.setStorage(STORAGE_KEYS.PRODUCTS, products);
 
+    this.persist();
     return newOrder;
   }
 
-  updateOrderStatus(orderId: string, newStatus: OrderStatus, notes?: string): void {
-    const orders = this.getOrders();
-    const order = orders.find((o) => o.id === orderId);
-    if (!order) return;
-
-    order.status = newStatus;
-    order.updatedAt = new Date().toISOString();
-    if (newStatus === 'Delivered / Completed') {
-      order.paymentStatus = 'Paid on Delivery';
+  updateOrderStatus(orderId: string, status: OrderStatus, notes?: string): Order | undefined {
+    const order = this.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+    if (order) {
+      order.status = status;
+      order.updatedAt = new Date().toISOString();
+      order.statusHistory.unshift({
+        id: `sh-${Date.now()}`,
+        status,
+        notes: notes || `Status updated to ${status}`,
+        timestamp: new Date().toISOString(),
+        changedBy: 'Admin',
+      });
+      this.persist();
     }
-
-    order.statusHistory.push({
-      id: `sh-${Date.now()}`,
-      status: newStatus,
-      notes: notes || `Status updated to ${newStatus}`,
-      timestamp: new Date().toISOString(),
-      changedBy: 'Store Staff',
-    });
-
-    this.setStorage(STORAGE_KEYS.ORDERS, orders);
+    return order;
   }
 
+  // CUSTOMERS
+  getCustomers(): Customer[] {
+    return this.customers;
+  }
+
+  // COUPONS
+  getCoupons(): Coupon[] {
+    return this.coupons;
+  }
+
+  saveCoupon(coupon: Coupon) {
+    const idx = this.coupons.findIndex((c) => c.id === coupon.id);
+    if (idx >= 0) {
+      this.coupons[idx] = coupon;
+    } else {
+      this.coupons.unshift(coupon);
+    }
+    this.persist();
+  }
+
+  // REVIEWS
+  getReviews(): Review[] {
+    return this.reviews;
+  }
+
+  // SETTINGS
   getSettings(): StoreSettings {
-    return this.getStorage<StoreSettings>(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+    return this.settings;
   }
 
-  saveSettings(settings: StoreSettings): void {
-    this.setStorage(STORAGE_KEYS.SETTINGS, settings);
+  saveSettings(newSettings: StoreSettings) {
+    this.settings = newSettings;
+    this.persist();
   }
 
-  resetStoreDemo(): void {
-    this.setStorage(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
-    this.setStorage(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
-    this.setStorage(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
+  resetToDefault() {
+    this.products = INITIAL_PRODUCTS;
+    this.orders = INITIAL_ORDERS;
+    this.settings = INITIAL_SETTINGS;
+    this.customers = INITIAL_CUSTOMERS;
+    this.coupons = INITIAL_COUPONS;
+    this.reviews = INITIAL_REVIEWS;
+    this.persist();
   }
 }
 

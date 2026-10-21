@@ -1,155 +1,148 @@
 import React from 'react';
-import { Cake, Heart, Users, Smile, Mail, Coffee, Gift, Lightbulb, Sparkles } from 'lucide-react';
+import {
+  Cake,
+  Heart,
+  Users,
+  Smile,
+  Mail,
+  Coffee,
+  Gift,
+  Sparkles,
+  Lightbulb,
+} from 'lucide-react';
 
 interface GiftyCategoriesProps {
   selectedCategory: string;
-  onSelectCategory: (cat: string) => void;
+  onSelectCategory: (category: string) => void;
 }
-
-const CATEGORY_ITEMS = [
-  {
-    name: 'Toys/RC Cars',
-    label: 'Toys / RC Cars',
-    image: 'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=300&auto=format&fit=crop&q=80',
-    count: 'Metal & RC',
-    badge: 'Hot New',
-  },
-  {
-    name: 'Wall Watches',
-    label: 'Wall Watches',
-    image: 'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=300&auto=format&fit=crop&q=80',
-    count: 'Silent Quartz',
-    badge: 'Trending',
-  },
-  {
-    name: 'Decorative Items',
-    label: 'Decorative Items',
-    image: 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?w=300&auto=format&fit=crop&q=80',
-    count: 'Vases & Urlis',
-    badge: 'Aesthetic',
-  },
-  {
-    name: 'Customized Mugs',
-    label: 'Photo Mugs',
-    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&auto=format&fit=crop&q=80',
-    count: '3 styles',
-    badge: 'Popular',
-  },
-  {
-    name: 'Photo Frames',
-    label: 'Oak Frames',
-    image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=300&auto=format&fit=crop&q=80',
-    count: 'Solid wood',
-    badge: 'Handcrafted',
-  },
-  {
-    name: 'Gift Hampers',
-    label: 'Gourmet Hampers',
-    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=300&auto=format&fit=crop&q=80',
-    count: 'Luxury packs',
-    badge: 'Best Value',
-  },
-  {
-    name: 'LED Lamps',
-    label: '3D LED Lamps',
-    image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300&auto=format&fit=crop&q=80',
-    count: 'Warm light',
-    badge: 'Trending',
-  },
-  {
-    name: 'Explosion Boxes',
-    label: 'Explosion Box',
-    image: 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=300&auto=format&fit=crop&q=80',
-    count: '16 photos',
-    badge: 'Surprise',
-  },
-  {
-    name: 'Greeting Cards',
-    label: 'Greeting Cards',
-    image: 'https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?w=300&auto=format&fit=crop&q=80',
-    count: 'Gold foil',
-    badge: 'From ₹149',
-  },
-  {
-    name: 'Toys',
-    label: 'Teddy & Plush',
-    image: 'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=300&auto=format&fit=crop&q=80',
-    count: 'Soft cuddle',
-    badge: 'Cute',
-  },
-  {
-    name: 'Customized Gifts',
-    label: 'Custom Gifts',
-    image: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=300&auto=format&fit=crop&q=80',
-    count: 'Cushions & More',
-    badge: 'Personalized',
-  },
-];
 
 export const GiftyCategories: React.FC<GiftyCategoriesProps> = ({
   selectedCategory,
   onSelectCategory,
 }) => {
-  return (
-    <div id="categories-strip" className="py-8 bg-white border-b border-stone-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-5 text-left">
-          <div>
-            <span className="text-[10px] font-bold text-[#E8436E] uppercase tracking-wider block">
-              Curated Collections
-            </span>
-            <h3 className="font-heading text-lg sm:text-xl font-extrabold text-stone-900">
-              Shop Gifts by Category
-            </h3>
-          </div>
-          {selectedCategory !== 'all' && (
-            <button
-              onClick={() => onSelectCategory('all')}
-              className="text-xs font-bold text-[#124282] hover:underline cursor-pointer"
-            >
-              Show All Categories
-            </button>
-          )}
-        </div>
+  const categories = [
+    {
+      id: 'cat-birthday',
+      name: 'Birthday Gifts',
+      shortName: 'Birthday',
+      filterVal: 'Birthday Gifts',
+      icon: Cake,
+      bgColor: 'bg-[#FFF0F5]',
+      iconBg: 'bg-rose-100 text-rose-500',
+      activeRing: 'ring-rose-400',
+    },
+    {
+      id: 'cat-anniversary',
+      name: 'Anniversary Gifts',
+      shortName: 'Anniversary',
+      filterVal: 'Anniversary Gifts',
+      icon: Heart,
+      bgColor: 'bg-[#FFF1F2]',
+      iconBg: 'bg-pink-100 text-[#E8436E]',
+      activeRing: 'ring-pink-400',
+    },
+    {
+      id: 'cat-wedding',
+      name: 'Wedding Gifts',
+      shortName: 'Wedding',
+      filterVal: 'Wedding Gifts',
+      icon: Users,
+      bgColor: 'bg-[#FEFCE8]',
+      iconBg: 'bg-amber-100 text-amber-600',
+      activeRing: 'ring-amber-400',
+    },
+    {
+      id: 'cat-toys',
+      name: 'Toys & Soft Toys',
+      shortName: 'Toys',
+      filterVal: 'Toys & Soft Toys',
+      icon: Smile,
+      bgColor: 'bg-[#ECFDF5]',
+      iconBg: 'bg-emerald-100 text-emerald-600',
+      activeRing: 'ring-emerald-400',
+    },
+    {
+      id: 'cat-cards',
+      name: 'Greeting Cards',
+      shortName: 'Cards',
+      filterVal: 'Greeting Cards',
+      icon: Mail,
+      bgColor: 'bg-[#FAF5FF]',
+      iconBg: 'bg-purple-100 text-purple-600',
+      activeRing: 'ring-purple-400',
+    },
+    {
+      id: 'cat-mugs',
+      name: 'Photo Mugs',
+      shortName: 'Photo Mugs',
+      filterVal: 'Photo Mugs',
+      icon: Coffee,
+      bgColor: 'bg-[#F0F9FF]',
+      iconBg: 'bg-sky-100 text-sky-600',
+      activeRing: 'ring-sky-400',
+    },
+    {
+      id: 'cat-hampers',
+      name: 'Gift Hampers',
+      shortName: 'Hampers',
+      filterVal: 'Gift Hampers',
+      icon: Gift,
+      bgColor: 'bg-[#FFF1F2]',
+      iconBg: 'bg-rose-100 text-rose-600',
+      activeRing: 'ring-rose-400',
+    },
+    {
+      id: 'cat-custom',
+      name: 'Customized Gifts',
+      shortName: 'Custom',
+      filterVal: 'Customized Gifts',
+      icon: Lightbulb,
+      bgColor: 'bg-[#FEFCE8]',
+      iconBg: 'bg-yellow-100 text-yellow-600',
+      activeRing: 'ring-yellow-400',
+    },
+  ];
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
-          {CATEGORY_ITEMS.map((item) => {
-            const isSelected = selectedCategory === item.name;
+  return (
+    <section className="py-6 sm:py-8 bg-white border-b border-stone-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Responsive Grid: 4 columns on mobile (2 rows), 8 columns on desktop */}
+        <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-4">
+          {categories.map((cat) => {
+            const Icon = cat.icon;
+            const isSelected = selectedCategory === cat.filterVal;
 
             return (
               <button
-                key={item.name}
-                type="button"
-                onClick={() => onSelectCategory(isSelected ? 'all' : item.name)}
-                className={`group flex flex-col items-center justify-center p-3 rounded-2xl border transition-all duration-300 cursor-pointer text-center bg-[#FAF8F6] ${
+                key={cat.id}
+                onClick={() => {
+                  onSelectCategory(isSelected ? 'all' : cat.filterVal);
+                  const el = document.getElementById('catalog-section');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`group flex flex-col items-center justify-center p-2.5 sm:p-4 rounded-2xl sm:rounded-3xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border ${
                   isSelected
-                    ? 'border-[#E8436E] ring-2 ring-[#E8436E]/40 bg-pink-50/50 shadow-md scale-103'
-                    : 'border-stone-200/90 hover:border-pink-300 hover:shadow-md hover:scale-102 hover:bg-white'
+                    ? `border-[#E8436E] ring-2 ring-pink-200 shadow-md ${cat.bgColor}`
+                    : `border-stone-100 hover:border-pink-200 hover:shadow-md ${cat.bgColor}`
                 }`}
               >
-                {/* Circular Category Photo with Zoom */}
-                <div className="relative w-16 h-16 sm:w-18 sm:h-18 rounded-full overflow-hidden shadow-xs border-2 border-white mb-2.5 transition-transform duration-500 group-hover:scale-110">
-                  <img
-                    src={item.image}
-                    alt={item.label}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+                {/* Icon Container with Badge */}
+                <div
+                  className={`w-10 h-10 sm:w-13 sm:h-13 rounded-xl sm:rounded-2xl flex items-center justify-center mb-2 sm:mb-2.5 transition-transform duration-300 group-hover:scale-110 shadow-xs ${cat.iconBg}`}
+                >
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
 
-                <span className="text-xs font-bold text-stone-900 group-hover:text-[#E8436E] transition-colors leading-tight line-clamp-1">
-                  {item.label}
-                </span>
-
-                <span className="text-[10px] text-stone-400 mt-0.5">
-                  {item.count}
+                {/* Category Title (responsive short name on small screens, full name on md+) */}
+                <span className="text-[10px] sm:text-xs font-bold text-stone-800 text-center leading-tight line-clamp-2 group-hover:text-[#E8436E] transition-colors">
+                  <span className="sm:hidden">{cat.shortName}</span>
+                  <span className="hidden sm:inline">{cat.name}</span>
                 </span>
               </button>
             );
           })}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

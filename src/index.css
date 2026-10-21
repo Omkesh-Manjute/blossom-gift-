@@ -8,18 +8,27 @@
     --font-mono: 'JetBrains Mono', monospace;
     --brand-pink: #E8436E;
     --brand-dark-pink: #D82B5A;
-    --brand-wine: #9E1B42;
-    --stripe-color: #fff;
+    --brand-wine: #881337;
+    --brand-rose: #FF3366;
   }
 
   body {
     font-family: var(--font-outfit);
     color: #1f2937;
     background-color: #FAFAF8;
+    overflow-x: hidden;
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
   }
 
   .font-script {
     font-family: var(--font-script);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
   }
 }
 
@@ -32,6 +41,35 @@
   }
 }
 
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(232, 67, 110, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(232, 67, 110, 0.45);
+  }
+}
+
 .animate-float {
   animation: floatParticle 4s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #f472b6;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #db2777;
 }

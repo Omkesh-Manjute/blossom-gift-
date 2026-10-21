@@ -4,7 +4,8 @@ export type OccasionType =
   | 'Valentine\'s Day'
   | 'Wedding'
   | 'Festivals'
-  | 'Best Sellers';
+  | 'Best Sellers'
+  | 'All';
 
 export type CustomizationType = 'photo_and_text' | 'text_only' | 'none';
 
@@ -29,16 +30,18 @@ export interface Product {
   comparePrice?: number;
   stock: number;
   category: string;
-  occasions: OccasionType[];
+  occasions: string[];
   isCustomizable: boolean;
   customizationType: CustomizationType;
   images: string[];
   tags: string[];
+  badge?: string;
   status: 'active' | 'draft' | 'archived';
   preparationHours: number;
   rating: number;
   reviewsCount: number;
   variants?: ProductVariant[];
+  salesCount?: number;
 }
 
 export interface CustomizationDetails {
@@ -63,12 +66,16 @@ export interface CartItem {
 }
 
 export type OrderStatus =
-  | 'Order Placed'
+  | 'Pending'
   | 'Confirmed'
+  | 'Preparing'
+  | 'Ready'
+  | 'Delivered'
+  | 'Cancelled'
+  | 'Order Placed'
   | 'Preparing / Customized'
   | 'Ready for Pickup / Shipped'
-  | 'Delivered / Completed'
-  | 'Cancelled';
+  | 'Delivered / Completed';
 
 export interface OrderStatusHistoryItem {
   id: string;
@@ -89,8 +96,8 @@ export interface Order {
   state: string;
   pincode: string;
   deliveryNotes?: string;
-  paymentMethod: 'Cash on Delivery';
-  paymentStatus: 'Pending COD' | 'Paid on Delivery';
+  paymentMethod: 'Cash on Delivery' | 'UPI / Online' | 'Prepaid';
+  paymentStatus: 'Pending COD' | 'Paid on Delivery' | 'Paid Online';
   items: CartItem[];
   subtotal: number;
   deliveryFee: number;
@@ -100,6 +107,52 @@ export interface Order {
   statusHistory: OrderStatusHistoryItem[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Customer {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  city: string;
+  date: string;
+  totalOrders: number;
+  totalSpent: number;
+  avatarColor: string;
+  initial: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  iconName: string;
+  colorBg: string;
+  colorText: string;
+  itemCount: number;
+  description?: string;
+}
+
+export interface Coupon {
+  id: string;
+  code: string;
+  discountPercent: number;
+  discountAmount?: number;
+  minOrder: number;
+  expiryDate: string;
+  usageLimit: number;
+  usedCount: number;
+  isActive: boolean;
+}
+
+export interface Review {
+  id: string;
+  customerName: string;
+  rating: number;
+  comment: string;
+  productName: string;
+  date: string;
+  status: 'Approved' | 'Pending';
 }
 
 export interface StoreSettings {

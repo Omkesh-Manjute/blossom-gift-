@@ -13,10 +13,13 @@ import {
   Phone,
   ChevronDown,
   MapPin,
-  ShieldCheck,
   X,
-  Truck,
   Menu,
+  ShoppingCart,
+  Info,
+  ExternalLink,
+  MessageCircle,
+  LayoutDashboard,
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Product } from '../types';
@@ -30,6 +33,8 @@ interface NavbarProps {
   onOpenWishlist: () => void;
   products?: Product[];
   onSelectProduct?: (product: Product) => void;
+  onSelectCategory?: (category: string) => void;
+  onSelectOccasion?: (occasion: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -41,17 +46,31 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenWishlist,
   products = [],
   onSelectProduct,
+  onSelectCategory,
+  onSelectOccasion,
 }) => {
   const { itemCount, openCart } = useCart();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const searchRef = useRef<HTMLDivElement>(null);
+  const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
+  const [occasionsDropdownOpen, setOccasionsDropdownOpen] = useState(false);
+  const [accountModalOpen, setAccountModalOpen] = useState(false);
 
-  // Close search suggestions when clicking outside
+  const searchRef = useRef<HTMLDivElement>(null);
+  const shopRef = useRef<HTMLDivElement>(null);
+  const occasionsRef = useRef<HTMLDivElement>(null);
+
+  // Close popups on click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsSearchFocused(false);
+      }
+      if (shopRef.current && !shopRef.current.contains(event.target as Node)) {
+        setShopDropdownOpen(false);
+      }
+      if (occasionsRef.current && !occasionsRef.current.contains(event.target as Node)) {
+        setOccasionsDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -68,331 +87,718 @@ export const Navbar: React.FC<NavbarProps> = ({
         .slice(0, 5)
     : [];
 
+  const shopCategories = [
+    'Toys & Soft Toys',
+    'Photo Mugs',
+    'Greeting Cards',
+    'Gift Hampers',
+    'Customized Gifts',
+  ];
+
+  const occasionsList = [
+    'Birthday',
+    'Anniversary',
+    'Wedding',
+    "Valentine's Day",
+    'Festivals',
+  ];
+
   return (
-    <header className="sticky top-0 z-40 bg-white shadow-xs">
-      {/* 1. TOP ANNOUNCEMENT BAR (Deep Pink #D82B5A) */}
-      <div className="bg-[#D82B5A] text-white py-1.5 px-4 text-xs font-medium">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          {/* Location on left */}
-          <div className="flex items-center gap-1.5 text-xs text-white/95">
-            <MapPin className="w-3.5 h-3.5 text-white/80" />
-            <span>Gupta Complex, Near N.M.D. College, Gondia (M.S.)</span>
-          </div>
-
-          {/* Quick announcement center/right */}
-          <div className="flex items-center gap-3 text-xs text-white/95 ml-auto sm:ml-0 font-medium">
-            <span className="hidden md:flex items-center gap-1">
-              <Gift className="w-3.5 h-3.5 text-yellow-300" />
-              <span>Free Delivery in Gondia on orders &gt; ₹499</span>
-            </span>
-            <span className="hidden md:inline text-white/40">|</span>
-            <span className="flex items-center gap-1 font-mono">
-              <Phone className="w-3.5 h-3.5 text-white/80" />
-              <a href="tel:8208589775" className="hover:underline">8208589775</a>
-              <span>/</span>
-              <a href="tel:9673155741" className="hover:underline">9673155741</a>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. MAIN HEADER ROW (Logo, Search with Autocomplete, Icons) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-3 md:gap-8">
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-stone-700 hover:text-[#E8436E]"
-          aria-label="Toggle menu"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
-
-        {/* Logo */}
-        <button
-          onClick={() => {
-            setActiveTab('shop');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          className="flex items-center gap-2.5 sm:gap-3 text-left cursor-pointer group whitespace-nowrap shrink-0"
-        >
-          {/* Pink Gift Box Logo Icon */}
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#E8436E] to-[#FA709A] text-white flex items-center justify-center shadow-md shadow-pink-200">
-            <Gift className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-          </div>
-          <div>
-            <div className="flex items-baseline">
-              <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#1F2937] leading-none">
-                BLOSSOM
-              </span>
-              <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#E8436E] ml-1.5 leading-none">
-                GIFT
-              </span>
+    <>
+      <header className="sticky top-0 z-40 bg-white shadow-xs">
+        {/* 1. TOP ANNOUNCEMENT BAR (Matching Crimson #C2185B) */}
+        <div className="bg-[#C2185B] text-white py-2 px-4 text-xs font-medium">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            {/* Location on left */}
+            <div className="flex items-center gap-1.5 text-xs text-white/95">
+              <MapPin className="w-3.5 h-3.5 text-white/80 shrink-0" />
+              <span className="truncate">Gupta Complex, Near N.M.D. College, Gondia (M.S.)</span>
             </div>
-            <span className="text-[9px] sm:text-[10px] font-medium text-stone-500 tracking-tight block mt-0.5">
-              Gifting Studio & Toy Store · Gondia
-            </span>
-          </div>
-        </button>
 
-        {/* Center Search Input with Instant Dropdown Results */}
-        <div ref={searchRef} className="flex-1 max-w-xl hidden md:block relative">
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              placeholder="Search for photo mugs, wooden frames, hampers, toys..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              className="w-full bg-[#FAF8F9] border border-stone-200 rounded-full pl-5 pr-12 py-2.5 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#E8436E] focus:bg-white transition-all shadow-inner placeholder:text-stone-400"
-            />
-            {searchQuery ? (
+            {/* Announcement & Phones on right */}
+            <div className="flex items-center gap-2 sm:gap-3 text-xs text-white/95 ml-auto sm:ml-0 font-medium">
+              <span className="hidden md:flex items-center gap-1">
+                <Gift className="w-3.5 h-3.5 text-yellow-300" />
+                <span>Customized Gifts for Every Occasion</span>
+              </span>
+              <span className="hidden md:inline text-white/40">|</span>
+              <span className="flex items-center gap-1.5 font-mono">
+                <Phone className="w-3.5 h-3.5 text-white/80" />
+                <a href="tel:8208589775" className="hover:underline">8208589775</a>
+                <span className="text-white/60">|</span>
+                <a href="tel:9673155741" className="hover:underline">9673155741</a>
+              </span>
+              <span className="hidden sm:inline text-white/40">|</span>
               <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-10 text-stone-400 hover:text-stone-600"
+                onClick={() => setActiveTab('admin')}
+                className="inline-flex items-center gap-1 bg-white/20 hover:bg-white text-white hover:text-[#C2185B] px-2.5 py-0.5 rounded-full font-bold transition-all cursor-pointer text-[10px]"
+                title="Go to Admin Dashboard"
               >
-                <X className="w-3.5 h-3.5" />
+                <span>Admin Portal</span>
+                <ExternalLink className="w-2.5 h-2.5" />
               </button>
-            ) : null}
-            <button
-              onClick={() => {
-                setActiveTab('shop');
-                setIsSearchFocused(false);
-              }}
-              className="absolute right-1 w-9 h-9 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white flex items-center justify-center shadow-sm transition-colors cursor-pointer"
-              title="Search"
-            >
-              <Search className="w-4 h-4 text-white" />
-            </button>
+            </div>
           </div>
-
-          {/* Search Dropdown Results Popup */}
-          {isSearchFocused && matchingSuggestions.length > 0 && (
-            <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-stone-200 p-2 z-50 text-left">
-              <div className="text-[10px] font-bold text-stone-400 px-3 py-1 uppercase tracking-wider">
-                Matching Gifts ({matchingSuggestions.length})
-              </div>
-              <div className="divide-y divide-stone-100">
-                {matchingSuggestions.map((prod) => (
-                  <div
-                    key={prod.id}
-                    onClick={() => {
-                      if (onSelectProduct) onSelectProduct(prod);
-                      setIsSearchFocused(false);
-                    }}
-                    className="p-2 hover:bg-stone-50 rounded-xl cursor-pointer flex items-center gap-3 transition-colors"
-                  >
-                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-stone-100 shrink-0">
-                      <img
-                        src={prod.images?.[0]}
-                        alt={prod.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-xs font-bold text-stone-900 truncate">
-                        {prod.name}
-                      </h4>
-                      <span className="text-[10px] text-stone-500">
-                        {prod.category} · {prod.preparationHours}h prep
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-mono text-xs font-bold text-[#124282]">
-                        ₹{prod.price}
-                      </span>
-                      {prod.comparePrice && (
-                        <span className="block text-[10px] line-through text-stone-400 font-mono">
-                          ₹{prod.comparePrice}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Right Nav Icons (Wishlist, Track, Admin, Cart) */}
-        <div className="flex items-center gap-3 sm:gap-5 shrink-0 text-xs font-semibold text-stone-700">
-          {/* Wishlist */}
+        {/* 2. MAIN HEADER ROW */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-3 md:gap-8">
+          {/* Mobile Menu Button */}
           <button
-            onClick={onOpenWishlist}
-            className="flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer relative"
+            onClick={() => setMobileMenuOpen(true)}
+            className="md:hidden p-2 text-stone-700 hover:text-[#E8436E] cursor-pointer"
+            aria-label="Open menu"
           >
-            <Heart className="w-5 h-5 text-stone-700" />
-            <span className="hidden xl:inline">Wishlist</span>
-            {wishlistCount > 0 && (
-              <span className="absolute -top-1.5 -right-2 bg-[#E8436E] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                {wishlistCount}
-              </span>
-            )}
+            <Menu className="w-6 h-6" />
           </button>
 
-          {/* Track Order */}
-          <button
-            onClick={() => setActiveTab('track')}
-            className={`hidden sm:flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer ${
-              activeTab === 'track' ? 'text-[#E8436E] font-bold' : ''
-            }`}
-          >
-            <Truck className="w-5 h-5 text-stone-700" />
-            <span className="hidden xl:inline">Track Order</span>
-          </button>
-
-          {/* Admin Portal Toggle */}
-          <button
-            onClick={() => setActiveTab(activeTab === 'admin' ? 'shop' : 'admin')}
-            className={`flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer ${
-              activeTab === 'admin' ? 'text-[#E8436E]' : ''
-            }`}
-          >
-            <User className="w-5 h-5 text-stone-700" />
-            <span className="hidden xl:inline">
-              {activeTab === 'admin' ? 'Store Front' : 'Admin'}
-            </span>
-          </button>
-
-          {/* Cart with live total */}
-          <button
-            onClick={openCart}
-            className="flex items-center gap-2 bg-pink-50 hover:bg-pink-100 text-[#E8436E] px-3 py-1.5 rounded-full transition-colors cursor-pointer relative"
-          >
-            <div className="relative">
-              <ShoppingBag className="w-4 h-4" />
-              <span className="absolute -top-2 -right-2 bg-[#E8436E] text-white text-[9px] font-extrabold w-3.5 h-3.5 rounded-full flex items-center justify-center">
-                {itemCount}
-              </span>
-            </div>
-            <span className="text-xs font-bold font-mono">Bag</span>
-          </button>
-        </div>
-      </div>
-
-      {/* 3. NAVIGATION RIBBON */}
-      <div className="border-t border-stone-200/80 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center gap-1 sm:gap-2 overflow-x-auto text-xs font-medium text-stone-700">
-          {/* Home Pill */}
+          {/* Logo */}
           <button
             onClick={() => {
               setActiveTab('shop');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-              activeTab === 'shop'
-                ? 'bg-[#E8436E] text-white font-bold shadow-xs'
-                : 'hover:bg-stone-100 text-stone-700'
-            }`}
+            className="flex items-center gap-2.5 sm:gap-3 text-left cursor-pointer group whitespace-nowrap shrink-0"
           >
-            <Home className="w-3.5 h-3.5" />
-            <span>Home</span>
+            {/* Pink Gift Box Logo Icon with Ribbon */}
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#E8436E] to-[#FA709A] text-white flex items-center justify-center shadow-md shadow-pink-200 transition-transform group-hover:scale-105">
+              <Gift className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            </div>
+            <div>
+              <div className="flex items-baseline">
+                <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#1E293B] leading-none">
+                  BLOSSOM
+                </span>
+                <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#E8436E] ml-1.5 leading-none">
+                  GIFT
+                </span>
+              </div>
+              <span className="text-[9px] sm:text-[10px] font-medium text-stone-500 tracking-tight block mt-0.5">
+                Gift, Greet & Toys Whole Sale & Retail
+              </span>
+            </div>
           </button>
 
-          {/* Personalized Gifts (Hot tag) */}
-          <button
-            onClick={() => setActiveTab('customized')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-              activeTab === 'customized'
-                ? 'bg-[#E8436E] text-white font-bold shadow-xs'
-                : 'hover:bg-stone-100 text-stone-700'
-            }`}
-          >
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>Personalized Gifts</span>
-            <span className="bg-amber-100 text-amber-800 text-[9px] font-bold px-1.5 py-0.2 rounded-full">
-              HOT
-            </span>
-          </button>
+          {/* Center Search Input with Instant Dropdown Results */}
+          <div ref={searchRef} className="flex-1 max-w-xl hidden md:block relative">
+            <div className="relative flex items-center">
+              <input
+                type="text"
+                placeholder="Search for gifts, toys, greeting cards..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                className="w-full bg-[#FAF8F9] border border-stone-200 rounded-full pl-5 pr-14 py-2.5 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#E8436E] focus:bg-white transition-all shadow-inner placeholder:text-stone-400"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-12 text-stone-400 hover:text-stone-600 cursor-pointer"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  setActiveTab('shop');
+                  setIsSearchFocused(false);
+                }}
+                className="absolute right-1.5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white flex items-center justify-center shadow-sm transition-all hover:scale-105 cursor-pointer"
+                title="Search"
+              >
+                <Search className="w-4 h-4 text-white" />
+              </button>
+            </div>
 
-          {/* Categories Quick Filter Jump */}
-          <button
-            onClick={() => {
-              setActiveTab('shop');
-              const el = document.getElementById('categories-strip');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-full hover:bg-stone-100 transition-colors cursor-pointer whitespace-nowrap shrink-0"
-          >
-            <Calendar className="w-3.5 h-3.5 text-stone-500" />
-            <span>Occasions & Categories</span>
-          </button>
+            {/* Search Dropdown Results Popup */}
+            {isSearchFocused && matchingSuggestions.length > 0 && (
+              <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-stone-200 p-2 z-50 text-left">
+                <div className="text-[10px] font-bold text-stone-400 px-3 py-1 uppercase tracking-wider">
+                  Matching Gifts ({matchingSuggestions.length})
+                </div>
+                <div className="divide-y divide-stone-100">
+                  {matchingSuggestions.map((prod) => (
+                    <div
+                      key={prod.id}
+                      onClick={() => {
+                        if (onSelectProduct) onSelectProduct(prod);
+                        setIsSearchFocused(false);
+                      }}
+                      className="p-2 hover:bg-stone-50 rounded-xl cursor-pointer flex items-center gap-3 transition-colors"
+                    >
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-stone-100 shrink-0">
+                        <img
+                          src={prod.images?.[0]}
+                          alt={prod.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-xs font-bold text-stone-900 truncate">
+                          {prod.name}
+                        </h4>
+                        <span className="text-[10px] text-stone-500">
+                          {prod.category} · {prod.preparationHours}h prep
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <span className="font-mono text-xs font-bold text-[#E8436E]">
+                          ₹{prod.price}
+                        </span>
+                        {prod.comparePrice && (
+                          <span className="block text-[10px] line-through text-stone-400 font-mono">
+                            ₹{prod.comparePrice}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
-          {/* Track COD Orders */}
-          <button
-            onClick={() => setActiveTab('track')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-              activeTab === 'track'
-                ? 'bg-[#124282] text-white font-bold shadow-xs'
-                : 'hover:bg-stone-100 text-stone-700'
-            }`}
-          >
-            <Truck className="w-3.5 h-3.5 text-stone-500" />
-            <span>Track Order</span>
-          </button>
-
-          {/* Contact Us */}
-          <button
-            onClick={() => setActiveTab('about')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full hover:bg-stone-100 transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
-              activeTab === 'about' ? 'text-[#E8436E] font-bold bg-pink-50' : ''
-            }`}
-          >
-            <Phone className="w-3.5 h-3.5 text-stone-500" />
-            <span>Gondia Store & Contact</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-stone-200 bg-white p-4 space-y-3">
-          <input
-            type="text"
-            placeholder="Search gifts..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#FAF8F9] border border-stone-200 rounded-xl px-4 py-2 text-xs"
-          />
-          <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
+          {/* Right Action Icons: Wishlist, My Account, Cart */}
+          <div className="flex items-center gap-3 sm:gap-6 shrink-0 text-xs font-medium text-stone-700">
+            {/* Wishlist */}
             <button
-              onClick={() => {
-                setActiveTab('shop');
-                setMobileMenuOpen(false);
-              }}
-              className="p-2 text-left bg-stone-50 rounded-lg"
+              onClick={onOpenWishlist}
+              className="flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer group"
             >
-              Shop Gifts
+              <div className="relative">
+                <Heart className="w-5 h-5 text-stone-700 group-hover:text-[#E8436E] transition-colors" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1.5 -right-2 bg-[#E8436E] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
+                    {wishlistCount}
+                  </span>
+                )}
+              </div>
+              <span className="hidden sm:inline font-semibold">Wishlist</span>
             </button>
+
+            {/* Direct Admin Panel Button */}
             <button
-              onClick={() => {
-                setActiveTab('customized');
-                setMobileMenuOpen(false);
-              }}
-              className="p-2 text-left bg-stone-50 rounded-lg text-[#E8436E]"
+              onClick={() => setActiveTab('admin')}
+              className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full font-bold text-xs transition-all shadow-xs hover:shadow-md cursor-pointer ${
+                activeTab === 'admin'
+                  ? 'bg-[#E8436E] text-white ring-2 ring-pink-300'
+                  : 'bg-stone-900 hover:bg-[#E8436E] text-white'
+              }`}
+              title="Open Admin Dashboard & Analytics"
             >
-              Custom Photo Gifts
+              <LayoutDashboard className="w-3.5 h-3.5 text-pink-400" />
+              <span>Admin Panel</span>
             </button>
+
+            {/* My Account */}
+            <div className="relative">
+              <button
+                onClick={() => setAccountModalOpen(!accountModalOpen)}
+                className="flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer group"
+              >
+                <User className="w-5 h-5 text-stone-700 group-hover:text-[#E8436E] transition-colors" />
+                <span className="hidden sm:inline font-semibold">My Account</span>
+              </button>
+
+              {/* Account Dropdown */}
+              {accountModalOpen && (
+                <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-2xl shadow-2xl border border-stone-200 py-2 z-50 text-left">
+                  <div className="px-4 py-2 border-b border-stone-100">
+                    <p className="text-xs font-bold text-stone-900">Blossom Member</p>
+                    <p className="text-[11px] text-stone-500">Gondia, Maharashtra</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setActiveTab('track');
+                      setAccountModalOpen(false);
+                    }}
+                    className="w-full px-4 py-2 text-xs text-stone-700 hover:bg-stone-50 flex items-center gap-2 cursor-pointer"
+                  >
+                    <Gift className="w-4 h-4 text-stone-500" />
+                    <span>Track My Order</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      onOpenWishlist();
+                      setAccountModalOpen(false);
+                    }}
+                    className="w-full px-4 py-2 text-xs text-stone-700 hover:bg-stone-50 flex items-center gap-2 cursor-pointer"
+                  >
+                    <Heart className="w-4 h-4 text-stone-500" />
+                    <span>My Wishlist ({wishlistCount})</span>
+                  </button>
+                  <div className="border-t border-stone-100 my-1"></div>
+                  <button
+                    onClick={() => {
+                      setActiveTab('admin');
+                      setAccountModalOpen(false);
+                    }}
+                    className="w-full px-4 py-2 text-xs font-bold text-[#E8436E] hover:bg-pink-50 flex items-center justify-between cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <ExternalLink className="w-4 h-4" />
+                      <span>Admin Dashboard</span>
+                    </span>
+                    <span className="text-[10px] bg-[#E8436E] text-white px-1.5 py-0.5 rounded font-mono">
+                      Portal
+                    </span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Cart Button */}
             <button
-              onClick={() => {
-                setActiveTab('track');
-                setMobileMenuOpen(false);
-              }}
-              className="p-2 text-left bg-stone-50 rounded-lg"
+              onClick={openCart}
+              className="flex items-center gap-2 text-stone-700 hover:text-[#E8436E] transition-colors cursor-pointer group"
             >
-              Track Order
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab('about');
-                setMobileMenuOpen(false);
-              }}
-              className="p-2 text-left bg-stone-50 rounded-lg"
-            >
-              Contact Gondia Store
+              <div className="relative">
+                <ShoppingCart className="w-5 h-5 text-stone-700 group-hover:text-[#E8436E] transition-colors" />
+                <span className="absolute -top-1.5 -right-2 bg-[#E8436E] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {itemCount}
+                </span>
+              </div>
+              <span className="hidden sm:inline font-semibold">Cart</span>
             </button>
           </div>
         </div>
+
+        {/* Mobile Search Bar (Only shown on small screens) */}
+        <div className="md:hidden px-4 pb-3">
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              placeholder="Search for gifts, toys..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#FAF8F9] border border-stone-200 rounded-full pl-4 pr-12 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#E8436E]"
+            />
+            <button
+              onClick={() => setActiveTab('shop')}
+              className="absolute right-1 w-7 h-7 rounded-full bg-[#E8436E] text-white flex items-center justify-center"
+            >
+              <Search className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* 3. NAVIGATION RIBBON (Desktop) */}
+        <div className="hidden md:block border-t border-stone-200 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center gap-1 sm:gap-2 overflow-x-auto text-xs font-semibold text-stone-700">
+            {/* Home Pill */}
+            <button
+              onClick={() => {
+                setActiveTab('shop');
+                if (onSelectCategory) onSelectCategory('all');
+                if (onSelectOccasion) onSelectOccasion('all');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeTab === 'shop'
+                  ? 'bg-[#E8436E] text-white shadow-xs'
+                  : 'hover:bg-stone-100 text-stone-700'
+              }`}
+            >
+              <Home className="w-4 h-4" />
+              <span>Home</span>
+            </button>
+
+            {/* Shop Dropdown */}
+            <div ref={shopRef} className="relative">
+              <button
+                onClick={() => setShopDropdownOpen(!shopDropdownOpen)}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                <span>Shop</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${shopDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {shopDropdownOpen && (
+                <div className="absolute left-0 top-full mt-2 w-52 bg-white rounded-2xl shadow-xl border border-stone-200 p-2 z-50">
+                  {shopCategories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        if (onSelectCategory) onSelectCategory(cat);
+                        setActiveTab('shop');
+                        setShopDropdownOpen(false);
+                        const el = document.getElementById('catalog-section');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-pink-50 hover:text-[#E8436E] transition-colors cursor-pointer"
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Occasions Dropdown */}
+            <div ref={occasionsRef} className="relative">
+              <button
+                onClick={() => setOccasionsDropdownOpen(!occasionsDropdownOpen)}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>Occasions</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${occasionsDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {occasionsDropdownOpen && (
+                <div className="absolute left-0 top-full mt-2 w-48 bg-white rounded-2xl shadow-xl border border-stone-200 p-2 z-50">
+                  {occasionsList.map((occ) => (
+                    <button
+                      key={occ}
+                      onClick={() => {
+                        if (onSelectOccasion) onSelectOccasion(occ);
+                        setActiveTab('shop');
+                        setOccasionsDropdownOpen(false);
+                        const el = document.getElementById('catalog-section');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-pink-50 hover:text-[#E8436E] transition-colors cursor-pointer"
+                    >
+                      {occ}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Personalized Gifts */}
+            <button
+              onClick={() => {
+                setActiveTab('customized');
+                const el = document.getElementById('catalog-section');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full transition-colors cursor-pointer whitespace-nowrap ${
+                activeTab === 'customized'
+                  ? 'bg-[#E8436E] text-white shadow-xs'
+                  : 'hover:bg-stone-100 text-stone-700'
+              }`}
+            >
+              <Heart className="w-4 h-4 text-[#E8436E]" />
+              <span>Personalized Gifts</span>
+            </button>
+
+            {/* Toys */}
+            <button
+              onClick={() => {
+                if (onSelectCategory) onSelectCategory('Toys & Soft Toys');
+                setActiveTab('shop');
+                const el = document.getElementById('catalog-section');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+            >
+              <Smile className="w-4 h-4 text-emerald-600" />
+              <span>Toys</span>
+            </button>
+
+            {/* Greeting Cards */}
+            <button
+              onClick={() => {
+                if (onSelectCategory) onSelectCategory('Greeting Cards');
+                setActiveTab('shop');
+                const el = document.getElementById('catalog-section');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+            >
+              <Mail className="w-4 h-4 text-purple-600" />
+              <span>Greeting Cards</span>
+            </button>
+
+            {/* Gift Hampers */}
+            <button
+              onClick={() => {
+                if (onSelectCategory) onSelectCategory('Gift Hampers');
+                setActiveTab('shop');
+                const el = document.getElementById('catalog-section');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+            >
+              <Gift className="w-4 h-4 text-rose-500" />
+              <span>Gift Hampers</span>
+            </button>
+
+            {/* Contact Us */}
+            <button
+              onClick={() => {
+                const el = document.getElementById('footer-contact');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap ml-auto"
+            >
+              <Phone className="w-4 h-4 text-stone-500" />
+              <span>Contact Us</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* MOBILE MENU DRAWER (Exact matching Mobile Menu in Showcase image) */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex">
+          <div className="w-4/5 max-w-sm bg-white h-full flex flex-col shadow-2xl animate-in slide-in-from-left duration-300">
+            {/* Header: User & Close */}
+            <div className="p-4 border-b border-stone-200 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-pink-100 text-[#E8436E] flex items-center justify-center font-bold">
+                  <User className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-stone-900">My Account</h4>
+                  <button
+                    onClick={() => {
+                      setActiveTab('admin');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-[10px] text-[#E8436E] font-medium hover:underline"
+                  >
+                    Login / Admin Portal →
+                  </button>
+                </div>
+              </div>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Menu Links */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-1 text-xs font-semibold">
+              <button
+                onClick={() => {
+                  setActiveTab('shop');
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors ${
+                  activeTab === 'shop' ? 'bg-[#E8436E] text-white' : 'text-stone-700 hover:bg-stone-50'
+                }`}
+              >
+                <Home className="w-4 h-4" />
+                <span>Home</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setActiveTab('shop');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                <span>Shop</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setActiveTab('shop');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>Occasions</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setActiveTab('customized');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+              >
+                <Heart className="w-4 h-4 text-[#E8436E]" />
+                <span>Personalized Gifts</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  if (onSelectCategory) onSelectCategory('Toys & Soft Toys');
+                  setActiveTab('shop');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+              >
+                <Smile className="w-4 h-4 text-emerald-600" />
+                <span>Toys</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  if (onSelectCategory) onSelectCategory('Greeting Cards');
+                  setActiveTab('shop');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+              >
+                <Mail className="w-4 h-4 text-purple-600" />
+                <span>Greeting Cards</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  if (onSelectCategory) onSelectCategory('Gift Hampers');
+                  setActiveTab('shop');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+              >
+                <Gift className="w-4 h-4 text-rose-500" />
+                <span>Gift Hampers</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setActiveTab('about');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+              >
+                <Info className="w-4 h-4 text-stone-500" />
+                <span>About Us</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  const el = document.getElementById('footer-contact');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+              >
+                <Phone className="w-4 h-4 text-stone-500" />
+                <span>Contact Us</span>
+              </button>
+            </div>
+
+            {/* Need Help Box */}
+            <div className="p-4 bg-pink-50/70 border-t border-pink-100 space-y-3">
+              <div>
+                <p className="text-[11px] font-bold text-stone-900 flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5 text-[#E8436E]" />
+                  <span>Need Help? Call or WhatsApp</span>
+                </p>
+                <a
+                  href="tel:8208589775"
+                  className="mt-1 block text-xs font-mono font-bold text-[#E8436E] hover:underline"
+                >
+                  8208589775 | 9673155741
+                </a>
+              </div>
+
+              <div>
+                <p className="text-[10px] font-bold text-stone-800 flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-[#E8436E]" />
+                  <span>Visit Our Store</span>
+                </p>
+                <p className="text-[10px] text-stone-500 mt-0.5">
+                  Gupta Complex, Near N.M.D. College, Gondia (M.S.)
+                </p>
+              </div>
+
+              {/* Socials */}
+              <div className="flex items-center gap-3 pt-2">
+                <a
+                  href="https://wa.me/918208589775"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://www.instagram.com/theblossomgiftshop?mdxt=MW9oY2hzdmpncDFzYQ=="
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center text-xs font-bold"
+                  title="Follow on Instagram @theblossomgiftshop"
+                >
+                  IG
+                </a>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold"
+                >
+                  f
+                </a>
+                <a
+                  href="https://www.youtube.com/@blossomgiftcentergondiam.h925"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center text-xs font-bold"
+                  title="YouTube Channel"
+                >
+                  ▶
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-1" onClick={() => setMobileMenuOpen(false)}></div>
+        </div>
       )}
-    </header>
+
+      {/* MOBILE BOTTOM NAVIGATION BAR (Fixed Dock) */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-200 py-1.5 px-4 flex items-center justify-around shadow-2xl">
+        <button
+          onClick={() => {
+            setActiveTab('shop');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex flex-col items-center gap-0.5 text-[10px] font-bold ${
+            activeTab === 'shop' ? 'text-[#E8436E]' : 'text-stone-500'
+          }`}
+        >
+          <Home className="w-5 h-5" />
+          <span>Home</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab('shop');
+            const el = document.getElementById('catalog-section');
+            el?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="flex flex-col items-center gap-0.5 text-[10px] font-bold text-stone-500"
+        >
+          <ShoppingBag className="w-5 h-5" />
+          <span>Shop</span>
+        </button>
+
+        <button
+          onClick={onOpenWishlist}
+          className="flex flex-col items-center gap-0.5 text-[10px] font-bold text-stone-500 relative"
+        >
+          <Heart className="w-5 h-5" />
+          {wishlistCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-[#E8436E] text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
+              {wishlistCount}
+            </span>
+          )}
+          <span>Wishlist</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('admin')}
+          className={`flex flex-col items-center gap-0.5 text-[10px] font-bold ${
+            activeTab === 'admin' ? 'text-[#E8436E]' : 'text-stone-500'
+          }`}
+        >
+          <User className="w-5 h-5" />
+          <span>Account</span>
+        </button>
+      </nav>
+    </>
   );
 };
