@@ -1,5 +1,20 @@
-import React, { useState } from 'react';
-import { Truck, Gift, ShieldCheck, MessageCircle, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Truck,
+  Gift,
+  ShieldCheck,
+  MessageCircle,
+  ChevronLeft,
+  ChevronRight,
+  Volume2,
+  VolumeX,
+  Play,
+  Pause,
+  Sparkles,
+  ArrowRight,
+} from 'lucide-react';
+import { storeService } from '../services/storeService';
+import { HeroSlide } from '../types';
 
 interface HeroProps {
   onShopClick: () => void;
@@ -7,7 +22,61 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [slides, setSlides] = useState<HeroSlide[]>(() => storeService.getHeroSlides());
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  // Sync slides with store updates (e.g. when modified in Admin Portal)
+  useEffect(() => {
+    const handleUpdate = () => {
+      const active = storeService.getHeroSlides().filter((s) => s.isActive);
+      setSlides(active.length > 0 ? active : storeService.getHeroSlides());
+    };
+    window.addEventListener('store_data_updated', handleUpdate);
+    return () => window.removeEventListener('store_data_updated', handleUpdate);
+  }, []);
+
+  const activeSlides = slides.filter((s) => s.isActive);
+  const currentSlide = activeSlides[currentIndex] || activeSlides[0] || slides[0];
+
+  // Auto-slide timer: slides every 7s for images, 10s for videos (unless hovered)
+  useEffect(() => {
+    if (activeSlides.length <= 1 || isHovered) return;
+
+    const duration = currentSlide?.type === 'video' ? 10000 : 7000;
+    const timer = setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % activeSlides.length);
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [currentIndex, isHovered, activeSlides.length, currentSlide?.type]);
+
+  // Video play/pause sync when slide changes
+  useEffect(() => {
+    if (currentSlide?.type === 'video' && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
+    }
+  }, [currentIndex, currentSlide?.type]);
+
+  const handleNext = () => {
+    if (activeSlides.length <= 1) return;
+    setCurrentIndex((prev) => (prev + 1) % activeSlides.length);
+  };
+
+  const handlePrev = () => {
+    if (activeSlides.length <= 1) return;
+    setCurrentIndex((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
+  };
 
   const handleWhatsAppClick = () => {
     window.open(
@@ -16,8 +85,55 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
     );
   };
 
+  // Mobile Swipe Handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > 50) {
+      handleNext();
+    } else if (distance < -50) {
+      handlePrev();
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  const toggleVideoPlayback = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const toggleVideoMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setIsMuted(videoRef.current.muted);
+  };
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-[#fc9db4] via-[#fdb7c8] to-[#f48da1] border-b border-pink-200">
+    <section
+      className="relative overflow-hidden bg-gradient-to-r from-[#fc9db4] via-[#fdb7c8] to-[#f48da1] border-b border-pink-200"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Floating subtle ambient heart particles */}
       <div className="absolute top-6 left-12 text-white/40 text-xl animate-float pointer-events-none select-none">
         ♥
@@ -41,144 +157,241 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
         ♥
       </div>
 
-      {/* Main Full-Width Panoramic Banner Canvas */}
+      {/* Main Full-Width Panoramic Banner / Video Slider Canvas */}
       <div className="w-full max-w-[1536px] mx-auto relative select-none">
-        {/* Banner Picture with Responsive Sources */}
-        <picture>
-          <source media="(max-width: 640px)" srcSet="/hero_banner_mobile.png" />
-          <img
-            src="/hero_banner_clean.png"
-            alt="Blossom Gift - Personalized Gifts for Your Loved Ones"
-            className="w-full h-auto block object-cover"
-            draggable={false}
-          />
-        </picture>
+        {/* SLIDE CONTENT */}
+        {currentSlide?.type === 'video' ? (
+          /* ======================================================== */
+          /* VIDEO SLIDE (Supports MP4 / WebM / Local / Remote Video) */
+          /* ======================================================== */
+          <div className="relative w-full aspect-[16/9] sm:aspect-[1536/413] bg-stone-950 overflow-hidden flex items-center justify-center">
+            <video
+              ref={videoRef}
+              src={currentSlide.mediaUrl}
+              autoPlay
+              loop
+              muted={isMuted}
+              playsInline
+              className="w-full h-full object-cover"
+            />
 
-        {/* 1. Interactive 'Shop Now →' Button Hotspot */}
-        {/* Desktop: left 5.6%, top 68.5%, width 12.3%, height 11.9% */}
-        {/* Mobile: left 7.8%, top 68.5%, width 17.2%, height 11.9% */}
-        <div
-          className="absolute max-sm:hidden"
-          style={{
-            left: '5.6%',
-            top: '68.5%',
-            width: '12.3%',
-            height: '11.9%',
-          }}
-        >
-          <button
-            onClick={onShopClick}
-            aria-label="Shop Now for Personalized Gifts"
-            className="w-full h-full rounded-full cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group relative flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/80"
-          >
-            {/* Shimmer sweep effect on hover */}
-            <span className="absolute inset-0 bg-white/0 group-hover:bg-white/25 transition-all rounded-full pointer-events-none" />
-            <span className="absolute -inset-1 rounded-full bg-pink-400/0 group-hover:bg-pink-400/30 blur-xs transition-all pointer-events-none" />
-          </button>
-        </div>
+            {/* Subtle Gradient Overlays for readable text and brand elegance */}
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-900/30 to-stone-900/20" />
+            <div className="absolute inset-0 bg-gradient-to-r from-pink-950/70 via-transparent to-pink-950/40" />
 
-        {/* Mobile 'Shop Now' Hotspot */}
-        <div
-          className="absolute sm:hidden"
-          style={{
-            left: '7.8%',
-            top: '68.5%',
-            width: '17.2%',
-            height: '11.9%',
-          }}
-        >
-          <button
-            onClick={onShopClick}
-            aria-label="Shop Now"
-            className="w-full h-full rounded-full cursor-pointer active:scale-95 transition-all group relative flex items-center justify-center overflow-hidden focus:outline-none"
-          >
-            <span className="absolute inset-0 bg-white/0 active:bg-white/30 rounded-full" />
-          </button>
-        </div>
+            {/* Video Slide Content Overlay */}
+            <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-8 md:p-12 z-10 text-left">
+              {/* Top Kicker and Badge */}
+              <div className="flex items-center justify-between">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold border border-white/30 shadow-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <span>{currentSlide.kicker || '✨ 10S CINEMATIC UNBOXING ✨'}</span>
+                </div>
 
-        {/* 2. Interactive Hotspots for the 4 Bottom Features (Desktop / Tablet) */}
-        {/* Feature 1: Local Delivery in Gondia */}
-        <a
-          href="#contact"
-          style={{
-            left: '4.8%',
-            top: '82.5%',
-            width: '8.8%',
-            height: '14.5%',
-          }}
-          className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
-          title="Local Doorstep Delivery across Gondia (M.S.)"
-        />
+                {/* Sound & Play Controls */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={toggleVideoMute}
+                    aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 hover:bg-black/75 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-xs"
+                    title={isMuted ? 'Unmute' : 'Mute'}
+                  >
+                    {isMuted ? <VolumeX className="w-4 h-4 text-rose-300" /> : <Volume2 className="w-4 h-4 text-emerald-300" />}
+                  </button>
 
-        {/* Feature 2: Customized Gifts */}
-        <button
-          onClick={() => {
-            if (onCustomClick) onCustomClick();
-            else onShopClick();
-          }}
-          style={{
-            left: '14.2%',
-            top: '82.5%',
-            width: '8.5%',
-            height: '14.5%',
-          }}
-          className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
-          title="Customized Gifts personalized with love"
-        />
+                  <button
+                    onClick={toggleVideoPlayback}
+                    aria-label={isPlaying ? 'Pause video' : 'Play video'}
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 hover:bg-black/75 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-xs"
+                    title={isPlaying ? 'Pause' : 'Play'}
+                  >
+                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white ml-0.5" />}
+                  </button>
+                </div>
+              </div>
 
-        {/* Feature 3: Best Quality Products */}
-        <button
-          onClick={onShopClick}
-          style={{
-            left: '23.3%',
-            top: '82.5%',
-            width: '8.5%',
-            height: '14.5%',
-          }}
-          className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
-          title="100% Best Quality Products guaranteed"
-        />
+              {/* Bottom Headline, Description & Call To Action */}
+              <div className="max-w-xl">
+                <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
+                  {currentSlide.title}
+                </h2>
+                <p className="text-xs sm:text-sm md:text-base text-pink-100/90 font-medium mt-1 mb-3 line-clamp-2 drop-shadow-xs">
+                  {currentSlide.description || currentSlide.subtitle}
+                </p>
 
-        {/* Feature 4: Order on WhatsApp */}
-        <button
-          onClick={handleWhatsAppClick}
-          style={{
-            left: '32.4%',
-            top: '82.5%',
-            width: '8.8%',
-            height: '14.5%',
-          }}
-          className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
-          title="Chat & Order on WhatsApp (+91 8208589775)"
-        />
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={onShopClick}
+                    className="inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white font-bold text-xs sm:text-sm shadow-xl shadow-pink-900/40 transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
+                  >
+                    <span>{currentSlide.ctaText || 'Shop Now'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
 
-        {/* 3. Interactive Carousel Dots (Bottom Center) */}
-        <div
-          className="absolute flex items-center justify-center gap-1.5 cursor-pointer"
-          style={{
-            left: '46.0%',
-            top: '92.0%',
-            width: '6.0%',
-            height: '6.5%',
-          }}
-        >
-          {[0, 1, 2].map((idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveSlide(idx)}
-              className="h-full flex items-center justify-center p-0.5 cursor-pointer focus:outline-none"
-              aria-label={`Slide ${idx + 1}`}
-            >
-              <span
-                className={`transition-all duration-300 rounded-full block ${
-                  activeSlide === idx
-                    ? 'w-5 sm:w-6 h-1.5 sm:h-2 bg-[#E8436E]'
-                    : 'w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/90 hover:bg-white'
-                }`}
+                  <button
+                    onClick={handleWhatsAppClick}
+                    className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-xl transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-white" />
+                    <span className="hidden sm:inline">Order on WhatsApp</span>
+                    <span className="sm:hidden">WhatsApp</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* ======================================================== */
+          /* IMAGE BANNER SLIDE (Flagship Reference Panoramic Artwork) */
+          /* ======================================================== */
+          <div className="relative w-full">
+            <picture>
+              <source media="(max-width: 640px)" srcSet={currentSlide.mobileMediaUrl || '/hero_banner_mobile.png'} />
+              <img
+                src={currentSlide.mediaUrl || '/hero_banner_clean.png'}
+                alt={currentSlide.title || 'Blossom Gift Banner'}
+                className="w-full h-auto block object-cover"
+                draggable={false}
               />
+            </picture>
+
+            {/* Desktop 'Shop Now' Interactive Hotspot */}
+            <div
+              className="absolute max-sm:hidden"
+              style={{
+                left: '5.6%',
+                top: '68.5%',
+                width: '12.3%',
+                height: '11.9%',
+              }}
+            >
+              <button
+                onClick={onShopClick}
+                aria-label="Shop Now for Personalized Gifts"
+                className="w-full h-full rounded-full cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group relative flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/80"
+              >
+                <span className="absolute inset-0 bg-white/0 group-hover:bg-white/25 transition-all rounded-full pointer-events-none" />
+                <span className="absolute -inset-1 rounded-full bg-pink-400/0 group-hover:bg-pink-400/30 blur-xs transition-all pointer-events-none" />
+              </button>
+            </div>
+
+            {/* Mobile 'Shop Now' Hotspot */}
+            <div
+              className="absolute sm:hidden"
+              style={{
+                left: '7.8%',
+                top: '68.5%',
+                width: '17.2%',
+                height: '11.9%',
+              }}
+            >
+              <button
+                onClick={onShopClick}
+                aria-label="Shop Now"
+                className="w-full h-full rounded-full cursor-pointer active:scale-95 transition-all group relative flex items-center justify-center overflow-hidden focus:outline-none"
+              >
+                <span className="absolute inset-0 bg-white/0 active:bg-white/30 rounded-full" />
+              </button>
+            </div>
+
+            {/* Desktop Trust Feature Hotspots */}
+            <a
+              href="#contact"
+              style={{
+                left: '4.8%',
+                top: '82.5%',
+                width: '8.8%',
+                height: '14.5%',
+              }}
+              className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
+              title="Local Doorstep Delivery across Gondia (M.S.)"
+            />
+
+            <button
+              onClick={() => {
+                if (onCustomClick) onCustomClick();
+                else onShopClick();
+              }}
+              style={{
+                left: '14.2%',
+                top: '82.5%',
+                width: '8.5%',
+                height: '14.5%',
+              }}
+              className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
+              title="Customized Gifts personalized with love"
+            />
+
+            <button
+              onClick={onShopClick}
+              style={{
+                left: '23.3%',
+                top: '82.5%',
+                width: '8.5%',
+                height: '14.5%',
+              }}
+              className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
+              title="100% Best Quality Products guaranteed"
+            />
+
+            <button
+              onClick={handleWhatsAppClick}
+              style={{
+                left: '32.4%',
+                top: '82.5%',
+                width: '8.8%',
+                height: '14.5%',
+              }}
+              className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
+              title="Chat & Order on WhatsApp (+91 8208589775)"
+            />
+          </div>
+        )}
+
+        {/* ======================================================== */}
+        {/* CAROUSEL NAVIGATION CONTROLS (Arrows & Indicator Dots)     */}
+        {/* ======================================================== */}
+        {activeSlides.length > 1 && (
+          <>
+            {/* Left Prev Arrow */}
+            <button
+              onClick={handlePrev}
+              aria-label="Previous slide"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center backdrop-blur-xs transition-all transform hover:scale-110 cursor-pointer shadow-md z-20"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
-          ))}
-        </div>
+
+            {/* Right Next Arrow */}
+            <button
+              onClick={handleNext}
+              aria-label="Next slide"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center backdrop-blur-xs transition-all transform hover:scale-110 cursor-pointer shadow-md z-20"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+
+            {/* Bottom Indicator Dots */}
+            <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20 bg-black/25 backdrop-blur-xs px-3 py-1 rounded-full">
+              {activeSlides.map((slide, idx) => (
+                <button
+                  key={slide.id || idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className="h-3 flex items-center justify-center p-0.5 cursor-pointer focus:outline-none"
+                  aria-label={`Go to slide ${idx + 1}`}
+                >
+                  <span
+                    className={`transition-all duration-300 rounded-full block ${
+                      currentIndex === idx
+                        ? 'w-6 h-2 bg-[#E8436E] ring-2 ring-white/50'
+                        : 'w-2 h-2 bg-white/70 hover:bg-white'
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Mobile-Friendly Trust Badges Strip (visible on mobile screens for easy tapping) */}

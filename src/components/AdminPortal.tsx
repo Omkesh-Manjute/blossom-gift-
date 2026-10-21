@@ -37,9 +37,12 @@ import {
   ShoppingCart,
   FolderPlus,
   Compass,
+  Video,
+  Film,
+  Copy,
 } from 'lucide-react';
 import { storeService } from '../services/storeService';
-import { Order, OrderStatus, Product, Customer, Category, Coupon, Review, StoreSettings } from '../types';
+import { Order, OrderStatus, Product, Customer, Category, Coupon, Review, StoreSettings, HeroSlide } from '../types';
 import { PackingSlipModal } from './PackingSlipModal';
 
 interface AdminPortalProps {
@@ -97,6 +100,25 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
   const [orderStatusFilter, setOrderStatusFilter] = useState<string>('all');
   const [orderSearch, setOrderSearch] = useState('');
 
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(() => storeService.getHeroSlides());
+  const [isAddingSlide, setIsAddingSlide] = useState(false);
+  const [editingSlide, setEditingSlide] = useState<HeroSlide | null>(null);
+  const [copiedPrompt, setCopiedPrompt] = useState(false);
+  const [slideForm, setSlideForm] = useState<Omit<HeroSlide, 'id'>>({
+    type: 'video',
+    mediaUrl: '/videos/blossom_hero_promo.mp4',
+    mobileMediaUrl: '',
+    title: 'Handcrafted Magic in Gondia',
+    subtitle: 'Special 10s Gift Unboxing',
+    kicker: '🎥 10-SECOND CINEMATIC PREVIEW',
+    description: 'Custom photo mugs, glowing wooden LED frames, and luxury hampers packed with love in Gondia.',
+    ctaText: 'Shop Gifts Now',
+    ctaLink: '#catalog-section',
+    badge: '10s Video',
+    isActive: true,
+    order: 2,
+  });
+
   const refreshData = () => {
     setOrders(storeService.getOrders());
     setProducts(storeService.getProducts());
@@ -104,6 +126,43 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
     setCoupons(storeService.getCoupons());
     setReviews(storeService.getReviews());
     setSettings(storeService.getSettings());
+    setHeroSlides(storeService.getHeroSlides());
+  };
+
+  const handleSaveSlide = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingSlide) {
+      storeService.updateHeroSlide(editingSlide.id, slideForm);
+      showToast('Slide updated successfully!');
+    } else {
+      storeService.addHeroSlide(slideForm);
+      showToast('New hero slide added!');
+    }
+    setHeroSlides(storeService.getHeroSlides());
+    setIsAddingSlide(false);
+    setEditingSlide(null);
+  };
+
+  const handleDeleteSlide = (id: string) => {
+    if (window.confirm('Are you sure you want to delete this hero slide?')) {
+      storeService.deleteHeroSlide(id);
+      setHeroSlides(storeService.getHeroSlides());
+      showToast('Slide deleted successfully!');
+    }
+  };
+
+  const handleToggleSlideActive = (id: string, current: boolean) => {
+    storeService.updateHeroSlide(id, { isActive: !current });
+    setHeroSlides(storeService.getHeroSlides());
+    showToast(`Slide ${!current ? 'activated' : 'deactivated'}`);
+  };
+
+  const handleCopyGeminiPrompt = () => {
+    const promptText = `Cinematic 10-second 4K commercial for Blossom Gift Centre Gondia. Opens with an adorable fluffy brown teddy bear wearing a red heart that says 'I Love You', sitting next to a handcrafted polished wooden LED photo frame glowing warmly with golden fairy lights and smiling couple portrait. Beside it, a glossy white ceramic photo mug with gentle steam rising. Slow elegant camera push-in towards a luxury magnetic pastel pink gift box with a shining crimson satin bow ribbon gracefully untying itself. Sparkling golden confetti, floating heart particles, and soft pink rose petals gently drift across the scene in slow motion. High-end e-commerce product lighting, 8K ultra-realistic, warm romantic festive atmosphere, shallow depth of field, 24fps cinematic motion blur.`;
+    navigator.clipboard.writeText(promptText);
+    setCopiedPrompt(true);
+    showToast('Gemini 10s video prompt copied! 📋');
+    setTimeout(() => setCopiedPrompt(false), 3000);
   };
 
   const showToast = (msg: string) => {
@@ -1294,6 +1353,201 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 </button>
               </form>
             </div>
+          ) : activeTab === 'banners' ? (
+            /* HERO BANNERS & VIDEO SLIDER VIEW */
+            <div className="space-y-6 text-left">
+              {/* Header */}
+              <div className="bg-white p-5 sm:p-6 rounded-3xl border border-stone-200/80 shadow-xs flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-xl bg-pink-100 text-[#E8436E] flex items-center justify-center font-bold">
+                      <ImageIcon className="w-4 h-4" />
+                    </span>
+                    <h2 className="text-xl font-bold text-stone-900">Hero Banners & Video Slider</h2>
+                  </div>
+                  <p className="text-xs text-stone-500 mt-1">
+                    Manage the top hero slider (images & 10-second promo videos) for mobile and desktop screens.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setEditingSlide(null);
+                      setSlideForm({
+                        type: 'video',
+                        mediaUrl: '/videos/blossom_hero_promo.mp4',
+                        mobileMediaUrl: '',
+                        title: 'Handcrafted Magic in Gondia',
+                        subtitle: 'Special 10s Gift Unboxing',
+                        kicker: '🎥 10-SECOND CINEMATIC PREVIEW',
+                        description: 'Custom photo mugs, glowing wooden LED frames, and luxury hampers packed with love.',
+                        ctaText: 'Shop Gifts Now',
+                        ctaLink: '#catalog-section',
+                        badge: '10s Video',
+                        isActive: true,
+                        order: heroSlides.length + 1,
+                      });
+                      setIsAddingSlide(true);
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#E8436E] hover:bg-[#d4335c] text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>+ Add Slide / Video</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Gemini Video Generator Prompt Banner */}
+              <div className="bg-gradient-to-r from-purple-900 via-rose-900 to-pink-900 rounded-3xl p-5 sm:p-6 text-white shadow-md relative overflow-hidden">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
+                  <div className="max-w-2xl">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-pink-200 text-xs font-bold mb-2 backdrop-blur-xs">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                      <span>Gemini AI 10-Second Video Prompt</span>
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-bold">Generate a 10s Promo Video for Blossom Gift</h3>
+                    <p className="text-xs text-pink-100/90 mt-1 leading-relaxed">
+                      Copy the pre-made prompt below and paste into <strong>Google Flow</strong> or <strong>Gemini</strong> to generate your 10s video. Once generated, save it into <code className="bg-black/30 px-1.5 py-0.5 rounded font-mono text-amber-300">public/videos/</code> or paste its web URL!
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={handleCopyGeminiPrompt}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-purple-950 font-bold text-xs rounded-xl hover:bg-pink-50 transition-all shadow-md shrink-0 cursor-pointer"
+                  >
+                    {copiedPrompt ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                    <span>{copiedPrompt ? 'Prompt Copied!' : 'Copy 10s Video Prompt'}</span>
+                  </button>
+                </div>
+
+                <div className="mt-3 p-3 bg-black/40 rounded-xl text-[11px] font-mono text-pink-200 leading-relaxed border border-white/10 select-all">
+                  "Cinematic 10-second 4K commercial for Blossom Gift Centre Gondia. Opens with an adorable fluffy brown teddy bear wearing a red heart that says 'I Love You', sitting next to a handcrafted polished wooden LED photo frame glowing warmly with golden fairy lights and smiling couple portrait. Beside it, a glossy white ceramic photo mug with gentle steam rising. Slow elegant camera push-in towards a luxury magnetic pastel pink gift box with a shining crimson satin bow ribbon gracefully untying itself. Sparkling golden confetti, floating heart particles, and soft pink rose petals gently drift across the scene in slow motion. High-end e-commerce product lighting, 8K ultra-realistic, warm romantic festive atmosphere, shallow depth of field, 24fps cinematic motion blur."
+                </div>
+              </div>
+
+              {/* Active Slides Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {heroSlides.map((slide, idx) => (
+                  <div
+                    key={slide.id}
+                    className={`bg-white rounded-3xl border ${slide.isActive ? 'border-pink-200 shadow-sm' : 'border-stone-200 opacity-60'} overflow-hidden flex flex-col justify-between`}
+                  >
+                    {/* Media Preview Box */}
+                    <div className="relative aspect-[16/9] bg-stone-900 overflow-hidden flex items-center justify-center">
+                      {slide.type === 'video' ? (
+                        <video
+                          src={slide.mediaUrl}
+                          muted
+                          loop
+                          autoPlay
+                          playsInline
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          src={slide.mediaUrl}
+                          alt={slide.title}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+
+                      {/* Type Badge */}
+                      <div className="absolute top-3 left-3 flex items-center gap-2">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold text-white shadow-xs ${slide.type === 'video' ? 'bg-red-600 flex items-center gap-1' : 'bg-[#E8436E]'}`}>
+                          {slide.type === 'video' && <Video className="w-3 h-3" />}
+                          {slide.type.toUpperCase()} SLIDE #{idx + 1}
+                        </span>
+
+                        {slide.badge && (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/90 text-stone-800 shadow-xs">
+                            {slide.badge}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Status Indicator */}
+                      <div className="absolute top-3 right-3">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${slide.isActive ? 'bg-emerald-500 text-white' : 'bg-stone-500 text-white'}`}>
+                          {slide.isActive ? '● Active' : '○ Inactive'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="p-4 sm:p-5 space-y-3">
+                      <div>
+                        {slide.kicker && (
+                          <span className="text-[10px] font-bold text-[#E8436E] uppercase tracking-wider block mb-0.5">
+                            {slide.kicker}
+                          </span>
+                        )}
+                        <h4 className="text-base font-bold text-stone-900 leading-tight">
+                          {slide.title} <span className="text-stone-500 text-sm font-normal">({slide.subtitle})</span>
+                        </h4>
+                        {slide.description && (
+                          <p className="text-xs text-stone-500 mt-1 line-clamp-2">{slide.description}</p>
+                        )}
+                      </div>
+
+                      <div className="p-2.5 rounded-xl bg-stone-50 text-[11px] font-mono text-stone-600 space-y-1">
+                        <div className="truncate"><strong className="text-stone-700">Media:</strong> {slide.mediaUrl}</div>
+                        <div><strong className="text-stone-700">Button:</strong> "{slide.ctaText}" → {slide.ctaLink}</div>
+                      </div>
+
+                      {/* Footer Actions */}
+                      <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+                        <button
+                          onClick={() => handleToggleSlideActive(slide.id, slide.isActive)}
+                          className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                            slide.isActive
+                              ? 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                              : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                          }`}
+                        >
+                          {slide.isActive ? 'Disable' : 'Enable'}
+                        </button>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              setEditingSlide(slide);
+                              setSlideForm({
+                                type: slide.type,
+                                mediaUrl: slide.mediaUrl,
+                                mobileMediaUrl: slide.mobileMediaUrl || '',
+                                title: slide.title,
+                                subtitle: slide.subtitle,
+                                kicker: slide.kicker || '',
+                                description: slide.description || '',
+                                ctaText: slide.ctaText,
+                                ctaLink: slide.ctaLink,
+                                badge: slide.badge || '',
+                                isActive: slide.isActive,
+                                order: slide.order,
+                              });
+                              setIsAddingSlide(true);
+                            }}
+                            className="p-2 rounded-lg text-stone-600 hover:bg-stone-100 hover:text-stone-900 transition-colors cursor-pointer"
+                            title="Edit Slide"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </button>
+
+                          <button
+                            onClick={() => handleDeleteSlide(slide.id)}
+                            className="p-2 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                            title="Delete Slide"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
             /* DEFAULT / FALLBACK SUBVIEWS (Inventory, Categories, Coupons, etc.) */
             <div className="bg-white p-6 rounded-3xl border border-stone-200/80 shadow-xs text-left">
@@ -1605,6 +1859,237 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                   type="button"
                   onClick={() => setIsAddingCoupon(false)}
                   className="px-3 py-2 bg-stone-100 rounded-xl"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ADD / EDIT HERO SLIDE MODAL */}
+      {isAddingSlide && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto text-left">
+            <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-7 h-7 rounded-lg bg-pink-100 text-[#E8436E] flex items-center justify-center">
+                  <Film className="w-4 h-4" />
+                </span>
+                <h3 className="font-bold text-base text-stone-900">
+                  {editingSlide ? 'Edit Hero Slide / Video' : 'Add New Hero Slide / Video'}
+                </h3>
+              </div>
+              <button
+                onClick={() => {
+                  setIsAddingSlide(false);
+                  setEditingSlide(null);
+                }}
+                className="p-1.5 rounded-full hover:bg-stone-100 text-stone-400 hover:text-stone-700 cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveSlide} className="space-y-3.5 text-xs">
+              {/* Slide Type Selection */}
+              <div>
+                <label className="font-bold block mb-1.5 text-stone-700">Slide Media Type</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSlideForm({ ...slideForm, type: 'video' })}
+                    className={`py-2 px-3 rounded-xl border flex items-center justify-center gap-2 font-bold cursor-pointer transition-all ${
+                      slideForm.type === 'video'
+                        ? 'bg-red-50 text-red-600 border-red-300 ring-2 ring-red-400/20'
+                        : 'bg-stone-50 text-stone-600 border-stone-200'
+                    }`}
+                  >
+                    <Video className="w-4 h-4" />
+                    <span>🎥 Video Slide</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSlideForm({ ...slideForm, type: 'image' })}
+                    className={`py-2 px-3 rounded-xl border flex items-center justify-center gap-2 font-bold cursor-pointer transition-all ${
+                      slideForm.type === 'image'
+                        ? 'bg-pink-50 text-[#E8436E] border-pink-300 ring-2 ring-pink-400/20'
+                        : 'bg-stone-50 text-stone-600 border-stone-200'
+                    }`}
+                  >
+                    <ImageIcon className="w-4 h-4" />
+                    <span>🖼️ Image Banner</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Media URL with quick presets */}
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="font-bold text-stone-700">
+                    {slideForm.type === 'video' ? 'Video File URL / Path (.mp4 / .webm)' : 'Image URL / Path'}
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  value={slideForm.mediaUrl}
+                  onChange={(e) => setSlideForm({ ...slideForm, mediaUrl: e.target.value })}
+                  placeholder={slideForm.type === 'video' ? '/videos/blossom_hero_promo.mp4' : '/hero_banner_clean.png'}
+                  className="w-full border border-stone-200 rounded-xl p-2.5 font-mono text-xs"
+                  required
+                />
+
+                {/* Quick Presets */}
+                <div className="flex flex-wrap gap-1.5 mt-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/videos/blossom_hero_promo.mp4', type: 'video' })}
+                    className="text-[10px] bg-red-50 hover:bg-red-100 text-red-700 px-2 py-0.5 rounded-md font-mono cursor-pointer"
+                  >
+                    + Generated 10s Video
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/hero_banner_clean.png', mobileMediaUrl: '/hero_banner_mobile.png', type: 'image' })}
+                    className="text-[10px] bg-pink-50 hover:bg-pink-100 text-[#E8436E] px-2 py-0.5 rounded-md font-mono cursor-pointer"
+                  >
+                    + Flagship Banner
+                  </button>
+                </div>
+              </div>
+
+              {/* Mobile Media URL (for images) */}
+              {slideForm.type === 'image' && (
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">Mobile Image URL (Optional)</label>
+                  <input
+                    type="text"
+                    value={slideForm.mobileMediaUrl || ''}
+                    onChange={(e) => setSlideForm({ ...slideForm, mobileMediaUrl: e.target.value })}
+                    placeholder="/hero_banner_mobile.png"
+                    className="w-full border border-stone-200 rounded-xl p-2.5 font-mono text-xs"
+                  />
+                </div>
+              )}
+
+              {/* Title & Subtitle */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">Slide Title</label>
+                  <input
+                    type="text"
+                    value={slideForm.title}
+                    onChange={(e) => setSlideForm({ ...slideForm, title: e.target.value })}
+                    placeholder="e.g. Handcrafted Magic"
+                    className="w-full border border-stone-200 rounded-xl p-2.5"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">Subtitle</label>
+                  <input
+                    type="text"
+                    value={slideForm.subtitle}
+                    onChange={(e) => setSlideForm({ ...slideForm, subtitle: e.target.value })}
+                    placeholder="e.g. for Your Loved Ones"
+                    className="w-full border border-stone-200 rounded-xl p-2.5"
+                  />
+                </div>
+              </div>
+
+              {/* Kicker Pill & Badge */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">Kicker Label (Top Pill)</label>
+                  <input
+                    type="text"
+                    value={slideForm.kicker || ''}
+                    onChange={(e) => setSlideForm({ ...slideForm, kicker: e.target.value })}
+                    placeholder="e.g. ✨ 10S VIDEO UNBOXING ✨"
+                    className="w-full border border-stone-200 rounded-xl p-2.5"
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">Badge Tag</label>
+                  <input
+                    type="text"
+                    value={slideForm.badge || ''}
+                    onChange={(e) => setSlideForm({ ...slideForm, badge: e.target.value })}
+                    placeholder="e.g. Featured Video"
+                    className="w-full border border-stone-200 rounded-xl p-2.5"
+                  />
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="font-bold text-stone-700 block mb-1">Description</label>
+                <textarea
+                  value={slideForm.description || ''}
+                  onChange={(e) => setSlideForm({ ...slideForm, description: e.target.value })}
+                  placeholder="Short description displayed on video slide overlay..."
+                  rows={2}
+                  className="w-full border border-stone-200 rounded-xl p-2.5"
+                />
+              </div>
+
+              {/* CTA Button Text & Link */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">CTA Button Text</label>
+                  <input
+                    type="text"
+                    value={slideForm.ctaText}
+                    onChange={(e) => setSlideForm({ ...slideForm, ctaText: e.target.value })}
+                    placeholder="Shop Now"
+                    className="w-full border border-stone-200 rounded-xl p-2.5 font-bold"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">CTA Button Link</label>
+                  <input
+                    type="text"
+                    value={slideForm.ctaLink}
+                    onChange={(e) => setSlideForm({ ...slideForm, ctaLink: e.target.value })}
+                    placeholder="#catalog-section or WhatsApp URL"
+                    className="w-full border border-stone-200 rounded-xl p-2.5 font-mono text-xs"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Active Checkbox */}
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="slideActiveCheck"
+                  checked={slideForm.isActive}
+                  onChange={(e) => setSlideForm({ ...slideForm, isActive: e.target.checked })}
+                  className="rounded text-[#E8436E] focus:ring-[#E8436E] w-4 h-4 cursor-pointer"
+                />
+                <label htmlFor="slideActiveCheck" className="font-bold text-stone-800 cursor-pointer">
+                  Activate this slide immediately in hero carousel
+                </label>
+              </div>
+
+              {/* Form Buttons */}
+              <div className="pt-3 flex gap-3 border-t border-stone-100">
+                <button
+                  type="submit"
+                  className="flex-1 py-2.5 bg-[#E8436E] hover:bg-[#d4335c] text-white font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+                >
+                  {editingSlide ? 'Update Slide' : 'Add to Hero Slider'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAddingSlide(false);
+                    setEditingSlide(null);
+                  }}
+                  className="py-2.5 px-4 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-xl transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>

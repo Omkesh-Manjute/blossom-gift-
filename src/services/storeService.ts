@@ -1,4 +1,4 @@
-import { Product, Order, OrderStatus, StoreSettings, CartItem, Customer, Category, Coupon, Review } from '../types';
+import { Product, Order, OrderStatus, StoreSettings, CartItem, Customer, Category, Coupon, Review, HeroSlide } from '../types';
 
 const STORAGE_KEYS = {
   PRODUCTS: 'blossom_gift_products_v10',
@@ -7,7 +7,40 @@ const STORAGE_KEYS = {
   CUSTOMERS: 'blossom_gift_customers_v10',
   COUPONS: 'blossom_gift_coupons_v10',
   REVIEWS: 'blossom_gift_reviews_v10',
+  HERO_SLIDES: 'blossom_gift_hero_slides_v1',
 };
+
+export const INITIAL_HERO_SLIDES: HeroSlide[] = [
+  {
+    id: 'slide-1',
+    type: 'image',
+    mediaUrl: '/hero_banner_clean.png',
+    mobileMediaUrl: '/hero_banner_mobile.png',
+    title: 'Personalized Gifts',
+    subtitle: 'for Your Loved Ones',
+    kicker: '✨ MAKE EVERY MOMENT SPECIAL ✨',
+    description: 'Explore unique and customized gifts, greeting cards, toys and more - for every occasion.',
+    ctaText: 'Shop Now',
+    ctaLink: '#catalog-section',
+    badge: 'Flagship Design',
+    isActive: true,
+    order: 1,
+  },
+  {
+    id: 'slide-2',
+    type: 'video',
+    mediaUrl: '/videos/blossom_hero_promo.mp4',
+    title: 'Handcrafted Magic in Gondia',
+    subtitle: 'Special 10s Gift Unboxing',
+    kicker: '🎥 10-SECOND CINEMATIC PREVIEW',
+    description: 'Custom photo mugs, glowing wooden LED frames, and luxury hampers packed with love in Gondia.',
+    ctaText: 'Shop Gifts Now',
+    ctaLink: '#catalog-section',
+    badge: '10s Video',
+    isActive: true,
+    order: 2,
+  },
+];
 
 export const INITIAL_SETTINGS: StoreSettings = {
   businessName: 'BLOSSOM GIFT',
@@ -880,6 +913,7 @@ class StoreService {
   private customers: Customer[] = [];
   private coupons: Coupon[] = [];
   private reviews: Review[] = [];
+  private heroSlides: HeroSlide[] = [];
 
   constructor() {
     this.init();
@@ -904,6 +938,9 @@ class StoreService {
 
       const r = localStorage.getItem(STORAGE_KEYS.REVIEWS);
       this.reviews = r ? JSON.parse(r) : INITIAL_REVIEWS;
+
+      const hs = localStorage.getItem(STORAGE_KEYS.HERO_SLIDES);
+      this.heroSlides = hs ? JSON.parse(hs) : INITIAL_HERO_SLIDES;
     } catch {
       this.products = INITIAL_PRODUCTS;
       this.orders = INITIAL_ORDERS;
@@ -911,6 +948,7 @@ class StoreService {
       this.customers = INITIAL_CUSTOMERS;
       this.coupons = INITIAL_COUPONS;
       this.reviews = INITIAL_REVIEWS;
+      this.heroSlides = INITIAL_HERO_SLIDES;
     }
   }
 
@@ -922,6 +960,7 @@ class StoreService {
       localStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(this.customers));
       localStorage.setItem(STORAGE_KEYS.COUPONS, JSON.stringify(this.coupons));
       localStorage.setItem(STORAGE_KEYS.REVIEWS, JSON.stringify(this.reviews));
+      localStorage.setItem(STORAGE_KEYS.HERO_SLIDES, JSON.stringify(this.heroSlides));
       window.dispatchEvent(new Event('store_data_updated'));
     } catch (e) {
       console.error('Failed to persist store data', e);
@@ -1096,6 +1135,39 @@ class StoreService {
     this.persist();
   }
 
+  // HERO SLIDES (IMAGE & VIDEO)
+  getHeroSlides(): HeroSlide[] {
+    return this.heroSlides && this.heroSlides.length > 0 ? this.heroSlides : INITIAL_HERO_SLIDES;
+  }
+
+  saveHeroSlides(slides: HeroSlide[]) {
+    this.heroSlides = slides;
+    this.persist();
+  }
+
+  addHeroSlide(slide: Omit<HeroSlide, 'id'>): HeroSlide {
+    const newSlide: HeroSlide = {
+      ...slide,
+      id: `slide-${Date.now()}`,
+    };
+    this.heroSlides.push(newSlide);
+    this.persist();
+    return newSlide;
+  }
+
+  updateHeroSlide(id: string, updates: Partial<HeroSlide>) {
+    const idx = this.heroSlides.findIndex((s) => s.id === id);
+    if (idx >= 0) {
+      this.heroSlides[idx] = { ...this.heroSlides[idx], ...updates };
+      this.persist();
+    }
+  }
+
+  deleteHeroSlide(id: string) {
+    this.heroSlides = this.heroSlides.filter((s) => s.id !== id);
+    this.persist();
+  }
+
   resetToDefault() {
     this.products = INITIAL_PRODUCTS;
     this.orders = INITIAL_ORDERS;
@@ -1103,6 +1175,7 @@ class StoreService {
     this.customers = INITIAL_CUSTOMERS;
     this.coupons = INITIAL_COUPONS;
     this.reviews = INITIAL_REVIEWS;
+    this.heroSlides = INITIAL_HERO_SLIDES;
     this.persist();
   }
 }

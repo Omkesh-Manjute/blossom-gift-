@@ -171,3 +171,20 @@ export interface StoreSettings {
   freeDeliveryThreshold: number;
   codEnabled: boolean;
 }
+
+export interface HeroSlide {
+  id: string;
+  type: 'image' | 'video';
+  mediaUrl: string;
+  mobileMediaUrl?: string;
+  title: string;
+  subtitle: string;
+  kicker?: string;
+  description?: string;
+  ctaText: string;
+  ctaLink: string;
+  badge?: string;
+  isActive: boolean;
+  order: number;
+}
+
