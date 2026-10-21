@@ -9,6 +9,7 @@ import { WishlistModal } from './components/WishlistModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
+import { ProductCatalogueModal } from './components/ProductCatalogueModal';
 import { OrderTrackingView } from './components/OrderTrackingView';
 import { AdminPortal } from './components/AdminPortal';
 import { AboutModal } from './components/AboutModal';
@@ -54,6 +55,7 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [confirmedOrder, setConfirmedOrder] = useState<Order | null>(null);
+  const [isCatalogueOpen, setIsCatalogueOpen] = useState(false);
 
   // Tracking query state
   const [trackingNumber, setTrackingNumber] = useState('');
@@ -186,6 +188,7 @@ export default function App() {
           onSelectProduct={(p) => setSelectedProduct(p)}
           onSelectCategory={(cat) => setSelectedCategory(cat)}
           onSelectOccasion={(occ) => setSelectedOccasion(occ)}
+          onOpenCatalogue={() => setIsCatalogueOpen(true)}
         />
 
         {/* Content depending on Active Tab */}
@@ -383,6 +386,7 @@ export default function App() {
             const el = document.getElementById('catalog-section');
             el?.scrollIntoView({ behavior: 'smooth' });
           }}
+          onOpenCatalogue={() => setIsCatalogueOpen(true)}
         />
 
         {/* Modals & Drawers */}
@@ -414,6 +418,12 @@ export default function App() {
           order={confirmedOrder}
           onClose={() => setConfirmedOrder(null)}
           onGoToTracking={handleGoToTracking}
+        />
+
+        <ProductCatalogueModal
+          isOpen={isCatalogueOpen}
+          onClose={() => setIsCatalogueOpen(false)}
+          products={products}
         />
       </div>
     </CartProvider>

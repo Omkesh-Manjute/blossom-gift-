@@ -20,6 +20,8 @@ import {
   ExternalLink,
   MessageCircle,
   LayoutDashboard,
+  FileText,
+  Download,
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Product } from '../types';
@@ -35,6 +37,7 @@ interface NavbarProps {
   onSelectProduct?: (product: Product) => void;
   onSelectCategory?: (category: string) => void;
   onSelectOccasion?: (occasion: string) => void;
+  onOpenCatalogue?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -48,6 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectProduct,
   onSelectCategory,
   onSelectOccasion,
+  onOpenCatalogue,
 }) => {
   const { itemCount, openCart } = useCart();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -107,34 +111,32 @@ export const Navbar: React.FC<NavbarProps> = ({
     <>
       <header className="sticky top-0 z-40 bg-white shadow-xs">
         {/* 1. TOP ANNOUNCEMENT BAR (Matching Crimson #C2185B) */}
-        <div className="bg-[#C2185B] text-white py-2 px-4 text-xs font-medium">
-          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+        <div className="bg-[#C2185B] text-white py-1.5 px-3 sm:px-4 text-[11px] sm:text-xs font-medium overflow-hidden">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
             {/* Location on left */}
-            <div className="flex items-center gap-1.5 text-xs text-white/95">
+            <div className="flex items-center gap-1.5 text-white/95 min-w-0">
               <MapPin className="w-3.5 h-3.5 text-white/80 shrink-0" />
-              <span className="truncate">Gupta Complex, Near N.M.D. College, Gondia (M.S.)</span>
+              <span className="truncate">Gondia · Gupta Complex, Near N.M.D. College</span>
             </div>
 
             {/* Announcement & Phones on right */}
-            <div className="flex items-center gap-2 sm:gap-3 text-xs text-white/95 ml-auto sm:ml-0 font-medium">
-              <span className="hidden md:flex items-center gap-1">
+            <div className="flex items-center gap-2 sm:gap-3 text-white/95 shrink-0 font-medium">
+              <span className="hidden lg:flex items-center gap-1">
                 <Gift className="w-3.5 h-3.5 text-yellow-300" />
                 <span>Customized Gifts for Every Occasion</span>
               </span>
-              <span className="hidden md:inline text-white/40">|</span>
-              <span className="flex items-center gap-1.5 font-mono">
-                <Phone className="w-3.5 h-3.5 text-white/80" />
+              <span className="hidden lg:inline text-white/40">|</span>
+              <span className="flex items-center gap-1 font-mono">
+                <Phone className="w-3 h-3 text-white/80" />
                 <a href="tel:8208589775" className="hover:underline">8208589775</a>
-                <span className="text-white/60">|</span>
-                <a href="tel:9673155741" className="hover:underline">9673155741</a>
               </span>
-              <span className="hidden sm:inline text-white/40">|</span>
+              <span className="text-white/40">|</span>
               <button
                 onClick={() => setActiveTab('admin')}
-                className="inline-flex items-center gap-1 bg-white/20 hover:bg-white text-white hover:text-[#C2185B] px-2.5 py-0.5 rounded-full font-bold transition-all cursor-pointer text-[10px]"
+                className="inline-flex items-center gap-1 bg-white/20 hover:bg-white text-white hover:text-[#C2185B] px-2 py-0.5 rounded-full font-bold transition-all cursor-pointer text-[10px]"
                 title="Go to Admin Dashboard"
               >
-                <span>Admin Portal</span>
+                <span>Admin</span>
                 <ExternalLink className="w-2.5 h-2.5" />
               </button>
             </div>
@@ -158,22 +160,22 @@ export const Navbar: React.FC<NavbarProps> = ({
               setActiveTab('shop');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex items-center gap-2.5 sm:gap-3 text-left cursor-pointer group whitespace-nowrap shrink-0"
+            className="flex items-center gap-2 sm:gap-3 text-left cursor-pointer group whitespace-nowrap shrink-0"
           >
             {/* Pink Gift Box Logo Icon with Ribbon */}
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#E8436E] to-[#FA709A] text-white flex items-center justify-center shadow-md shadow-pink-200 transition-transform group-hover:scale-105">
-              <Gift className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#E8436E] to-[#FA709A] text-white flex items-center justify-center shadow-md shadow-pink-200 transition-transform group-hover:scale-105 shrink-0">
+              <Gift className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
             </div>
             <div>
               <div className="flex items-baseline">
-                <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#1E293B] leading-none">
+                <span className="font-extrabold text-base sm:text-2xl tracking-tight text-[#1E293B] leading-none">
                   BLOSSOM
                 </span>
-                <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#E8436E] ml-1.5 leading-none">
+                <span className="font-extrabold text-base sm:text-2xl tracking-tight text-[#E8436E] ml-1 sm:ml-1.5 leading-none">
                   GIFT
                 </span>
               </div>
-              <span className="text-[9px] sm:text-[10px] font-medium text-stone-500 tracking-tight block mt-0.5">
+              <span className="hidden sm:block text-[9px] sm:text-[10px] font-medium text-stone-500 tracking-tight mt-0.5">
                 Gift, Greet & Toys Whole Sale & Retail
               </span>
             </div>
@@ -258,12 +260,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-          {/* Right Action Icons: Wishlist, My Account, Cart */}
-          <div className="flex items-center gap-3 sm:gap-6 shrink-0 text-xs font-medium text-stone-700">
+          {/* Right Action Icons: Wishlist, Admin (Desktop), My Account (Desktop), Cart */}
+          <div className="flex items-center gap-2 sm:gap-5 shrink-0 text-xs font-medium text-stone-700">
             {/* Wishlist */}
             <button
               onClick={onOpenWishlist}
-              className="flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer group"
+              className="flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer group p-1"
             >
               <div className="relative">
                 <Heart className="w-5 h-5 text-stone-700 group-hover:text-[#E8436E] transition-colors" />
@@ -276,10 +278,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="hidden sm:inline font-semibold">Wishlist</span>
             </button>
 
-            {/* Direct Admin Panel Button */}
+            {/* Direct Admin Panel Button (Desktop Only) */}
             <button
               onClick={() => setActiveTab('admin')}
-              className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full font-bold text-xs transition-all shadow-xs hover:shadow-md cursor-pointer ${
+              className={`hidden md:flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full font-bold text-xs transition-all shadow-xs hover:shadow-md cursor-pointer ${
                 activeTab === 'admin'
                   ? 'bg-[#E8436E] text-white ring-2 ring-pink-300'
                   : 'bg-stone-900 hover:bg-[#E8436E] text-white'
@@ -290,8 +292,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Admin Panel</span>
             </button>
 
-            {/* My Account */}
-            <div className="relative">
+            {/* My Account (Desktop / Tablet Only) */}
+            <div className="relative hidden sm:block">
               <button
                 onClick={() => setAccountModalOpen(!accountModalOpen)}
                 className="flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer group"
@@ -537,6 +539,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Phone className="w-4 h-4 text-stone-500" />
               <span>Contact Us</span>
             </button>
+
+            {/* Download Catalogue (PDF) */}
+            <button
+              onClick={onOpenCatalogue}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-50 hover:bg-[#E8436E] text-[#E8436E] hover:text-white font-bold transition-all cursor-pointer whitespace-nowrap border border-pink-200 shadow-2xs text-xs"
+              title="Download or Print Blossom Gift Product Catalogue PDF"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>Catalogue (PDF)</span>
+            </button>
           </div>
         </div>
       </header>
@@ -677,6 +689,23 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <Phone className="w-4 h-4 text-stone-500" />
                 <span>Contact Us</span>
+              </button>
+
+              {/* Mobile Catalogue PDF Button */}
+              <button
+                onClick={() => {
+                  if (onOpenCatalogue) onOpenCatalogue();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-pink-50 text-[#E8436E] font-bold border border-pink-200 mt-2 transition-colors cursor-pointer"
+              >
+                <span className="flex items-center gap-2.5">
+                  <FileText className="w-4 h-4 text-[#E8436E]" />
+                  <span>Download Catalogue (PDF)</span>
+                </span>
+                <span className="text-[10px] bg-[#E8436E] text-white px-2 py-0.5 rounded-full font-mono font-bold">
+                  PDF
+                </span>
               </button>
             </div>
 

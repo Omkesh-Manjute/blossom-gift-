@@ -186,5 +186,6 @@ export interface HeroSlide {
   badge?: string;
   isActive: boolean;
   order: number;
+  showOverlay?: boolean; // When false, renders video clean without dark gradient & text overlays
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, Copy, Check, MessageSquare, Truck, ArrowRight, X } from 'lucide-react';
+import { CheckCircle2, Copy, Check, MessageSquare, Truck, ArrowRight, X, Printer, Download } from 'lucide-react';
 import { Order } from '../types';
 
 interface OrderConfirmationModalProps {
@@ -115,6 +115,14 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
 
         {/* Actions */}
         <div className="mt-6 space-y-2.5">
+          <button
+            onClick={() => window.print()}
+            className="w-full bg-stone-100 hover:bg-stone-200 text-stone-800 py-2.5 px-4 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
+          >
+            <Printer className="w-4 h-4 text-stone-600" />
+            <span>Download Invoice / Print Receipt (PDF)</span>
+          </button>
+
           <button
             onClick={() => onGoToTracking(order.orderNumber, order.customerPhone)}
             className="w-full bg-[#292525] hover:bg-[#1C1917] text-white py-3 px-4 rounded-xl text-xs font-semibold shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"

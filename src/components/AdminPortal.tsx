@@ -111,14 +111,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
     mediaUrl: '/videos/video_1.mp4',
     mobileMediaUrl: '',
     title: 'Handcrafted Magic in Gondia',
-    subtitle: 'Special 10s Gift Unboxing',
-    kicker: '🎥 10-SECOND CINEMATIC PREVIEW',
-    description: 'Custom photo mugs, glowing wooden LED frames, and luxury hampers packed with love in Gondia.',
-    ctaText: 'Shop Gifts Now',
+    subtitle: '',
+    kicker: '',
+    description: '',
+    ctaText: 'Shop Now',
     ctaLink: '#catalog-section',
     badge: '10s Video',
     isActive: true,
-    order: 2,
+    order: 1,
+    showOverlay: false,
   });
 
   const refreshData = () => {
@@ -159,11 +160,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
   const handleSaveSlide = (e: React.FormEvent) => {
     e.preventDefault();
+    const finalForm = {
+      ...slideForm,
+      title: slideForm.title.trim() || (slideForm.type === 'video' ? 'Blossom Gift Promo' : 'Featured Gifts'),
+    };
     if (editingSlide) {
-      storeService.updateHeroSlide(editingSlide.id, slideForm);
+      storeService.updateHeroSlide(editingSlide.id, finalForm);
       showToast('Slide updated successfully!');
     } else {
-      storeService.addHeroSlide(slideForm);
+      storeService.addHeroSlide(finalForm);
       showToast('New hero slide added!');
     }
     setHeroSlides(storeService.getHeroSlides());
@@ -1396,17 +1401,18 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                       setEditingSlide(null);
                       setSlideForm({
                         type: 'video',
-                        mediaUrl: '/videos/blossom_hero_promo.mp4',
+                        mediaUrl: '/videos/video_1.mp4',
                         mobileMediaUrl: '',
-                        title: 'Handcrafted Magic in Gondia',
-                        subtitle: 'Special 10s Gift Unboxing',
-                        kicker: '🎥 10-SECOND CINEMATIC PREVIEW',
-                        description: 'Custom photo mugs, glowing wooden LED frames, and luxury hampers packed with love.',
-                        ctaText: 'Shop Gifts Now',
+                        title: '',
+                        subtitle: '',
+                        kicker: '',
+                        description: '',
+                        ctaText: 'Shop Now',
                         ctaLink: '#catalog-section',
                         badge: '10s Video',
                         isActive: true,
                         order: heroSlides.length + 1,
+                        showOverlay: false,
                       });
                       setIsAddingSlide(true);
                     }}
@@ -1580,6 +1586,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                                 badge: slide.badge || '',
                                 isActive: slide.isActive,
                                 order: slide.order || idx + 1,
+                                showOverlay: slide.showOverlay !== undefined ? slide.showOverlay : slide.type !== 'video',
                               });
                               setIsAddingSlide(true);
                             }}
@@ -2012,15 +2019,23 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                   <span className="text-[11px] font-bold text-stone-500">Quick Presets:</span>
                   <button
                     type="button"
-                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/videos/video_1.mp4', type: 'video' })}
+                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/videos/video_1.mp4', type: 'video', showOverlay: false })}
                     className="text-[11px] bg-red-100 hover:bg-red-200 text-red-700 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <Video className="w-3.5 h-3.5" />
-                    <span>asstes/video 1.mp4 (My Uploaded Video)</span>
+                    <span>video 1.mp4</span>
                   </button>
                   <button
                     type="button"
-                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/hero_banner_clean.png', mobileMediaUrl: '/hero_banner_mobile.png', type: 'image' })}
+                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/videos/video_2.mp4', type: 'video', showOverlay: false })}
+                    className="text-[11px] bg-amber-100 hover:bg-amber-200 text-amber-800 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
+                  >
+                    <Video className="w-3.5 h-3.5" />
+                    <span>video 2.mp4</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/hero_banner_clean.png', mobileMediaUrl: '/hero_banner_mobile.png', type: 'image', showOverlay: true })}
                     className="text-[11px] bg-pink-100 hover:bg-pink-200 text-[#E8436E] px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <ImageIcon className="w-3.5 h-3.5" />
@@ -2107,21 +2122,51 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 )}
               </div>
 
+              {/* Clean Video Mode Toggle (Only for Video Slides) */}
+              {slideForm.type === 'video' && (
+                <div className="p-3.5 bg-pink-50/70 border border-pink-200 rounded-2xl flex items-center justify-between gap-3">
+                  <div>
+                    <span className="font-bold text-stone-900 block text-xs flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-[#E8436E]" />
+                      <span>Clean Video Mode (No Clutter on Video)</span>
+                    </span>
+                    <span className="text-[11px] text-stone-500 block mt-0.5">
+                      {!slideForm.showOverlay
+                        ? '✅ Clean Mode Active: Video plays pure without dark gradient or text boxes covering products.'
+                        : '⚠️ Custom text titles and dark gradient overlays are currently active.'}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSlideForm({ ...slideForm, showOverlay: !slideForm.showOverlay })}
+                    className={`px-3 py-1.5 rounded-xl font-bold text-xs transition-all cursor-pointer shrink-0 ${
+                      !slideForm.showOverlay
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : 'bg-stone-200 text-stone-700 hover:bg-stone-300'
+                    }`}
+                  >
+                    {!slideForm.showOverlay ? '✓ Clean Mode ON' : 'Turn Clean Mode ON'}
+                  </button>
+                </div>
+              )}
+
               {/* Title & Subtitle */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="font-bold text-stone-700 block mb-1">Slide Title</label>
+                  <label className="font-bold text-stone-700 block mb-1">
+                    Slide Title {slideForm.type === 'video' ? '(Optional in Clean Mode)' : ''}
+                  </label>
                   <input
                     type="text"
                     value={slideForm.title}
                     onChange={(e) => setSlideForm({ ...slideForm, title: e.target.value })}
-                    placeholder="e.g. Handcrafted Magic"
+                    placeholder={slideForm.type === 'video' ? 'Optional (e.g. Handcrafted Magic)' : 'e.g. Personalized Gifts'}
                     className="w-full border border-stone-200 rounded-xl p-2.5"
-                    required
+                    required={slideForm.type !== 'video'}
                   />
                 </div>
                 <div>
-                  <label className="font-bold text-stone-700 block mb-1">Subtitle</label>
+                  <label className="font-bold text-stone-700 block mb-1">Subtitle (Optional)</label>
                   <input
                     type="text"
                     value={slideForm.subtitle}
@@ -2135,7 +2180,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
               {/* Kicker Pill & Badge */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="font-bold text-stone-700 block mb-1">Kicker Label (Top Pill)</label>
+                  <label className="font-bold text-stone-700 block mb-1">Kicker Label (Optional Pill)</label>
                   <input
                     type="text"
                     value={slideForm.kicker || ''}
@@ -2145,7 +2190,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                   />
                 </div>
                 <div>
-                  <label className="font-bold text-stone-700 block mb-1">Badge Tag</label>
+                  <label className="font-bold text-stone-700 block mb-1">Badge Tag (Optional)</label>
                   <input
                     type="text"
                     value={slideForm.badge || ''}
@@ -2158,7 +2203,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
               {/* Description */}
               <div>
-                <label className="font-bold text-stone-700 block mb-1">Description</label>
+                <label className="font-bold text-stone-700 block mb-1">Description (Optional)</label>
                 <textarea
                   value={slideForm.description || ''}
                   onChange={(e) => setSlideForm({ ...slideForm, description: e.target.value })}

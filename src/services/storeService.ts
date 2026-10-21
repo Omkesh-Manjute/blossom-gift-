@@ -7,12 +7,42 @@ const STORAGE_KEYS = {
   CUSTOMERS: 'blossom_gift_customers_v10',
   COUPONS: 'blossom_gift_coupons_v10',
   REVIEWS: 'blossom_gift_reviews_v10',
-  HERO_SLIDES: 'blossom_gift_hero_slides_v2',
+  HERO_SLIDES: 'blossom_gift_hero_slides_v4',
 };
 
 export const INITIAL_HERO_SLIDES: HeroSlide[] = [
   {
-    id: 'slide-1',
+    id: 'slide-video-1',
+    type: 'video',
+    mediaUrl: '/videos/video_1.mp4',
+    title: 'Handcrafted Magic in Gondia',
+    subtitle: '',
+    kicker: '',
+    description: '',
+    ctaText: 'Shop Now',
+    ctaLink: '#catalog-section',
+    badge: 'Video 1',
+    isActive: true,
+    order: 1,
+    showOverlay: false, // Default to Clean Video Mode (no text/gradient obstruction)
+  },
+  {
+    id: 'slide-video-2',
+    type: 'video',
+    mediaUrl: '/videos/video_2.mp4',
+    title: 'Luxury Gift Hamper Unboxing',
+    subtitle: '',
+    kicker: '',
+    description: '',
+    ctaText: 'Shop Now',
+    ctaLink: '#catalog-section',
+    badge: 'Video 2',
+    isActive: true,
+    order: 2,
+    showOverlay: false, // Default to Clean Video Mode (no text/gradient obstruction)
+  },
+  {
+    id: 'slide-image-1',
     type: 'image',
     mediaUrl: '/hero_banner_clean.png',
     mobileMediaUrl: '/hero_banner_mobile.png',
@@ -24,21 +54,8 @@ export const INITIAL_HERO_SLIDES: HeroSlide[] = [
     ctaLink: '#catalog-section',
     badge: 'Flagship Design',
     isActive: true,
-    order: 1,
-  },
-  {
-    id: 'slide-2',
-    type: 'video',
-    mediaUrl: '/videos/video_1.mp4',
-    title: 'Handcrafted Magic in Gondia',
-    subtitle: 'Special 10s Gift Unboxing',
-    kicker: '🎥 10-SECOND CINEMATIC PREVIEW',
-    description: 'Custom photo mugs, glowing wooden LED frames, and luxury hampers packed with love in Gondia.',
-    ctaText: 'Shop Gifts Now',
-    ctaLink: '#catalog-section',
-    badge: '10s Video',
-    isActive: true,
-    order: 2,
+    order: 3,
+    showOverlay: true,
   },
 ];
 

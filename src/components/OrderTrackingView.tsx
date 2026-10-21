@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Package, CheckCircle2, Clock, Truck, Home, AlertCircle, MessageSquare } from 'lucide-react';
+import { Search, Package, CheckCircle2, Clock, Truck, Home, AlertCircle, MessageSquare, Printer } from 'lucide-react';
 import { storeService } from '../services/storeService';
 import { Order, OrderStatus } from '../types';
 import { ProductVisual } from './ProductVisual';
@@ -327,8 +327,16 @@ export const OrderTrackingView: React.FC<OrderTrackingViewProps> = ({
             </div>
           </div>
 
-          {/* WhatsApp Direct Help */}
-          <div className="text-center">
+          {/* Action Buttons: WhatsApp & Print Invoice (PDF) */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => window.print()}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold rounded-xl shadow-xs transition-all cursor-pointer"
+            >
+              <Printer className="w-4 h-4 text-stone-600" />
+              <span>Download Invoice / Print (PDF)</span>
+            </button>
+
             <a
               href={`https://wa.me/918208589775?text=${encodeURIComponent(
                 `Hello Blossom Gift! I am inquiring about Order #${searchedOrder.orderNumber}.`

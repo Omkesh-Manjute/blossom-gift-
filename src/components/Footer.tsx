@@ -8,14 +8,16 @@ import {
   Send,
   MessageCircle,
   CheckCircle,
+  FileText,
 } from 'lucide-react';
 
 interface FooterProps {
   onNavClick: (tab: 'shop' | 'customized' | 'track' | 'admin' | 'about') => void;
   onSelectCategory?: (category: string) => void;
+  onOpenCatalogue?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, onOpenCatalogue }) => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -176,6 +178,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory }) 
                   className="text-stone-600 hover:text-[#E8436E] transition-colors cursor-pointer"
                 >
                   Track Order
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenCatalogue}
+                  className="text-[#E8436E] font-bold hover:underline flex items-center gap-1.5 cursor-pointer"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Download Catalogue (PDF)</span>
                 </button>
               </li>
             </ul>

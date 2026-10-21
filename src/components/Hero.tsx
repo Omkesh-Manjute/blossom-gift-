@@ -28,7 +28,8 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  // Map to hold video element refs by slide ID
+  const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
@@ -44,6 +45,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
   const activeSlides = [...slides]
     .filter((s) => s.isActive)
     .sort((a, b) => (a.order || 0) - (b.order || 0));
+
   const currentSlide = activeSlides[currentIndex] || activeSlides[0] || slides[0];
 
   // Auto-slide timer: slides every 7s for images, 10s for videos (unless hovered)
@@ -58,16 +60,24 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
     return () => clearTimeout(timer);
   }, [currentIndex, isHovered, activeSlides.length, currentSlide?.type]);
 
-  // Video play/pause sync when slide changes
+  // Handle video play / pause when active slide changes
   useEffect(() => {
-    if (currentSlide?.type === 'video' && videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => setIsPlaying(false));
-    }
-  }, [currentIndex, currentSlide?.type]);
+    activeSlides.forEach((slide, idx) => {
+      const vid = videoRefs.current[slide.id];
+      if (!vid) return;
+
+      if (idx === currentIndex) {
+        vid.currentTime = 0;
+        vid.muted = isMuted;
+        vid
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => setIsPlaying(false));
+      } else {
+        vid.pause();
+      }
+    });
+  }, [currentIndex, isMuted, activeSlides]);
 
   const handleNext = () => {
     if (activeSlides.length <= 1) return;
@@ -79,7 +89,8 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
     setCurrentIndex((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
   };
 
-  const handleWhatsAppClick = () => {
+  const handleWhatsAppClick = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     window.open(
       'https://wa.me/918208589775?text=Hello%20Blossom%20Gift%20Gondia%2C%20I%20would%20like%20to%20order%20gifts%20from%20the%20website!',
       '_blank'
@@ -98,9 +109,9 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
   const handleTouchEnd = () => {
     if (!touchStartX.current || !touchEndX.current) return;
     const distance = touchStartX.current - touchEndX.current;
-    if (distance > 50) {
+    if (distance > 45) {
       handleNext();
-    } else if (distance < -50) {
+    } else if (distance < -45) {
       handlePrev();
     }
     touchStartX.current = null;
@@ -109,26 +120,30 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
 
   const toggleVideoPlayback = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play();
+    const vid = videoRefs.current[currentSlide?.id];
+    if (!vid) return;
+
+    if (vid.paused) {
+      vid.play();
       setIsPlaying(true);
     } else {
-      videoRef.current.pause();
+      vid.pause();
       setIsPlaying(false);
     }
   };
 
   const toggleVideoMute = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!videoRef.current) return;
-    videoRef.current.muted = !videoRef.current.muted;
-    setIsMuted(videoRef.current.muted);
+    const vid = videoRefs.current[currentSlide?.id];
+    if (!vid) return;
+
+    vid.muted = !vid.muted;
+    setIsMuted(vid.muted);
   };
 
   return (
     <section
-      className="relative overflow-hidden bg-gradient-to-r from-[#fc9db4] via-[#fdb7c8] to-[#f48da1] border-b border-pink-200"
+      className="relative w-full max-w-full overflow-hidden bg-gradient-to-r from-[#fc9db4] via-[#fdb7c8] to-[#f48da1] border-b border-pink-200"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={handleTouchStart}
@@ -158,199 +173,242 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
         ♥
       </div>
 
-      {/* Main Full-Width Panoramic Banner / Video Slider Canvas */}
-      <div className="w-full max-w-[1536px] mx-auto relative select-none">
-        {/* SLIDE CONTENT */}
-        {currentSlide?.type === 'video' ? (
-          /* ======================================================== */
-          /* VIDEO SLIDE (Supports MP4 / WebM / Local / Remote Video) */
-          /* ======================================================== */
-          <div className="relative w-full aspect-[16/9] sm:aspect-[1536/413] bg-stone-950 overflow-hidden flex items-center justify-center">
-            <video
-              ref={videoRef}
-              src={currentSlide.mediaUrl}
-              autoPlay
-              loop
-              muted={isMuted}
-              playsInline
-              className="w-full h-full object-cover"
-            />
+      {/* Main Panoramic Slider Track with Unified Consistent Aspect Ratio */}
+      <div className="w-full max-w-[1536px] mx-auto relative select-none overflow-hidden">
+        {/* SLIDING FLEX TRACK */}
+        <div
+          className="flex transition-transform duration-500 ease-out w-full"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {activeSlides.map((slide, idx) => (
+            <div
+              key={slide.id || idx}
+              className="w-full shrink-0 relative aspect-[16/9] sm:aspect-[1536/480] md:aspect-[1536/413] overflow-hidden bg-stone-900"
+            >
+              {slide.type === 'video' ? (
+                /* ======================================================== */
+                /* VIDEO SLIDE: Clean, Unobstructed 10s Cinematic Ad       */
+                /* ======================================================== */
+                <div
+                  onClick={onShopClick}
+                  className="w-full h-full relative cursor-pointer group"
+                >
+                  <video
+                    ref={(el) => {
+                      videoRefs.current[slide.id] = el;
+                    }}
+                    src={slide.mediaUrl}
+                    autoPlay
+                    loop
+                    muted={isMuted}
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
 
-            {/* Subtle Gradient Overlays for readable text and brand elegance */}
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-900/30 to-stone-900/20" />
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-950/70 via-transparent to-pink-950/40" />
+                  {/* Clean Mode vs Custom Overlay */}
+                  {slide.showOverlay ? (
+                    <>
+                      {/* Gradient Backdrop */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-900/30 to-stone-900/20 pointer-events-none" />
 
-            {/* Video Slide Content Overlay */}
-            <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-8 md:p-12 z-10 text-left">
-              {/* Top Kicker and Badge */}
-              <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold border border-white/30 shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                  <span>{currentSlide.kicker || '✨ 10S CINEMATIC UNBOXING ✨'}</span>
+                      {/* Overlaid Title & Buttons (Only if showOverlay === true) */}
+                      <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-8 md:p-12 z-10 text-left pointer-events-none">
+                        {slide.kicker && (
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold border border-white/30 shadow-xs self-start">
+                            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                            <span>{slide.kicker}</span>
+                          </div>
+                        )}
+
+                        <div className="max-w-xl pointer-events-auto">
+                          {slide.title && (
+                            <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
+                              {slide.title}
+                            </h2>
+                          )}
+                          {(slide.description || slide.subtitle) && (
+                            <p className="text-xs sm:text-sm md:text-base text-pink-100/90 font-medium mt-1 mb-3 line-clamp-2 drop-shadow-xs">
+                              {slide.description || slide.subtitle}
+                            </p>
+                          )}
+
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onShopClick();
+                              }}
+                              className="inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white font-bold text-xs sm:text-sm shadow-xl shadow-pink-900/40 transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
+                            >
+                              <span>{slide.ctaText || 'Shop Now'}</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </button>
+
+                            <button
+                              onClick={handleWhatsAppClick}
+                              className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-xl transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
+                            >
+                              <MessageCircle className="w-4 h-4 fill-white" />
+                              <span className="hidden sm:inline">Order on WhatsApp</span>
+                              <span className="sm:hidden">WhatsApp</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    /* Clean Mode: Minimal subtle bottom prompt */
+                    <div className="absolute bottom-3 left-4 z-10 pointer-events-none opacity-90 transition-opacity group-hover:opacity-100">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/45 backdrop-blur-md text-white text-[11px] font-semibold border border-white/20 shadow-xs">
+                        <Gift className="w-3.5 h-3.5 text-pink-300" />
+                        <span>Tap to explore gifts in Gondia</span>
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Sleek Floating Sound & Play Controls (Top Right) */}
+                  <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex items-center gap-2 z-30">
+                    <button
+                      onClick={toggleVideoMute}
+                      aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                      className="px-2.5 sm:px-3 py-1.5 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center gap-1.5 backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-md text-[11px] font-medium"
+                      title={isMuted ? 'Unmute' : 'Mute'}
+                    >
+                      {isMuted ? (
+                        <>
+                          <VolumeX className="w-3.5 h-3.5 text-rose-300" />
+                          <span className="hidden sm:inline">Unmute</span>
+                        </>
+                      ) : (
+                        <>
+                          <Volume2 className="w-3.5 h-3.5 text-emerald-300" />
+                          <span className="hidden sm:inline">Sound On</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={toggleVideoPlayback}
+                      aria-label={isPlaying ? 'Pause video' : 'Play video'}
+                      className="w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-md"
+                      title={isPlaying ? 'Pause' : 'Play'}
+                    >
+                      {isPlaying ? (
+                        <Pause className="w-3.5 h-3.5" />
+                      ) : (
+                        <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
+                      )}
+                    </button>
+                  </div>
                 </div>
+              ) : (
+                /* ======================================================== */
+                /* IMAGE BANNER SLIDE: Seamless Matching Aspect Artwork     */
+                /* ======================================================== */
+                <div
+                  onClick={onShopClick}
+                  className="w-full h-full relative cursor-pointer"
+                >
+                  <picture>
+                    <source
+                      media="(max-width: 640px)"
+                      srcSet={slide.mobileMediaUrl || '/hero_banner_mobile.png'}
+                    />
+                    <img
+                      src={slide.mediaUrl || '/hero_banner_clean.png'}
+                      alt={slide.title || 'Blossom Gift Banner'}
+                      className="w-full h-full object-cover block"
+                      draggable={false}
+                    />
+                  </picture>
 
-                {/* Sound & Play Controls */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={toggleVideoMute}
-                    aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 hover:bg-black/75 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-xs"
-                    title={isMuted ? 'Unmute' : 'Mute'}
+                  {/* Desktop 'Shop Now' Interactive Hotspot (Preserves Flagship Coordinates) */}
+                  <div
+                    className="absolute max-sm:hidden"
+                    style={{
+                      left: '5.6%',
+                      top: '68.5%',
+                      width: '12.3%',
+                      height: '11.9%',
+                    }}
                   >
-                    {isMuted ? <VolumeX className="w-4 h-4 text-rose-300" /> : <Volume2 className="w-4 h-4 text-emerald-300" />}
-                  </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onShopClick();
+                      }}
+                      aria-label="Shop Now for Personalized Gifts"
+                      className="w-full h-full rounded-full cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group relative flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/80"
+                    >
+                      <span className="absolute inset-0 bg-white/0 group-hover:bg-white/25 transition-all rounded-full pointer-events-none" />
+                      <span className="absolute -inset-1 rounded-full bg-pink-400/0 group-hover:bg-pink-400/30 blur-xs transition-all pointer-events-none" />
+                    </button>
+                  </div>
+
+                  {/* Desktop Trust Feature Hotspots */}
+                  <a
+                    href="#contact"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      left: '4.8%',
+                      top: '82.5%',
+                      width: '8.8%',
+                      height: '14.5%',
+                    }}
+                    className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
+                    title="Local Doorstep Delivery across Gondia (M.S.)"
+                  />
 
                   <button
-                    onClick={toggleVideoPlayback}
-                    aria-label={isPlaying ? 'Pause video' : 'Play video'}
-                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 hover:bg-black/75 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-xs"
-                    title={isPlaying ? 'Pause' : 'Play'}
-                  >
-                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white ml-0.5" />}
-                  </button>
-                </div>
-              </div>
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onCustomClick) onCustomClick();
+                      else onShopClick();
+                    }}
+                    style={{
+                      left: '14.2%',
+                      top: '82.5%',
+                      width: '8.5%',
+                      height: '14.5%',
+                    }}
+                    className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
+                    title="Customized Gifts personalized with love"
+                  />
 
-              {/* Bottom Headline, Description & Call To Action */}
-              <div className="max-w-xl">
-                <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
-                  {currentSlide.title}
-                </h2>
-                <p className="text-xs sm:text-sm md:text-base text-pink-100/90 font-medium mt-1 mb-3 line-clamp-2 drop-shadow-xs">
-                  {currentSlide.description || currentSlide.subtitle}
-                </p>
-
-                <div className="flex items-center gap-3">
                   <button
-                    onClick={onShopClick}
-                    className="inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white font-bold text-xs sm:text-sm shadow-xl shadow-pink-900/40 transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
-                  >
-                    <span>{currentSlide.ctaText || 'Shop Now'}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onShopClick();
+                    }}
+                    style={{
+                      left: '23.3%',
+                      top: '82.5%',
+                      width: '8.5%',
+                      height: '14.5%',
+                    }}
+                    className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
+                    title="100% Best Quality Products guaranteed"
+                  />
 
                   <button
                     onClick={handleWhatsAppClick}
-                    className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-xl transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
-                  >
-                    <MessageCircle className="w-4 h-4 fill-white" />
-                    <span className="hidden sm:inline">Order on WhatsApp</span>
-                    <span className="sm:hidden">WhatsApp</span>
-                  </button>
+                    style={{
+                      left: '32.4%',
+                      top: '82.5%',
+                      width: '8.8%',
+                      height: '14.5%',
+                    }}
+                    className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
+                    title="Chat & Order on WhatsApp (+91 8208589775)"
+                  />
                 </div>
-              </div>
+              )}
             </div>
-          </div>
-        ) : (
-          /* ======================================================== */
-          /* IMAGE BANNER SLIDE (Flagship Reference Panoramic Artwork) */
-          /* ======================================================== */
-          <div className="relative w-full">
-            <picture>
-              <source media="(max-width: 640px)" srcSet={currentSlide.mobileMediaUrl || '/hero_banner_mobile.png'} />
-              <img
-                src={currentSlide.mediaUrl || '/hero_banner_clean.png'}
-                alt={currentSlide.title || 'Blossom Gift Banner'}
-                className="w-full h-auto block object-cover"
-                draggable={false}
-              />
-            </picture>
-
-            {/* Desktop 'Shop Now' Interactive Hotspot */}
-            <div
-              className="absolute max-sm:hidden"
-              style={{
-                left: '5.6%',
-                top: '68.5%',
-                width: '12.3%',
-                height: '11.9%',
-              }}
-            >
-              <button
-                onClick={onShopClick}
-                aria-label="Shop Now for Personalized Gifts"
-                className="w-full h-full rounded-full cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group relative flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/80"
-              >
-                <span className="absolute inset-0 bg-white/0 group-hover:bg-white/25 transition-all rounded-full pointer-events-none" />
-                <span className="absolute -inset-1 rounded-full bg-pink-400/0 group-hover:bg-pink-400/30 blur-xs transition-all pointer-events-none" />
-              </button>
-            </div>
-
-            {/* Mobile 'Shop Now' Hotspot */}
-            <div
-              className="absolute sm:hidden"
-              style={{
-                left: '7.8%',
-                top: '68.5%',
-                width: '17.2%',
-                height: '11.9%',
-              }}
-            >
-              <button
-                onClick={onShopClick}
-                aria-label="Shop Now"
-                className="w-full h-full rounded-full cursor-pointer active:scale-95 transition-all group relative flex items-center justify-center overflow-hidden focus:outline-none"
-              >
-                <span className="absolute inset-0 bg-white/0 active:bg-white/30 rounded-full" />
-              </button>
-            </div>
-
-            {/* Desktop Trust Feature Hotspots */}
-            <a
-              href="#contact"
-              style={{
-                left: '4.8%',
-                top: '82.5%',
-                width: '8.8%',
-                height: '14.5%',
-              }}
-              className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
-              title="Local Doorstep Delivery across Gondia (M.S.)"
-            />
-
-            <button
-              onClick={() => {
-                if (onCustomClick) onCustomClick();
-                else onShopClick();
-              }}
-              style={{
-                left: '14.2%',
-                top: '82.5%',
-                width: '8.5%',
-                height: '14.5%',
-              }}
-              className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
-              title="Customized Gifts personalized with love"
-            />
-
-            <button
-              onClick={onShopClick}
-              style={{
-                left: '23.3%',
-                top: '82.5%',
-                width: '8.5%',
-                height: '14.5%',
-              }}
-              className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
-              title="100% Best Quality Products guaranteed"
-            />
-
-            <button
-              onClick={handleWhatsAppClick}
-              style={{
-                left: '32.4%',
-                top: '82.5%',
-                width: '8.8%',
-                height: '14.5%',
-              }}
-              className="absolute cursor-pointer rounded-lg hover:bg-white/15 transition-all max-sm:hidden"
-              title="Chat & Order on WhatsApp (+91 8208589775)"
-            />
-          </div>
-        )}
+          ))}
+        </div>
 
         {/* ======================================================== */}
-        {/* CAROUSEL NAVIGATION CONTROLS (Arrows & Indicator Dots)     */}
+        {/* CAROUSEL CONTROLS (Arrows & Indicator Dots)               */}
         {/* ======================================================== */}
         {activeSlides.length > 1 && (
           <>
@@ -358,7 +416,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
             <button
               onClick={handlePrev}
               aria-label="Previous slide"
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center backdrop-blur-xs transition-all transform hover:scale-110 cursor-pointer shadow-md z-20"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-xs transition-all transform hover:scale-110 active:scale-95 cursor-pointer shadow-md z-20"
             >
               <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -367,13 +425,13 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
             <button
               onClick={handleNext}
               aria-label="Next slide"
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center backdrop-blur-xs transition-all transform hover:scale-110 cursor-pointer shadow-md z-20"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-xs transition-all transform hover:scale-110 active:scale-95 cursor-pointer shadow-md z-20"
             >
               <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
             {/* Bottom Indicator Dots */}
-            <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20 bg-black/25 backdrop-blur-xs px-3 py-1 rounded-full">
+            <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20 bg-black/35 backdrop-blur-xs px-3 py-1 rounded-full">
               {activeSlides.map((slide, idx) => (
                 <button
                   key={slide.id || idx}
@@ -384,7 +442,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
                   <span
                     className={`transition-all duration-300 rounded-full block ${
                       currentIndex === idx
-                        ? 'w-6 h-2 bg-[#E8436E] ring-2 ring-white/50'
+                        ? 'w-6 h-2 bg-[#E8436E] ring-2 ring-white/60'
                         : 'w-2 h-2 bg-white/70 hover:bg-white'
                     }`}
                   />
@@ -395,18 +453,18 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
         )}
       </div>
 
-      {/* Mobile-Friendly Trust Badges Strip (visible on mobile screens for easy tapping) */}
-      <div className="sm:hidden bg-white/70 backdrop-blur-xs border-t border-pink-200/80 px-4 py-3 grid grid-cols-2 gap-2 text-left">
+      {/* Mobile-Friendly Trust Badges Strip (strictly confined within 100% width) */}
+      <div className="sm:hidden bg-white/80 backdrop-blur-xs border-t border-pink-200/80 px-3 py-2.5 grid grid-cols-2 gap-2 text-left w-full max-w-full">
         <a
           href="#contact"
-          className="flex items-center gap-2 p-2 rounded-xl bg-white/80 border border-pink-100 shadow-2xs"
+          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-pink-100 shadow-2xs min-w-0"
         >
           <div className="w-7 h-7 rounded-lg bg-pink-100 text-[#E8436E] flex items-center justify-center shrink-0">
             <Truck className="w-3.5 h-3.5" />
           </div>
-          <div>
-            <h4 className="text-[11px] font-bold text-stone-900 leading-tight">Local Delivery</h4>
-            <p className="text-[9px] text-stone-500">in Gondia</p>
+          <div className="min-w-0">
+            <h4 className="text-[11px] font-bold text-stone-900 leading-tight truncate">Local Delivery</h4>
+            <p className="text-[9px] text-stone-500 truncate">in Gondia</p>
           </div>
         </a>
 
@@ -415,40 +473,40 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
             if (onCustomClick) onCustomClick();
             else onShopClick();
           }}
-          className="flex items-center gap-2 p-2 rounded-xl bg-white/80 border border-pink-100 shadow-2xs text-left"
+          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-pink-100 shadow-2xs text-left min-w-0 cursor-pointer"
         >
           <div className="w-7 h-7 rounded-lg bg-pink-100 text-[#E8436E] flex items-center justify-center shrink-0">
             <Gift className="w-3.5 h-3.5" />
           </div>
-          <div>
-            <h4 className="text-[11px] font-bold text-stone-900 leading-tight">Customized Gifts</h4>
-            <p className="text-[9px] text-stone-500">With Love</p>
+          <div className="min-w-0">
+            <h4 className="text-[11px] font-bold text-stone-900 leading-tight truncate">Customized Gifts</h4>
+            <p className="text-[9px] text-stone-500 truncate">With Love</p>
           </div>
         </button>
 
         <button
           onClick={onShopClick}
-          className="flex items-center gap-2 p-2 rounded-xl bg-white/80 border border-pink-100 shadow-2xs text-left"
+          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-pink-100 shadow-2xs text-left min-w-0 cursor-pointer"
         >
           <div className="w-7 h-7 rounded-lg bg-pink-100 text-[#E8436E] flex items-center justify-center shrink-0">
             <ShieldCheck className="w-3.5 h-3.5" />
           </div>
-          <div>
-            <h4 className="text-[11px] font-bold text-stone-900 leading-tight">Best Quality</h4>
-            <p className="text-[9px] text-stone-500">100% Assured</p>
+          <div className="min-w-0">
+            <h4 className="text-[11px] font-bold text-stone-900 leading-tight truncate">Best Quality</h4>
+            <p className="text-[9px] text-stone-500 truncate">100% Assured</p>
           </div>
         </button>
 
         <button
           onClick={handleWhatsAppClick}
-          className="flex items-center gap-2 p-2 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 shadow-2xs text-left"
+          className="flex items-center gap-2 p-2 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 shadow-2xs text-left min-w-0 cursor-pointer"
         >
           <div className="w-7 h-7 rounded-lg bg-[#25D366] text-white flex items-center justify-center shrink-0">
             <MessageCircle className="w-3.5 h-3.5" />
           </div>
-          <div>
-            <h4 className="text-[11px] font-bold text-stone-900 leading-tight">WhatsApp Order</h4>
-            <p className="text-[9px] text-[#128C7E] font-medium">+91 8208589775</p>
+          <div className="min-w-0">
+            <h4 className="text-[11px] font-bold text-stone-900 leading-tight truncate">WhatsApp Order</h4>
+            <p className="text-[9px] text-[#128C7E] font-medium truncate">+91 8208589775</p>
           </div>
         </button>
       </div>
