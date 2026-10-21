@@ -35,14 +35,15 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
   // Sync slides with store updates (e.g. when modified in Admin Portal)
   useEffect(() => {
     const handleUpdate = () => {
-      const active = storeService.getHeroSlides().filter((s) => s.isActive);
-      setSlides(active.length > 0 ? active : storeService.getHeroSlides());
+      setSlides(storeService.getHeroSlides());
     };
     window.addEventListener('store_data_updated', handleUpdate);
     return () => window.removeEventListener('store_data_updated', handleUpdate);
   }, []);
 
-  const activeSlides = slides.filter((s) => s.isActive);
+  const activeSlides = [...slides]
+    .filter((s) => s.isActive)
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
   const currentSlide = activeSlides[currentIndex] || activeSlides[0] || slides[0];
 
   // Auto-slide timer: slides every 7s for images, 10s for videos (unless hovered)

@@ -40,6 +40,9 @@ import {
   Video,
   Film,
   Copy,
+  Upload,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import { storeService } from '../services/storeService';
 import { Order, OrderStatus, Product, Customer, Category, Coupon, Review, StoreSettings, HeroSlide } from '../types';
@@ -103,10 +106,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
   const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(() => storeService.getHeroSlides());
   const [isAddingSlide, setIsAddingSlide] = useState(false);
   const [editingSlide, setEditingSlide] = useState<HeroSlide | null>(null);
-  const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [slideForm, setSlideForm] = useState<Omit<HeroSlide, 'id'>>({
     type: 'video',
-    mediaUrl: '/videos/blossom_hero_promo.mp4',
+    mediaUrl: '/videos/video_1.mp4',
     mobileMediaUrl: '',
     title: 'Handcrafted Magic in Gondia',
     subtitle: 'Special 10s Gift Unboxing',
@@ -127,6 +129,32 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
     setReviews(storeService.getReviews());
     setSettings(storeService.getSettings());
     setHeroSlides(storeService.getHeroSlides());
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const isVideo = file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.webm') || file.name.endsWith('.mov');
+    const isImage = file.type.startsWith('image/');
+
+    if (isVideo) {
+      setSlideForm((prev) => ({ ...prev, type: 'video' }));
+    } else if (isImage) {
+      setSlideForm((prev) => ({ ...prev, type: 'image' }));
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        setSlideForm((prev) => ({
+          ...prev,
+          mediaUrl: reader.result as string,
+        }));
+        showToast(`Loaded ${file.name} for slide! 🎬`);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSaveSlide = (e: React.FormEvent) => {
@@ -155,14 +183,6 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
     storeService.updateHeroSlide(id, { isActive: !current });
     setHeroSlides(storeService.getHeroSlides());
     showToast(`Slide ${!current ? 'activated' : 'deactivated'}`);
-  };
-
-  const handleCopyGeminiPrompt = () => {
-    const promptText = `Cinematic 10-second 4K commercial for Blossom Gift Centre Gondia. Opens with an adorable fluffy brown teddy bear wearing a red heart that says 'I Love You', sitting next to a handcrafted polished wooden LED photo frame glowing warmly with golden fairy lights and smiling couple portrait. Beside it, a glossy white ceramic photo mug with gentle steam rising. Slow elegant camera push-in towards a luxury magnetic pastel pink gift box with a shining crimson satin bow ribbon gracefully untying itself. Sparkling golden confetti, floating heart particles, and soft pink rose petals gently drift across the scene in slow motion. High-end e-commerce product lighting, 8K ultra-realistic, warm romantic festive atmosphere, shallow depth of field, 24fps cinematic motion blur.`;
-    navigator.clipboard.writeText(promptText);
-    setCopiedPrompt(true);
-    showToast('Gemini 10s video prompt copied! 📋');
-    setTimeout(() => setCopiedPrompt(false), 3000);
   };
 
   const showToast = (msg: string) => {
@@ -1398,31 +1418,21 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 </div>
               </div>
 
-              {/* Gemini Video Generator Prompt Banner */}
-              <div className="bg-gradient-to-r from-purple-900 via-rose-900 to-pink-900 rounded-3xl p-5 sm:p-6 text-white shadow-md relative overflow-hidden">
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
-                  <div className="max-w-2xl">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-pink-200 text-xs font-bold mb-2 backdrop-blur-xs">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                      <span>Gemini AI 10-Second Video Prompt</span>
-                    </div>
-                    <h3 className="text-lg sm:text-xl font-bold">Generate a 10s Promo Video for Blossom Gift</h3>
-                    <p className="text-xs text-pink-100/90 mt-1 leading-relaxed">
-                      Copy the pre-made prompt below and paste into <strong>Google Flow</strong> or <strong>Gemini</strong> to generate your 10s video. Once generated, save it into <code className="bg-black/30 px-1.5 py-0.5 rounded font-mono text-amber-300">public/videos/</code> or paste its web URL!
+              {/* Sequence & Order Info Banner */}
+              <div className="bg-pink-50/80 border border-pink-200/90 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-pink-100 text-[#E8436E] flex items-center justify-center font-bold shrink-0">
+                    ⇅
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-stone-900">Slide Sequence & Order Management</h4>
+                    <p className="text-stone-600 text-[11px] mt-0.5">
+                      Slides play in the exact sequence shown below (#1 plays first, #2 plays second). Use the <strong>⬆ Move Up</strong> and <strong>⬇ Move Down</strong> buttons on any card to change which slide appears first!
                     </p>
                   </div>
-
-                  <button
-                    onClick={handleCopyGeminiPrompt}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-purple-950 font-bold text-xs rounded-xl hover:bg-pink-50 transition-all shadow-md shrink-0 cursor-pointer"
-                  >
-                    {copiedPrompt ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
-                    <span>{copiedPrompt ? 'Prompt Copied!' : 'Copy 10s Video Prompt'}</span>
-                  </button>
                 </div>
-
-                <div className="mt-3 p-3 bg-black/40 rounded-xl text-[11px] font-mono text-pink-200 leading-relaxed border border-white/10 select-all">
-                  "Cinematic 10-second 4K commercial for Blossom Gift Centre Gondia. Opens with an adorable fluffy brown teddy bear wearing a red heart that says 'I Love You', sitting next to a handcrafted polished wooden LED photo frame glowing warmly with golden fairy lights and smiling couple portrait. Beside it, a glossy white ceramic photo mug with gentle steam rising. Slow elegant camera push-in towards a luxury magnetic pastel pink gift box with a shining crimson satin bow ribbon gracefully untying itself. Sparkling golden confetti, floating heart particles, and soft pink rose petals gently drift across the scene in slow motion. High-end e-commerce product lighting, 8K ultra-realistic, warm romantic festive atmosphere, shallow depth of field, 24fps cinematic motion blur."
+                <div className="text-[11px] font-mono text-[#E8436E] font-bold bg-white px-2.5 py-1 rounded-lg border border-pink-200 shrink-0">
+                  Total {heroSlides.length} Slides ({heroSlides.filter(s => s.isActive).length} Active)
                 </div>
               </div>
 
@@ -1496,7 +1506,51 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                       </div>
 
                       {/* Footer Actions */}
-                      <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+                      <div className="pt-2 border-t border-stone-100 flex items-center justify-between gap-2">
+                        {/* Reorder Buttons (Move Up / Down) */}
+                        <div className="flex items-center gap-1 bg-stone-100 rounded-xl p-1">
+                          <button
+                            type="button"
+                            disabled={idx === 0}
+                            onClick={() => {
+                              storeService.moveHeroSlide(slide.id, 'up');
+                              setHeroSlides(storeService.getHeroSlides());
+                              showToast(`Moved "${slide.title}" to position #${idx}`);
+                            }}
+                            className={`p-1.5 rounded-lg text-xs font-bold transition-all ${
+                              idx === 0
+                                ? 'text-stone-300 cursor-not-allowed'
+                                : 'text-stone-700 hover:bg-white hover:text-stone-900 cursor-pointer shadow-2xs'
+                            }`}
+                            title="Move Slide Up (Play Earlier)"
+                          >
+                            <ArrowUp className="w-3.5 h-3.5" />
+                          </button>
+
+                          <span className="text-[11px] font-bold px-1.5 font-mono text-stone-700">
+                            #{idx + 1}
+                          </span>
+
+                          <button
+                            type="button"
+                            disabled={idx === heroSlides.length - 1}
+                            onClick={() => {
+                              storeService.moveHeroSlide(slide.id, 'down');
+                              setHeroSlides(storeService.getHeroSlides());
+                              showToast(`Moved "${slide.title}" to position #${idx + 2}`);
+                            }}
+                            className={`p-1.5 rounded-lg text-xs font-bold transition-all ${
+                              idx === heroSlides.length - 1
+                                ? 'text-stone-300 cursor-not-allowed'
+                                : 'text-stone-700 hover:bg-white hover:text-stone-900 cursor-pointer shadow-2xs'
+                            }`}
+                            title="Move Slide Down (Play Later)"
+                          >
+                            <ArrowDown className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+
+                        {/* Enable/Disable Toggle */}
                         <button
                           onClick={() => handleToggleSlideActive(slide.id, slide.isActive)}
                           className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
@@ -1508,7 +1562,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                           {slide.isActive ? 'Disable' : 'Enable'}
                         </button>
 
-                        <div className="flex items-center gap-2">
+                        {/* Edit & Delete */}
+                        <div className="flex items-center gap-1">
                           <button
                             onClick={() => {
                               setEditingSlide(slide);
@@ -1524,7 +1579,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                                 ctaLink: slide.ctaLink,
                                 badge: slide.badge || '',
                                 isActive: slide.isActive,
-                                order: slide.order,
+                                order: slide.order || idx + 1,
                               });
                               setIsAddingSlide(true);
                             }}
@@ -1925,54 +1980,132 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 </div>
               </div>
 
-              {/* Media URL with quick presets */}
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="font-bold text-stone-700">
-                    {slideForm.type === 'video' ? 'Video File URL / Path (.mp4 / .webm)' : 'Image URL / Path'}
-                  </label>
+              {/* File Upload Dropzone & Media URL */}
+              <div className="space-y-2">
+                <label className="font-bold text-stone-700 block">
+                  {slideForm.type === 'video' ? 'Upload Video File / Media Path' : 'Upload Banner Image / Media Path'}
+                </label>
+
+                {/* Direct File Picker / Drag & Drop */}
+                <div className="border-2 border-dashed border-pink-300 hover:border-[#E8436E] rounded-2xl p-4 bg-pink-50/50 text-center transition-all cursor-pointer relative group">
+                  <input
+                    type="file"
+                    accept="video/*,image/*"
+                    onChange={handleFileUpload}
+                    className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
+                  />
+                  <div className="flex flex-col items-center justify-center gap-1.5 pointer-events-none">
+                    <div className="w-10 h-10 rounded-full bg-white shadow-xs text-[#E8436E] flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Upload className="w-5 h-5" />
+                    </div>
+                    <span className="font-bold text-xs text-stone-800">
+                      Click to Choose Video or Image from Device
+                    </span>
+                    <span className="text-[10px] text-stone-500">
+                      Supports MP4, WebM, MOV, JPG, PNG (Auto-loads into slide preview)
+                    </span>
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  value={slideForm.mediaUrl}
-                  onChange={(e) => setSlideForm({ ...slideForm, mediaUrl: e.target.value })}
-                  placeholder={slideForm.type === 'video' ? '/videos/blossom_hero_promo.mp4' : '/hero_banner_clean.png'}
-                  className="w-full border border-stone-200 rounded-xl p-2.5 font-mono text-xs"
-                  required
-                />
 
                 {/* Quick Presets */}
-                <div className="flex flex-wrap gap-1.5 mt-1.5">
+                <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                  <span className="text-[11px] font-bold text-stone-500">Quick Presets:</span>
                   <button
                     type="button"
-                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/videos/blossom_hero_promo.mp4', type: 'video' })}
-                    className="text-[10px] bg-red-50 hover:bg-red-100 text-red-700 px-2 py-0.5 rounded-md font-mono cursor-pointer"
+                    onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/videos/video_1.mp4', type: 'video' })}
+                    className="text-[11px] bg-red-100 hover:bg-red-200 text-red-700 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
                   >
-                    + Generated 10s Video
+                    <Video className="w-3.5 h-3.5" />
+                    <span>asstes/video 1.mp4 (My Uploaded Video)</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/hero_banner_clean.png', mobileMediaUrl: '/hero_banner_mobile.png', type: 'image' })}
-                    className="text-[10px] bg-pink-50 hover:bg-pink-100 text-[#E8436E] px-2 py-0.5 rounded-md font-mono cursor-pointer"
+                    className="text-[11px] bg-pink-100 hover:bg-pink-200 text-[#E8436E] px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
                   >
-                    + Flagship Banner
+                    <ImageIcon className="w-3.5 h-3.5" />
+                    <span>Flagship Banner</span>
                   </button>
                 </div>
-              </div>
 
-              {/* Mobile Media URL (for images) */}
-              {slideForm.type === 'image' && (
-                <div>
-                  <label className="font-bold text-stone-700 block mb-1">Mobile Image URL (Optional)</label>
+                {/* Custom URL or Path Input */}
+                <div className="pt-1">
+                  <label className="text-[11px] text-stone-500 block mb-0.5">Or enter File URL / Path directly:</label>
                   <input
                     type="text"
-                    value={slideForm.mobileMediaUrl || ''}
-                    onChange={(e) => setSlideForm({ ...slideForm, mobileMediaUrl: e.target.value })}
-                    placeholder="/hero_banner_mobile.png"
+                    value={slideForm.mediaUrl}
+                    onChange={(e) => setSlideForm({ ...slideForm, mediaUrl: e.target.value })}
+                    placeholder={slideForm.type === 'video' ? '/videos/video_1.mp4' : '/hero_banner_clean.png'}
+                    className="w-full border border-stone-200 rounded-xl p-2.5 font-mono text-xs"
+                    required
+                  />
+                </div>
+
+                {/* Live Preview Inside Modal */}
+                {slideForm.mediaUrl && (
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-black mt-2 border border-stone-200">
+                    {slideForm.type === 'video' ? (
+                      <video
+                        src={slideForm.mediaUrl}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={slideForm.mediaUrl}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                    <span className="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-full backdrop-blur-xs font-mono">
+                      Live Preview: {slideForm.type.toUpperCase()}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Order Sequence and Mobile URL */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="font-bold text-stone-700 block mb-1">
+                    Display Sequence (1 = Plays First, 2 = Plays Second...)
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    value={slideForm.order || 1}
+                    onChange={(e) => setSlideForm({ ...slideForm, order: Number(e.target.value) })}
                     className="w-full border border-stone-200 rounded-xl p-2.5 font-mono text-xs"
                   />
                 </div>
-              )}
+
+                {slideForm.type === 'image' ? (
+                  <div>
+                    <label className="font-bold text-stone-700 block mb-1">Mobile Image URL (Optional)</label>
+                    <input
+                      type="text"
+                      value={slideForm.mobileMediaUrl || ''}
+                      onChange={(e) => setSlideForm({ ...slideForm, mobileMediaUrl: e.target.value })}
+                      placeholder="/hero_banner_mobile.png"
+                      className="w-full border border-stone-200 rounded-xl p-2.5 font-mono text-xs"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <label className="font-bold text-stone-700 block mb-1">Badge Tag</label>
+                    <input
+                      type="text"
+                      value={slideForm.badge || ''}
+                      onChange={(e) => setSlideForm({ ...slideForm, badge: e.target.value })}
+                      placeholder="e.g. Featured Video"
+                      className="w-full border border-stone-200 rounded-xl p-2.5"
+                    />
+                  </div>
+                )}
+              </div>
 
               {/* Title & Subtitle */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

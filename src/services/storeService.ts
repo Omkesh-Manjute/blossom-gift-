@@ -7,7 +7,7 @@ const STORAGE_KEYS = {
   CUSTOMERS: 'blossom_gift_customers_v10',
   COUPONS: 'blossom_gift_coupons_v10',
   REVIEWS: 'blossom_gift_reviews_v10',
-  HERO_SLIDES: 'blossom_gift_hero_slides_v1',
+  HERO_SLIDES: 'blossom_gift_hero_slides_v2',
 };
 
 export const INITIAL_HERO_SLIDES: HeroSlide[] = [
@@ -29,7 +29,7 @@ export const INITIAL_HERO_SLIDES: HeroSlide[] = [
   {
     id: 'slide-2',
     type: 'video',
-    mediaUrl: '/videos/blossom_hero_promo.mp4',
+    mediaUrl: '/videos/video_1.mp4',
     title: 'Handcrafted Magic in Gondia',
     subtitle: 'Special 10s Gift Unboxing',
     kicker: '🎥 10-SECOND CINEMATIC PREVIEW',
@@ -1137,18 +1137,21 @@ class StoreService {
 
   // HERO SLIDES (IMAGE & VIDEO)
   getHeroSlides(): HeroSlide[] {
-    return this.heroSlides && this.heroSlides.length > 0 ? this.heroSlides : INITIAL_HERO_SLIDES;
+    const list = this.heroSlides && this.heroSlides.length > 0 ? this.heroSlides : INITIAL_HERO_SLIDES;
+    return [...list].sort((a, b) => (a.order || 0) - (b.order || 0));
   }
 
   saveHeroSlides(slides: HeroSlide[]) {
-    this.heroSlides = slides;
+    this.heroSlides = [...slides].sort((a, b) => (a.order || 0) - (b.order || 0));
     this.persist();
   }
 
   addHeroSlide(slide: Omit<HeroSlide, 'id'>): HeroSlide {
+    const list = this.getHeroSlides();
     const newSlide: HeroSlide = {
       ...slide,
       id: `slide-${Date.now()}`,
+      order: slide.order || list.length + 1,
     };
     this.heroSlides.push(newSlide);
     this.persist();
@@ -1165,6 +1168,32 @@ class StoreService {
 
   deleteHeroSlide(id: string) {
     this.heroSlides = this.heroSlides.filter((s) => s.id !== id);
+    // Re-index remaining slides order 1, 2, 3...
+    this.heroSlides.sort((a, b) => (a.order || 0) - (b.order || 0)).forEach((s, idx) => {
+      s.order = idx + 1;
+    });
+    this.persist();
+  }
+
+  moveHeroSlide(id: string, direction: 'up' | 'down') {
+    const list = [...this.getHeroSlides()];
+    const index = list.findIndex((s) => s.id === id);
+    if (index < 0) return;
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= list.length) return;
+
+    // Swap positions
+    const temp = list[index];
+    list[index] = list[targetIndex];
+    list[targetIndex] = temp;
+
+    // Re-assign normalized sequential order numbers (1, 2, 3...)
+    list.forEach((slide, idx) => {
+      slide.order = idx + 1;
+    });
+
+    this.heroSlides = list;
     this.persist();
   }
 
