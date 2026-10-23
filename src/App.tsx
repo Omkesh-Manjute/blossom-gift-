@@ -19,9 +19,14 @@ import { GiftyTestimonials } from './components/GiftyTestimonials';
 import { GiftyPerks } from './components/GiftyPerks';
 import { storeService } from './services/storeService';
 import { Product, Order } from './types';
-import { Heart, ArrowRight, Package, MessageCircle, Clock, Sparkles } from 'lucide-react';
+import { Heart, ArrowRight, Package, MessageCircle, Clock, Sparkles, Zap } from 'lucide-react';
+import { useTheme } from './context/ThemeContext';
+import { ProductRail } from './components/ProductRail';
 
 export default function App() {
+  const { theme, themeConfig } = useTheme();
+  const isCrimson = theme === 'crimson';
+
   // Sync tab with URL (/admin, #admin, etc.)
   const [activeTab, setActiveTab] = useState<'shop' | 'customized' | 'track' | 'admin' | 'about'>(() => {
     if (typeof window !== 'undefined') {
@@ -161,6 +166,33 @@ export default function App() {
   // Dedicated bottom Wall Watches
   const wallWatches = products.filter((p) => p.category === 'Wall Watches');
 
+  // Curated horizontal rails for Flipkart-style mobile experience
+  const flashDeals = products.filter(
+    (p) =>
+      p.status === 'active' &&
+      ((p.comparePrice && p.comparePrice > p.price) ||
+        p.price <= 399 ||
+        (p.badge && (p.badge.toLowerCase().includes('seller') || p.badge.includes('%'))))
+  );
+
+  const personalizedRail = products.filter(
+    (p) =>
+      p.status === 'active' &&
+      (p.category === 'Photo Mugs' ||
+        p.category === 'Customized Gifts' ||
+        (p.isCustomizable && p.category !== 'Toys & Soft Toys'))
+  );
+
+  const toysAndHampersRail = products.filter(
+    (p) =>
+      p.status === 'active' &&
+      (p.category === 'Toys & Soft Toys' || p.category === 'Gift Hampers')
+  );
+
+  const livingRoomClocksRail = products.filter(
+    (p) => p.status === 'active' && p.category === 'Wall Watches'
+  );
+
   const handleOrderSuccess = (order: Order) => {
     setIsCheckoutOpen(false);
     setConfirmedOrder(order);
@@ -175,7 +207,7 @@ export default function App() {
 
   return (
     <CartProvider>
-      <div className="min-h-screen flex flex-col bg-[#FCFCFA] text-[#1F2937]">
+      <div className="min-h-screen flex flex-col bg-[var(--bg-cream)] text-[#1F2937] transition-colors duration-300">
         {/* Navigation Bar (Desktop & Mobile) */}
         <Navbar
           activeTab={activeTab}
@@ -233,13 +265,89 @@ export default function App() {
               }}
             />
 
+            {/* Curated Flipkart-Style Horizontal Swipe Rails (Shown in default 'Shop' view) */}
+            {activeTab === 'shop' && selectedCategory === 'all' && !searchQuery && (
+              <div className="space-y-1 sm:space-y-3">
+                {/* 1. Flash Deals & Best Sellers Rail */}
+                <ProductRail
+                  id="rail-flash-deals"
+                  title="Flash Deals · Under ₹399"
+                  subtitle="Grab hot deals before time runs out · Special offers in Gondia"
+                  tag="HOT DEALS"
+                  countdownTimer="04:18:22"
+                  products={flashDeals}
+                  onOpenDetails={(p) => setSelectedProduct(p)}
+                  wishlistIds={wishlistIds}
+                  onToggleWishlist={toggleWishlist}
+                  onViewAll={() => {
+                    const el = document.getElementById('catalog-section');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  icon={<Zap className={`w-4 h-4 ${isCrimson ? 'text-red-600 fill-red-400' : 'text-amber-500 fill-amber-400'}`} />}
+                />
+
+                {/* 2. Trending Personalized Keepsakes */}
+                <ProductRail
+                  id="rail-personalized"
+                  title="Personalized Keepsakes"
+                  subtitle="Custom photo mugs, LED light frames & memory gifts"
+                  tag="CUSTOM PHOTO"
+                  products={personalizedRail}
+                  onOpenDetails={(p) => setSelectedProduct(p)}
+                  wishlistIds={wishlistIds}
+                  onToggleWishlist={toggleWishlist}
+                  onViewAll={() => {
+                    setActiveTab('customized');
+                    const el = document.getElementById('catalog-section');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  icon={<Heart className={`w-4 h-4 ${isCrimson ? 'text-red-500 fill-red-400' : 'text-amber-500 fill-amber-400'}`} />}
+                />
+
+                {/* 3. Soft Toys & Luxury Hampers */}
+                <ProductRail
+                  id="rail-toys"
+                  title="Soft Toys & Hampers"
+                  subtitle="Fluffy teddy bears, chocolate boxes & celebratory hampers"
+                  tag="LOVED BY ALL"
+                  products={toysAndHampersRail}
+                  onOpenDetails={(p) => setSelectedProduct(p)}
+                  wishlistIds={wishlistIds}
+                  onToggleWishlist={toggleWishlist}
+                  onViewAll={() => {
+                    setSelectedCategory('Toys & Soft Toys');
+                    const el = document.getElementById('catalog-section');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  icon={<Sparkles className={`w-4 h-4 ${isCrimson ? 'text-red-500 fill-red-400' : 'text-amber-500 fill-amber-400'}`} />}
+                />
+
+                {/* 4. Living Room Wall Watches Rail */}
+                <ProductRail
+                  id="rail-clocks"
+                  title="Royal Living Room Clocks"
+                  subtitle="Silent sweep quartz movements & antique Roman dials"
+                  tag="LIVING ROOM"
+                  products={livingRoomClocksRail}
+                  onOpenDetails={(p) => setSelectedProduct(p)}
+                  wishlistIds={wishlistIds}
+                  onToggleWishlist={toggleWishlist}
+                  onViewAll={() => {
+                    const el = document.getElementById('wall-watches-section');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  icon={<Clock className={`w-4 h-4 ${isCrimson ? 'text-red-500' : 'text-amber-600'}`} />}
+                />
+              </div>
+            )}
+
             {/* Featured Products Section (Main Catalog) */}
             <section id="catalog-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
               {/* Section Header */}
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6 sm:mb-8 text-left">
                 <div>
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500 fill-amber-400" />
+                    <Sparkles className={`w-5 h-5 sm:w-6 sm:h-6 ${isCrimson ? 'text-red-500 fill-red-400' : 'text-amber-500 fill-amber-400'}`} />
                     <h2 className="font-sans text-xl sm:text-2xl md:text-3xl font-extrabold text-stone-900 tracking-tight">
                       {selectedCategory !== 'all' ? selectedCategory : 'Featured Products'}
                     </h2>
@@ -258,7 +366,9 @@ export default function App() {
                         setSelectedOccasion('all');
                         setSearchQuery('');
                       }}
-                      className="text-xs text-stone-500 hover:text-amber-600 underline cursor-pointer"
+                      className={`text-xs underline cursor-pointer ${
+                        isCrimson ? 'text-stone-500 hover:text-red-600' : 'text-stone-500 hover:text-amber-600'
+                      }`}
                     >
                       Clear Filters
                     </button>
@@ -271,7 +381,11 @@ export default function App() {
                       const el = document.getElementById('catalog-section');
                       el?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs sm:text-sm font-extrabold shadow-md shadow-amber-200 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                    className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-extrabold shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer ${
+                      isCrimson
+                        ? 'bg-red-600 hover:bg-red-700 text-white shadow-red-200'
+                        : 'bg-amber-500 hover:bg-amber-600 text-stone-950 shadow-amber-200'
+                    }`}
                   >
                     <span>View All Products</span>
                     <ArrowRight className="w-4 h-4" />
@@ -282,7 +396,13 @@ export default function App() {
               {/* Product Grid: Responsive 2 cols on mobile, 3 on tablet, 6 on desktop */}
               {mainCatalogProducts.length === 0 ? (
                 <div className="py-16 text-center bg-white rounded-3xl border border-stone-200 p-8 max-w-md mx-auto shadow-xs">
-                  <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-amber-600 border border-amber-200">
+                  <div
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-3 border ${
+                      isCrimson
+                        ? 'bg-red-50 text-red-600 border-red-200'
+                        : 'bg-amber-50 text-amber-600 border-amber-200'
+                    }`}
+                  >
                     <Package className="w-8 h-8" />
                   </div>
                   <h3 className="font-sans text-lg font-bold text-stone-900">
@@ -297,7 +417,11 @@ export default function App() {
                       setSelectedOccasion('all');
                       setSearchQuery('');
                     }}
-                    className="px-5 py-2.5 bg-amber-500 text-stone-950 text-xs font-extrabold rounded-xl hover:bg-amber-600 cursor-pointer shadow-sm"
+                    className={`px-5 py-2.5 text-xs font-extrabold rounded-xl cursor-pointer shadow-sm ${
+                      isCrimson
+                        ? 'bg-red-600 hover:bg-red-700 text-white'
+                        : 'bg-amber-500 hover:bg-amber-600 text-stone-950'
+                    }`}
                   >
                     Reset & View All Gifts
                   </button>
@@ -321,11 +445,22 @@ export default function App() {
             <InstagramMoments />
 
             {/* DEDICATED WALL WATCHES & LIVING ROOM CLOCKS SECTION (Placed lower down as requested!) */}
-            <section id="wall-watches-section" className="py-12 bg-gradient-to-b from-stone-50 to-amber-50/40 border-t border-stone-200/60">
+            <section
+              id="wall-watches-section"
+              className={`py-12 border-t border-stone-200/60 ${
+                isCrimson
+                  ? 'bg-gradient-to-b from-stone-50 to-red-50/30'
+                  : 'bg-gradient-to-b from-stone-50 to-amber-50/40'
+              }`}
+            >
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-8 text-left">
                   <div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold mb-2">
+                    <div
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mb-2 ${
+                        isCrimson ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
                       <Clock className="w-3.5 h-3.5" />
                       <span>TIMELESS LIVING ROOM ACCENTS</span>
                     </div>
@@ -365,7 +500,7 @@ export default function App() {
           href="https://wa.me/918208589775?text=Hello%20Blossom%20Gift%20Gondia%2C%20I%20want%20to%20order%20a%20personalized%20gift"
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-16 sm:bottom-6 right-5 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white p-3 sm:p-3.5 rounded-full shadow-2xl flex items-center gap-2 group transition-all duration-300 hover:scale-105"
+          className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white p-3 sm:p-3.5 rounded-full shadow-2xl flex items-center gap-2 group transition-all duration-300 hover:scale-105 active:scale-95"
           title="Direct WhatsApp Support & Photo Approval"
         >
           <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-[#25D366]" />
