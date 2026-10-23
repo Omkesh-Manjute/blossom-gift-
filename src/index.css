@@ -6,10 +6,10 @@
     --font-serif: 'Playfair Display', Georgia, serif;
     --font-script: 'Dancing Script', 'Great Vibes', cursive;
     --font-mono: 'JetBrains Mono', monospace;
-    --brand-pink: #E8436E;
-    --brand-dark-pink: #D82B5A;
-    --brand-wine: #881337;
-    --brand-rose: #FF3366;
+    --brand-yellow: #F59E0B;
+    --brand-gold: #D97706;
+    --brand-bright-yellow: #FBBF24;
+    --brand-light-yellow: #FEF3C7;
   }
 
   html {
@@ -21,7 +21,7 @@
   body {
     font-family: var(--font-outfit);
     color: #1f2937;
-    background-color: #FAFAF8;
+    background-color: #FFFFFF;
     overflow-x: hidden;
     max-width: 100vw;
     width: 100%;
@@ -58,10 +58,10 @@
 
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(232, 67, 110, 0.25);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
   }
   50% {
-    box-shadow: 0 0 25px rgba(232, 67, 110, 0.45);
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.45);
   }
 }
 
@@ -79,14 +79,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f8fafc;
 }
 ::-webkit-scrollbar-thumb {
-  background: #f472b6;
+  background: #fbbf24;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #db2777;
+  background: #f59e0b;
 }
 
 @media print {

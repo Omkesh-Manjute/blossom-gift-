@@ -47,8 +47,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Badge (Top-Left) */}
         {badgeText && (
-          <div className="absolute top-2.5 left-2.5 z-10 bg-gradient-to-r from-[#E8436E] to-[#FF4E78] text-white text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full shadow-md flex items-center gap-1">
-            <Sparkles className="w-3 h-3" />
+          <div className="absolute top-2.5 left-2.5 z-10 bg-gradient-to-r from-amber-500 to-yellow-400 text-stone-950 text-[10px] sm:text-xs font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-stone-900" />
             <span>{badgeText}</span>
           </div>
         )}
@@ -59,19 +59,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           onClick={handleWishlistClick}
           className={`absolute top-2.5 right-2.5 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer ${
             isWishlisted
-              ? 'bg-rose-50 text-[#E8436E] ring-1 ring-[#E8436E]'
-              : 'bg-white/85 text-stone-400 hover:text-[#E8436E] hover:bg-white'
+              ? 'bg-amber-50 text-amber-600 ring-1 ring-amber-400'
+              : 'bg-white/90 text-stone-400 hover:text-amber-600 hover:bg-white'
           }`}
           aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-[#E8436E]' : ''}`} />
+          <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-amber-500 text-amber-600' : ''}`} />
         </button>
       </div>
 
       {/* Card Info & Footer */}
       <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between text-left">
         <div>
-          <h3 className="font-sans font-bold text-xs sm:text-sm text-stone-900 group-hover:text-[#E8436E] transition-colors line-clamp-1">
+          <h3 className="font-sans font-bold text-xs sm:text-sm text-stone-900 group-hover:text-amber-600 transition-colors line-clamp-1">
             {product.name}
           </h3>
           <p className="text-[10px] sm:text-xs text-stone-400 line-clamp-1 mt-0.5">
@@ -82,7 +82,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Price & Action Row */}
         <div className="mt-3 flex items-center justify-between">
           <div className="flex items-baseline gap-1.5">
-            <span className="font-extrabold text-sm sm:text-base text-[#C2185B] font-mono">
+            <span className="font-extrabold text-sm sm:text-base text-amber-700 font-mono">
               ₹{product.price}
             </span>
             {product.comparePrice && (
@@ -92,11 +92,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             )}
           </div>
 
-          {/* Pink Circular Cart Button (Matching screenshot) */}
+          {/* Yellow & White Cart Button */}
           <button
             type="button"
             onClick={handleAddToCart}
-            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-pink-50 hover:bg-[#E8436E] text-[#E8436E] hover:text-white flex items-center justify-center transition-all duration-200 shadow-xs hover:shadow-md hover:scale-110 cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-amber-50 hover:bg-amber-500 text-amber-700 hover:text-stone-950 flex items-center justify-center transition-all duration-200 shadow-xs hover:shadow-md hover:scale-110 cursor-pointer border border-amber-200/60 hover:border-amber-500"
             title="Add to Cart"
           >
             <ShoppingCart className="w-4 h-4" />

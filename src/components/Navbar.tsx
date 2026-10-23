@@ -110,12 +110,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <>
       <header className="sticky top-0 z-40 bg-white shadow-xs">
-        {/* 1. TOP ANNOUNCEMENT BAR (Matching Crimson #C2185B) */}
-        <div className="bg-[#C2185B] text-white py-1.5 px-3 sm:px-4 text-[11px] sm:text-xs font-medium overflow-hidden">
+        {/* 1. TOP ANNOUNCEMENT BAR (Warm Golden Amber & Rich Slate) */}
+        <div className="bg-[#B45309] text-white py-1.5 px-3 sm:px-4 text-[11px] sm:text-xs font-medium overflow-hidden shadow-xs">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
             {/* Location on left */}
             <div className="flex items-center gap-1.5 text-white/95 min-w-0">
-              <MapPin className="w-3.5 h-3.5 text-white/80 shrink-0" />
+              <MapPin className="w-3.5 h-3.5 text-amber-200 shrink-0" />
               <span className="truncate">Gondia · Gupta Complex, Near N.M.D. College</span>
             </div>
 
@@ -127,13 +127,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
               <span className="hidden lg:inline text-white/40">|</span>
               <span className="flex items-center gap-1 font-mono">
-                <Phone className="w-3 h-3 text-white/80" />
+                <Phone className="w-3 h-3 text-amber-200" />
                 <a href="tel:8208589775" className="hover:underline">8208589775</a>
               </span>
               <span className="text-white/40">|</span>
               <button
                 onClick={() => setActiveTab('admin')}
-                className="inline-flex items-center gap-1 bg-white/20 hover:bg-white text-white hover:text-[#C2185B] px-2 py-0.5 rounded-full font-bold transition-all cursor-pointer text-[10px]"
+                className="inline-flex items-center gap-1 bg-white/20 hover:bg-white text-white hover:text-amber-900 px-2 py-0.5 rounded-full font-bold transition-all cursor-pointer text-[10px]"
                 title="Go to Admin Dashboard"
               >
                 <span>Admin</span>
@@ -148,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="md:hidden p-2 text-stone-700 hover:text-[#E8436E] cursor-pointer"
+            className="md:hidden p-2 text-stone-700 hover:text-amber-600 cursor-pointer"
             aria-label="Open menu"
           >
             <Menu className="w-6 h-6" />
@@ -162,16 +162,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             className="flex items-center gap-2 sm:gap-3 text-left cursor-pointer group whitespace-nowrap shrink-0"
           >
-            {/* Pink Gift Box Logo Icon with Ribbon */}
-            <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#E8436E] to-[#FA709A] text-white flex items-center justify-center shadow-md shadow-pink-200 transition-transform group-hover:scale-105 shrink-0">
-              <Gift className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+            {/* Warm Golden Gift Box Logo Icon */}
+            <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-amber-400 via-amber-500 to-yellow-500 text-stone-900 flex items-center justify-center shadow-md shadow-amber-200/70 border border-amber-300 transition-transform group-hover:scale-105 shrink-0">
+              <Gift className="w-4 h-4 sm:w-6 sm:h-6 text-stone-900" />
             </div>
             <div>
               <div className="flex items-baseline">
                 <span className="font-extrabold text-base sm:text-2xl tracking-tight text-[#1E293B] leading-none">
                   BLOSSOM
                 </span>
-                <span className="font-extrabold text-base sm:text-2xl tracking-tight text-[#E8436E] ml-1 sm:ml-1.5 leading-none">
+                <span className="font-extrabold text-base sm:text-2xl tracking-tight text-amber-600 ml-1 sm:ml-1.5 leading-none">
                   GIFT
                 </span>
               </div>
@@ -190,7 +190,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
-                className="w-full bg-[#FAF8F9] border border-stone-200 rounded-full pl-5 pr-14 py-2.5 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#E8436E] focus:bg-white transition-all shadow-inner placeholder:text-stone-400"
+                className="w-full bg-[#FAF9F5] border border-amber-200/80 rounded-full pl-5 pr-14 py-2.5 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition-all shadow-inner placeholder:text-stone-400"
               />
               {searchQuery && (
                 <button
@@ -205,10 +205,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab('shop');
                   setIsSearchFocused(false);
                 }}
-                className="absolute right-1.5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white flex items-center justify-center shadow-sm transition-all hover:scale-105 cursor-pointer"
+                className="absolute right-1.5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-amber-500 hover:bg-amber-600 text-stone-900 flex items-center justify-center shadow-sm transition-all hover:scale-105 cursor-pointer font-bold"
                 title="Search"
               >
-                <Search className="w-4 h-4 text-white" />
+                <Search className="w-4 h-4 text-stone-900 stroke-[2.5]" />
               </button>
             </div>
 
@@ -244,7 +244,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         </span>
                       </div>
                       <div className="text-right">
-                        <span className="font-mono text-xs font-bold text-[#E8436E]">
+                        <span className="font-mono text-xs font-bold text-amber-600">
                           ₹{prod.price}
                         </span>
                         {prod.comparePrice && (
@@ -265,12 +265,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Wishlist */}
             <button
               onClick={onOpenWishlist}
-              className="flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer group p-1"
+              className="flex items-center gap-1.5 hover:text-amber-600 transition-colors cursor-pointer group p-1"
             >
               <div className="relative">
-                <Heart className="w-5 h-5 text-stone-700 group-hover:text-[#E8436E] transition-colors" />
+                <Heart className="w-5 h-5 text-stone-700 group-hover:text-amber-600 transition-colors" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1.5 -right-2 bg-[#E8436E] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
+                  <span className="absolute -top-1.5 -right-2 bg-amber-500 text-stone-900 text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center animate-pulse shadow-xs">
                     {wishlistCount}
                   </span>
                 )}
@@ -283,12 +283,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('admin')}
               className={`hidden md:flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full font-bold text-xs transition-all shadow-xs hover:shadow-md cursor-pointer ${
                 activeTab === 'admin'
-                  ? 'bg-[#E8436E] text-white ring-2 ring-pink-300'
-                  : 'bg-stone-900 hover:bg-[#E8436E] text-white'
+                  ? 'bg-amber-500 text-stone-900 ring-2 ring-amber-300'
+                  : 'bg-stone-900 hover:bg-amber-500 text-white hover:text-stone-900'
               }`}
               title="Open Admin Dashboard & Analytics"
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-pink-400" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-amber-400 group-hover:text-stone-900" />
               <span>Admin Panel</span>
             </button>
 
@@ -296,9 +296,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="relative hidden sm:block">
               <button
                 onClick={() => setAccountModalOpen(!accountModalOpen)}
-                className="flex items-center gap-1.5 hover:text-[#E8436E] transition-colors cursor-pointer group"
+                className="flex items-center gap-1.5 hover:text-amber-600 transition-colors cursor-pointer group"
               >
-                <User className="w-5 h-5 text-stone-700 group-hover:text-[#E8436E] transition-colors" />
+                <User className="w-5 h-5 text-stone-700 group-hover:text-amber-600 transition-colors" />
                 <span className="hidden sm:inline font-semibold">My Account</span>
               </button>
 
@@ -335,13 +335,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                       setActiveTab('admin');
                       setAccountModalOpen(false);
                     }}
-                    className="w-full px-4 py-2 text-xs font-bold text-[#E8436E] hover:bg-pink-50 flex items-center justify-between cursor-pointer"
+                    className="w-full px-4 py-2 text-xs font-bold text-amber-700 hover:bg-amber-50 flex items-center justify-between cursor-pointer"
                   >
                     <span className="flex items-center gap-2">
                       <ExternalLink className="w-4 h-4" />
                       <span>Admin Dashboard</span>
                     </span>
-                    <span className="text-[10px] bg-[#E8436E] text-white px-1.5 py-0.5 rounded font-mono">
+                    <span className="text-[10px] bg-amber-500 text-stone-900 px-1.5 py-0.5 rounded font-mono font-bold">
                       Portal
                     </span>
                   </button>
@@ -352,11 +352,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Cart Button */}
             <button
               onClick={openCart}
-              className="flex items-center gap-2 text-stone-700 hover:text-[#E8436E] transition-colors cursor-pointer group"
+              className="flex items-center gap-2 text-stone-700 hover:text-amber-600 transition-colors cursor-pointer group"
             >
               <div className="relative">
-                <ShoppingCart className="w-5 h-5 text-stone-700 group-hover:text-[#E8436E] transition-colors" />
-                <span className="absolute -top-1.5 -right-2 bg-[#E8436E] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <ShoppingCart className="w-5 h-5 text-stone-700 group-hover:text-amber-600 transition-colors" />
+                <span className="absolute -top-1.5 -right-2 bg-amber-500 text-stone-900 text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
                   {itemCount}
                 </span>
               </div>
@@ -373,13 +373,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               placeholder="Search for gifts, toys..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#FAF8F9] border border-stone-200 rounded-full pl-4 pr-12 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#E8436E]"
+              className="w-full bg-[#FAF9F5] border border-amber-200/80 rounded-full pl-4 pr-12 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
             <button
               onClick={() => setActiveTab('shop')}
-              className="absolute right-1 w-7 h-7 rounded-full bg-[#E8436E] text-white flex items-center justify-center"
+              className="absolute right-1 w-7 h-7 rounded-full bg-amber-500 text-stone-900 flex items-center justify-center font-bold"
             >
-              <Search className="w-3.5 h-3.5" />
+              <Search className="w-3.5 h-3.5 stroke-[2.5]" />
             </button>
           </div>
         </div>
@@ -395,10 +395,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 if (onSelectOccasion) onSelectOccasion('all');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0 font-bold ${
                 activeTab === 'shop'
-                  ? 'bg-[#E8436E] text-white shadow-xs'
-                  : 'hover:bg-stone-100 text-stone-700'
+                  ? 'bg-amber-500 text-stone-900 shadow-xs'
+                  : 'hover:bg-amber-50 hover:text-amber-800 text-stone-700'
               }`}
             >
               <Home className="w-4 h-4" />
@@ -428,7 +428,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         const el = document.getElementById('catalog-section');
                         el?.scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-pink-50 hover:text-[#E8436E] transition-colors cursor-pointer"
+                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-amber-50 hover:text-amber-800 transition-colors cursor-pointer"
                     >
                       {cat}
                     </button>
@@ -441,7 +441,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div ref={occasionsRef} className="relative">
               <button
                 onClick={() => setOccasionsDropdownOpen(!occasionsDropdownOpen)}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-amber-50 hover:text-amber-800 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Occasions</span>
@@ -460,7 +460,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         const el = document.getElementById('catalog-section');
                         el?.scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-pink-50 hover:text-[#E8436E] transition-colors cursor-pointer"
+                      className="w-full text-left px-3 py-2 rounded-xl text-xs hover:bg-amber-50 hover:text-amber-800 transition-colors cursor-pointer"
                     >
                       {occ}
                     </button>
@@ -476,13 +476,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 const el = document.getElementById('catalog-section');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full transition-colors cursor-pointer whitespace-nowrap ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full transition-colors cursor-pointer whitespace-nowrap font-bold ${
                 activeTab === 'customized'
-                  ? 'bg-[#E8436E] text-white shadow-xs'
-                  : 'hover:bg-stone-100 text-stone-700'
+                  ? 'bg-amber-500 text-stone-900 shadow-xs'
+                  : 'hover:bg-amber-50 hover:text-amber-800 text-stone-700'
               }`}
             >
-              <Heart className="w-4 h-4 text-[#E8436E]" />
+              <Heart className="w-4 h-4 text-amber-600" />
               <span>Personalized Gifts</span>
             </button>
 
@@ -494,7 +494,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 const el = document.getElementById('catalog-section');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-amber-50 hover:text-amber-800 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
             >
               <Smile className="w-4 h-4 text-emerald-600" />
               <span>Toys</span>
@@ -508,7 +508,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 const el = document.getElementById('catalog-section');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-amber-50 hover:text-amber-800 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
             >
               <Mail className="w-4 h-4 text-purple-600" />
               <span>Greeting Cards</span>
@@ -522,9 +522,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 const el = document.getElementById('catalog-section');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-amber-50 hover:text-amber-800 text-stone-700 transition-colors cursor-pointer whitespace-nowrap"
             >
-              <Gift className="w-4 h-4 text-rose-500" />
+              <Gift className="w-4 h-4 text-amber-600" />
               <span>Gift Hampers</span>
             </button>
 
@@ -534,7 +534,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 const el = document.getElementById('footer-contact');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer whitespace-nowrap ml-auto"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full hover:bg-amber-50 hover:text-amber-800 text-stone-700 transition-colors cursor-pointer whitespace-nowrap ml-auto"
             >
               <Phone className="w-4 h-4 text-stone-500" />
               <span>Contact Us</span>
@@ -543,7 +543,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Download Catalogue (PDF) */}
             <button
               onClick={onOpenCatalogue}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-50 hover:bg-[#E8436E] text-[#E8436E] hover:text-white font-bold transition-all cursor-pointer whitespace-nowrap border border-pink-200 shadow-2xs text-xs"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-100 hover:bg-amber-500 text-amber-900 hover:text-stone-900 font-bold transition-all cursor-pointer whitespace-nowrap border border-amber-300 shadow-2xs text-xs"
               title="Download or Print Blossom Gift Product Catalogue PDF"
             >
               <FileText className="w-3.5 h-3.5" />
@@ -560,7 +560,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Header: User & Close */}
             <div className="p-4 border-b border-stone-200 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-pink-100 text-[#E8436E] flex items-center justify-center font-bold">
+                <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
                   <User className="w-5 h-5" />
                 </div>
                 <div>
@@ -570,7 +570,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       setActiveTab('admin');
                       setMobileMenuOpen(false);
                     }}
-                    className="text-[10px] text-[#E8436E] font-medium hover:underline"
+                    className="text-[10px] text-amber-700 font-bold hover:underline"
                   >
                     Login / Admin Portal →
                   </button>
@@ -592,7 +592,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMobileMenuOpen(false);
                 }}
                 className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors ${
-                  activeTab === 'shop' ? 'bg-[#E8436E] text-white' : 'text-stone-700 hover:bg-stone-50'
+                  activeTab === 'shop' ? 'bg-amber-500 text-stone-900 font-bold shadow-xs' : 'text-stone-700 hover:bg-amber-50'
                 }`}
               >
                 <Home className="w-4 h-4" />
@@ -604,7 +604,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab('shop');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-amber-50 transition-colors"
               >
                 <ShoppingBag className="w-4 h-4" />
                 <span>Shop</span>
@@ -615,7 +615,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab('shop');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-amber-50 transition-colors"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Occasions</span>
@@ -626,9 +626,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab('customized');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors ${
+                  activeTab === 'customized' ? 'bg-amber-500 text-stone-900 font-bold shadow-xs' : 'text-stone-700 hover:bg-amber-50'
+                }`}
               >
-                <Heart className="w-4 h-4 text-[#E8436E]" />
+                <Heart className="w-4 h-4 text-amber-600" />
                 <span>Personalized Gifts</span>
               </button>
 
@@ -638,7 +640,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab('shop');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-amber-50 transition-colors"
               >
                 <Smile className="w-4 h-4 text-emerald-600" />
                 <span>Toys</span>
@@ -650,7 +652,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab('shop');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-amber-50 transition-colors"
               >
                 <Mail className="w-4 h-4 text-purple-600" />
                 <span>Greeting Cards</span>
@@ -662,9 +664,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab('shop');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-amber-50 transition-colors"
               >
-                <Gift className="w-4 h-4 text-rose-500" />
+                <Gift className="w-4 h-4 text-amber-600" />
                 <span>Gift Hampers</span>
               </button>
 
@@ -673,7 +675,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab('about');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-amber-50 transition-colors"
               >
                 <Info className="w-4 h-4 text-stone-500" />
                 <span>About Us</span>
@@ -685,7 +687,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   el?.scrollIntoView({ behavior: 'smooth' });
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-stone-50 transition-colors"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-stone-700 hover:bg-amber-50 transition-colors"
               >
                 <Phone className="w-4 h-4 text-stone-500" />
                 <span>Contact Us</span>
@@ -697,28 +699,28 @@ export const Navbar: React.FC<NavbarProps> = ({
                   if (onOpenCatalogue) onOpenCatalogue();
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-pink-50 text-[#E8436E] font-bold border border-pink-200 mt-2 transition-colors cursor-pointer"
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-amber-50 text-amber-900 font-bold border border-amber-300 mt-2 transition-colors cursor-pointer"
               >
                 <span className="flex items-center gap-2.5">
-                  <FileText className="w-4 h-4 text-[#E8436E]" />
+                  <FileText className="w-4 h-4 text-amber-600" />
                   <span>Download Catalogue (PDF)</span>
                 </span>
-                <span className="text-[10px] bg-[#E8436E] text-white px-2 py-0.5 rounded-full font-mono font-bold">
+                <span className="text-[10px] bg-amber-500 text-stone-900 px-2 py-0.5 rounded-full font-mono font-extrabold shadow-2xs">
                   PDF
                 </span>
               </button>
             </div>
 
             {/* Need Help Box */}
-            <div className="p-4 bg-pink-50/70 border-t border-pink-100 space-y-3">
+            <div className="p-4 bg-amber-50/70 border-t border-amber-200/80 space-y-3">
               <div>
                 <p className="text-[11px] font-bold text-stone-900 flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-[#E8436E]" />
+                  <Phone className="w-3.5 h-3.5 text-amber-700" />
                   <span>Need Help? Call or WhatsApp</span>
                 </p>
                 <a
                   href="tel:8208589775"
-                  className="mt-1 block text-xs font-mono font-bold text-[#E8436E] hover:underline"
+                  className="mt-1 block text-xs font-mono font-bold text-amber-800 hover:underline"
                 >
                   8208589775 | 9673155741
                 </a>
@@ -726,7 +728,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               <div>
                 <p className="text-[10px] font-bold text-stone-800 flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-[#E8436E]" />
+                  <MapPin className="w-3 h-3 text-amber-700" />
                   <span>Visit Our Store</span>
                 </p>
                 <p className="text-[10px] text-stone-500 mt-0.5">
@@ -778,15 +780,15 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       )}
 
-      {/* MOBILE BOTTOM NAVIGATION BAR (Fixed Dock) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-200 py-1.5 px-4 flex items-center justify-around shadow-2xl">
+      {/* MOBILE BOTTOM NAVIGATION BAR (Fixed Dock in Crisp White & Warm Gold) */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-amber-200/80 py-1.5 px-4 flex items-center justify-around shadow-2xl">
         <button
           onClick={() => {
             setActiveTab('shop');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           className={`flex flex-col items-center gap-0.5 text-[10px] font-bold ${
-            activeTab === 'shop' ? 'text-[#E8436E]' : 'text-stone-500'
+            activeTab === 'shop' ? 'text-amber-600' : 'text-stone-500'
           }`}
         >
           <Home className="w-5 h-5" />
@@ -799,7 +801,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             const el = document.getElementById('catalog-section');
             el?.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="flex flex-col items-center gap-0.5 text-[10px] font-bold text-stone-500"
+          className="flex flex-col items-center gap-0.5 text-[10px] font-bold text-stone-500 hover:text-amber-600"
         >
           <ShoppingBag className="w-5 h-5" />
           <span>Shop</span>
@@ -807,11 +809,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <button
           onClick={onOpenWishlist}
-          className="flex flex-col items-center gap-0.5 text-[10px] font-bold text-stone-500 relative"
+          className="flex flex-col items-center gap-0.5 text-[10px] font-bold text-stone-500 hover:text-amber-600 relative"
         >
           <Heart className="w-5 h-5" />
           {wishlistCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-[#E8436E] text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-amber-500 text-stone-900 text-[8px] font-extrabold w-3.5 h-3.5 rounded-full flex items-center justify-center shadow-xs">
               {wishlistCount}
             </span>
           )}
@@ -821,7 +823,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <button
           onClick={() => setActiveTab('admin')}
           className={`flex flex-col items-center gap-0.5 text-[10px] font-bold ${
-            activeTab === 'admin' ? 'text-[#E8436E]' : 'text-stone-500'
+            activeTab === 'admin' ? 'text-amber-600' : 'text-stone-500'
           }`}
         >
           <User className="w-5 h-5" />

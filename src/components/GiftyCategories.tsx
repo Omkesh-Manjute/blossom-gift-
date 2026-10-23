@@ -27,9 +27,9 @@ export const GiftyCategories: React.FC<GiftyCategoriesProps> = ({
       shortName: 'Birthday',
       filterVal: 'Birthday Gifts',
       icon: Cake,
-      bgColor: 'bg-[#FFF0F5]',
-      iconBg: 'bg-rose-100 text-rose-500',
-      activeRing: 'ring-rose-400',
+      bgColor: 'bg-[#FFFBEB]',
+      iconBg: 'bg-amber-100 text-amber-700',
+      activeRing: 'ring-amber-400',
     },
     {
       id: 'cat-anniversary',
@@ -37,9 +37,9 @@ export const GiftyCategories: React.FC<GiftyCategoriesProps> = ({
       shortName: 'Anniversary',
       filterVal: 'Anniversary Gifts',
       icon: Heart,
-      bgColor: 'bg-[#FFF1F2]',
-      iconBg: 'bg-pink-100 text-[#E8436E]',
-      activeRing: 'ring-pink-400',
+      bgColor: 'bg-[#FEFCE8]',
+      iconBg: 'bg-yellow-100 text-amber-700',
+      activeRing: 'ring-yellow-400',
     },
     {
       id: 'cat-wedding',
@@ -87,9 +87,9 @@ export const GiftyCategories: React.FC<GiftyCategoriesProps> = ({
       shortName: 'Hampers',
       filterVal: 'Gift Hampers',
       icon: Gift,
-      bgColor: 'bg-[#FFF1F2]',
-      iconBg: 'bg-rose-100 text-rose-600',
-      activeRing: 'ring-rose-400',
+      bgColor: 'bg-[#FFFBEB]',
+      iconBg: 'bg-amber-100 text-amber-700',
+      activeRing: 'ring-amber-400',
     },
     {
       id: 'cat-custom',
@@ -122,8 +122,8 @@ export const GiftyCategories: React.FC<GiftyCategoriesProps> = ({
                 }}
                 className={`group flex flex-col items-center justify-center p-2.5 sm:p-4 rounded-2xl sm:rounded-3xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer border ${
                   isSelected
-                    ? `border-[#E8436E] ring-2 ring-pink-200 shadow-md ${cat.bgColor}`
-                    : `border-stone-100 hover:border-pink-200 hover:shadow-md ${cat.bgColor}`
+                    ? `border-amber-500 ring-2 ring-amber-300 shadow-md ${cat.bgColor}`
+                    : `border-stone-100 hover:border-amber-300 hover:shadow-md ${cat.bgColor}`
                 }`}
               >
                 {/* Icon Container with Badge */}
@@ -134,7 +134,7 @@ export const GiftyCategories: React.FC<GiftyCategoriesProps> = ({
                 </div>
 
                 {/* Category Title (responsive short name on small screens, full name on md+) */}
-                <span className="text-[10px] sm:text-xs font-bold text-stone-800 text-center leading-tight line-clamp-2 group-hover:text-[#E8436E] transition-colors">
+                <span className="text-[10px] sm:text-xs font-bold text-stone-800 text-center leading-tight line-clamp-2 group-hover:text-amber-600 transition-colors">
                   <span className="sm:hidden">{cat.shortName}</span>
                   <span className="hidden sm:inline">{cat.name}</span>
                 </span>

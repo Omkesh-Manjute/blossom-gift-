@@ -31,7 +31,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
           {/* Header */}
           <div className="p-4 sm:p-5 border-b border-[#EBE7DF] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-[#E95D79]" />
+              <ShoppingBag className="w-5 h-5 text-amber-600" />
               <h2 className="font-serif text-lg font-bold text-[#292525]">
                 Your Gift Bag ({items.length})
               </h2>
@@ -64,7 +64,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
             </div>
             <div className="w-full bg-amber-200/50 rounded-full h-1.5 overflow-hidden">
               <div
-                className="bg-[#F4C62E] h-1.5 rounded-full transition-all duration-300"
+                className="bg-amber-500 h-1.5 rounded-full transition-all duration-300"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -75,7 +75,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
             {items.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 text-stone-400">
                 <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mb-3">
-                  <Gift className="w-8 h-8 text-stone-300" />
+                  <Gift className="w-8 h-8 text-amber-500" />
                 </div>
                 <h3 className="font-serif text-base font-bold text-stone-700">
                   Your bag is empty
@@ -85,7 +85,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
                 </p>
                 <button
                   onClick={closeCart}
-                  className="mt-4 px-4 py-2 bg-[#292525] text-white text-xs font-semibold rounded-lg hover:bg-black transition-colors"
+                  className="mt-4 px-5 py-2.5 bg-amber-500 text-stone-950 text-xs font-extrabold rounded-xl hover:bg-amber-600 transition-colors shadow-md shadow-amber-200 cursor-pointer"
                 >
                   Explore Gifts
                 </button>
@@ -167,7 +167,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
                             </div>
                           )}
                           {item.customization.giftWrap !== 'none' && (
-                            <div className="text-[#E95D79] font-medium">
+                            <div className="text-amber-700 font-bold">
                               ✨ {item.customization.giftWrap === 'luxury_satin_box' ? 'Satin Luxe Box (+₹49)' : 'Classic Gift Wrap (+₹25)'}
                             </div>
                           )}
@@ -238,10 +238,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
                   closeCart();
                   onOpenCheckout();
                 }}
-                className="w-full bg-[#292525] hover:bg-[#1C1917] text-white py-3.5 px-4 rounded-xl text-xs font-semibold shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 py-3.5 px-4 rounded-xl text-xs sm:text-sm font-black shadow-md shadow-amber-200 flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
                 <span>Proceed to Cash on Delivery</span>
-                <ArrowRight className="w-4 h-4 text-[#F4C62E]" />
+                <ArrowRight className="w-4 h-4 text-stone-950" />
               </button>
 
               <div className="text-center">

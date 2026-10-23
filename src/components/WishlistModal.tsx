@@ -34,10 +34,10 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-5 border-b border-stone-200 flex items-center justify-between bg-[#FAFBFD]">
+        <div className="p-5 border-b border-stone-200 flex items-center justify-between bg-[#FFFDF5]">
           <div className="flex items-center gap-2">
-            <Heart className="w-5 h-5 text-[#E95D79] fill-[#E95D79]" />
-            <h2 className="font-heading text-lg font-bold text-[#124282]">
+            <Heart className="w-5 h-5 text-amber-500 fill-amber-500" />
+            <h2 className="font-heading text-lg font-bold text-stone-900">
               My Wishlist ({wishlistProducts.length})
             </h2>
           </div>
@@ -75,7 +75,7 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
                     <h4 className="font-heading text-xs sm:text-sm font-bold text-stone-900 line-clamp-1">
                       {p.name}
                     </h4>
-                    <div className="font-mono text-xs font-bold text-[#124282] mt-0.5 tabular-nums">
+                    <div className="font-mono text-xs font-bold text-amber-700 mt-0.5 tabular-nums">
                       ₹{p.price}
                     </div>
                   </div>
@@ -87,10 +87,10 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
                       onOpenProductDetails(p);
                       onClose();
                     }}
-                    className="px-3 py-1.5 bg-[#124282] hover:bg-[#0e3568] text-white text-xs font-bold rounded-xl flex items-center gap-1 cursor-pointer transition-colors shadow-xs"
+                    className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs font-extrabold rounded-xl flex items-center gap-1 cursor-pointer transition-colors shadow-xs shadow-amber-200"
                   >
                     <span>View</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-stone-950" />
                   </button>
                   <button
                     onClick={() => onRemoveFromWishlist(p.id)}

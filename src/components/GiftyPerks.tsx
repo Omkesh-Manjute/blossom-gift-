@@ -17,47 +17,47 @@ export const GiftyPerks: React.FC = () => {
 
   return (
     <div>
-      {/* 4 Feature Trust Blocks matching Gifty WorkDo style */}
-      <section className="bg-[#124282] text-white py-10 border-b border-blue-900">
+      {/* 4 Feature Trust Blocks */}
+      <section className="bg-stone-950 text-white py-10 border-b border-amber-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-left">
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
-                <Truck className="w-6 h-6 text-[#F4C62E]" />
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/30">
+                <Truck className="w-6 h-6 text-amber-400" />
               </div>
               <div>
                 <h4 className="font-heading text-sm font-bold text-white">Free Gondia Shipping</h4>
-                <p className="text-[11px] text-blue-200 mt-0.5">On all orders over ₹499</p>
+                <p className="text-[11px] text-stone-400 mt-0.5">On all orders over ₹499</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
-                <ShieldCheck className="w-6 h-6 text-[#E95D79]" />
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/30">
+                <ShieldCheck className="w-6 h-6 text-amber-400" />
               </div>
               <div>
                 <h4 className="font-heading text-sm font-bold text-white">Cash on Delivery</h4>
-                <p className="text-[11px] text-blue-200 mt-0.5">Inspect & pay at doorstep</p>
+                <p className="text-[11px] text-stone-400 mt-0.5">Inspect & pay at doorstep</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
-                <Gift className="w-6 h-6 text-amber-300" />
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/30">
+                <Gift className="w-6 h-6 text-amber-400" />
               </div>
               <div>
                 <h4 className="font-heading text-sm font-bold text-white">Gift Wrap & Cards</h4>
-                <p className="text-[11px] text-blue-200 mt-0.5">Deluxe satin packaging</p>
+                <p className="text-[11px] text-stone-400 mt-0.5">Deluxe satin packaging</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center shrink-0 border border-emerald-500/30">
                 <PhoneCall className="w-6 h-6 text-emerald-400" />
               </div>
               <div>
                 <h4 className="font-heading text-sm font-bold text-white">WhatsApp Support</h4>
-                <p className="text-[11px] text-blue-200 mt-0.5">+91 8208589775</p>
+                <p className="text-[11px] text-stone-400 mt-0.5">+91 8208589775</p>
               </div>
             </div>
           </div>
@@ -65,12 +65,12 @@ export const GiftyPerks: React.FC = () => {
       </section>
 
       {/* Newsletter Signup (Gifty style) */}
-      <section className="bg-[#FAFBFD] py-12 border-b border-stone-200">
+      <section className="bg-[#FFFDF7] py-12 border-b border-amber-200/60">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <span className="text-xs font-bold text-[#E95D79] uppercase tracking-wider block mb-1">
+          <span className="text-xs font-bold text-amber-800 uppercase tracking-wider block mb-1">
             Gondia Special Offer
           </span>
-          <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#124282] mb-2">
+          <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-stone-900 mb-2">
             Sign up for our newsletter
           </h2>
           <p className="text-xs sm:text-sm text-stone-500 max-w-md mx-auto mb-6">
@@ -85,14 +85,14 @@ export const GiftyPerks: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address..."
-                className="w-full bg-white border border-stone-300 rounded-full pl-10 pr-4 py-3 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#124282]"
+                className="w-full bg-white border border-stone-300 rounded-full pl-10 pr-4 py-3 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
               <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             </div>
 
             <button
               type="submit"
-              className="w-full sm:w-auto px-6 py-3 bg-[#124282] hover:bg-[#0d3161] text-white rounded-full text-xs font-bold shadow-md transition-all cursor-pointer whitespace-nowrap"
+              className="w-full sm:w-auto px-6 py-3 bg-amber-500 hover:bg-amber-600 text-stone-950 rounded-full text-xs font-black shadow-md shadow-amber-200 transition-all cursor-pointer whitespace-nowrap"
             >
               {subscribed ? 'Subscribed!' : 'Subscribe'}
             </button>

@@ -89,7 +89,7 @@ export const OrderTrackingView: React.FC<OrderTrackingViewProps> = ({
               value={orderNumber}
               onChange={(e) => setOrderNumber(e.target.value)}
               placeholder="e.g. BG-2026-4091"
-              className="w-full bg-[#FAF8F5] border border-stone-200 rounded-lg px-3.5 py-2.5 text-xs text-stone-900 font-mono uppercase focus:outline-none focus:ring-2 focus:ring-[#F4C62E] focus:bg-white"
+              className="w-full bg-[#FAF8F5] border border-stone-200 rounded-lg px-3.5 py-2.5 text-xs text-stone-900 font-mono uppercase focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"
             />
           </div>
 
@@ -102,16 +102,16 @@ export const OrderTrackingView: React.FC<OrderTrackingViewProps> = ({
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. 9823415678"
-              className="w-full bg-[#FAF8F5] border border-stone-200 rounded-lg px-3.5 py-2.5 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#F4C62E] focus:bg-white"
+              className="w-full bg-[#FAF8F5] border border-stone-200 rounded-lg px-3.5 py-2.5 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"
             />
           </div>
 
           <div className="sm:col-span-3">
             <button
               type="submit"
-              className="w-full bg-[#292525] hover:bg-black text-white py-2.5 px-4 rounded-lg text-xs font-semibold shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer h-10"
+              className="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 py-2.5 px-4 rounded-xl text-xs font-black shadow-md shadow-amber-200 flex items-center justify-center gap-1.5 transition-all cursor-pointer h-10"
             >
-              <Search className="w-3.5 h-3.5 text-[#F4C62E]" />
+              <Search className="w-3.5 h-3.5 text-stone-950" />
               <span>Track Order</span>
             </button>
           </div>
@@ -196,7 +196,7 @@ export const OrderTrackingView: React.FC<OrderTrackingViewProps> = ({
                           <div
                             className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
                               isCurrent
-                                ? 'bg-[#292525] text-[#F4C62E] ring-4 ring-amber-100 shadow-md'
+                                ? 'bg-amber-500 text-stone-950 ring-4 ring-amber-200 shadow-md font-bold'
                                 : isCompleted
                                 ? 'bg-emerald-600 text-white'
                                 : 'bg-stone-200 text-stone-400'

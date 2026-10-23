@@ -99,9 +99,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-4 sm:p-5 border-b border-[#EBE7DF] flex items-center justify-between bg-[#FAF8F5]">
+        <div className="p-4 sm:p-5 border-b border-[#EBE7DF] flex items-center justify-between bg-[#FFFDF5]">
           <div>
-            <h2 className="font-serif text-lg font-bold text-[#292525]">
+            <h2 className="font-serif text-lg font-bold text-stone-900">
               Cash on Delivery Checkout
             </h2>
             <p className="text-xs text-stone-500 mt-0.5">
@@ -142,7 +142,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     placeholder="e.g. Rahul Sharma"
-                    className="w-full bg-white border border-stone-200 rounded-lg pl-8 pr-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#F4C62E]"
+                    className="w-full bg-white border border-stone-200 rounded-lg pl-8 pr-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                   />
                   <User className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                 </div>
@@ -160,7 +160,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     placeholder="e.g. 9823456789"
-                    className="w-full bg-white border border-stone-200 rounded-lg pl-8 pr-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#F4C62E]"
+                    className="w-full bg-white border border-stone-200 rounded-lg pl-8 pr-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                   />
                   <Phone className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                 </div>
@@ -176,7 +176,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 value={customerEmail}
                 onChange={(e) => setCustomerEmail(e.target.value)}
                 placeholder="name@example.com"
-                className="w-full bg-white border border-stone-200 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#F4C62E]"
+                className="w-full bg-white border border-stone-200 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
             </div>
           </div>
@@ -198,7 +198,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     value={deliveryAddress}
                     onChange={(e) => setDeliveryAddress(e.target.value)}
                     placeholder="e.g. Flat 204, Radha Krishna Apts, Rail Toly, Near Station"
-                    className="w-full bg-white border border-stone-200 rounded-lg pl-8 pr-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#F4C62E] resize-none"
+                    className="w-full bg-white border border-stone-200 rounded-lg pl-8 pr-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
                   />
                   <MapPin className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-3" />
                 </div>
@@ -239,7 +239,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   value={deliveryNotes}
                   onChange={(e) => setDeliveryNotes(e.target.value)}
                   placeholder="e.g. Surprise birthday gift, do not reveal sender until opened"
-                  className="w-full bg-white border border-stone-200 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#F4C62E]"
+                  className="w-full bg-white border border-stone-200 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
             </div>
@@ -291,9 +291,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#292525] hover:bg-[#1C1917] text-white py-3.5 px-4 rounded-xl text-xs font-semibold shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+              className="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 py-3.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold shadow-md shadow-amber-200 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
             >
-              <ShieldCheck className="w-4 h-4 text-[#F4C62E]" />
+              <ShieldCheck className="w-4 h-4 text-stone-950" />
               <span>
                 {isSubmitting ? 'Placing Order...' : `Confirm Order with Cash on Delivery (₹${totalAmount})`}
               </span>

@@ -143,34 +143,34 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
 
   return (
     <section
-      className="relative w-full max-w-full overflow-hidden bg-gradient-to-r from-[#fc9db4] via-[#fdb7c8] to-[#f48da1] border-b border-pink-200"
+      className="relative w-full max-w-full overflow-hidden bg-gradient-to-r from-[#FEF3C7] via-[#FFFBEB] to-[#FDE68A] border-b border-amber-200/80"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Floating subtle ambient heart particles */}
-      <div className="absolute top-6 left-12 text-white/40 text-xl animate-float pointer-events-none select-none">
-        ♥
+      {/* Floating subtle ambient golden sparkle particles */}
+      <div className="absolute top-6 left-12 text-amber-500/30 text-xl animate-float pointer-events-none select-none">
+        ✦
       </div>
       <div
-        className="absolute top-16 right-1/4 text-white/30 text-2xl animate-float pointer-events-none select-none"
+        className="absolute top-16 right-1/4 text-yellow-600/25 text-2xl animate-float pointer-events-none select-none"
         style={{ animationDelay: '1.2s' }}
       >
-        ♥
+        ✨
       </div>
       <div
-        className="absolute bottom-12 left-1/3 text-white/35 text-base animate-float pointer-events-none select-none"
+        className="absolute bottom-12 left-1/3 text-amber-600/30 text-base animate-float pointer-events-none select-none"
         style={{ animationDelay: '2.4s' }}
       >
-        ♥
+        ✦
       </div>
       <div
-        className="absolute top-1/2 right-10 text-white/40 text-3xl animate-float pointer-events-none select-none"
+        className="absolute top-1/2 right-10 text-amber-500/30 text-3xl animate-float pointer-events-none select-none"
         style={{ animationDelay: '3.1s' }}
       >
-        ♥
+        ★
       </div>
 
       {/* Main Panoramic Slider Track with Unified Consistent Aspect Ratio */}
@@ -227,7 +227,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
                             </h2>
                           )}
                           {(slide.description || slide.subtitle) && (
-                            <p className="text-xs sm:text-sm md:text-base text-pink-100/90 font-medium mt-1 mb-3 line-clamp-2 drop-shadow-xs">
+                            <p className="text-xs sm:text-sm md:text-base text-amber-100/90 font-medium mt-1 mb-3 line-clamp-2 drop-shadow-xs">
                               {slide.description || slide.subtitle}
                             </p>
                           )}
@@ -238,10 +238,10 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
                                 e.stopPropagation();
                                 onShopClick();
                               }}
-                              className="inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white font-bold text-xs sm:text-sm shadow-xl shadow-pink-900/40 transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
+                              className="inline-flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-amber-500 hover:bg-amber-600 text-stone-900 font-extrabold text-xs sm:text-sm shadow-xl shadow-amber-900/40 transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
                             >
                               <span>{slide.ctaText || 'Shop Now'}</span>
-                              <ArrowRight className="w-4 h-4" />
+                              <ArrowRight className="w-4 h-4 text-stone-900" />
                             </button>
 
                             <button
@@ -260,7 +260,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
                     /* Clean Mode: Minimal subtle bottom prompt */
                     <div className="absolute bottom-3 left-4 z-10 pointer-events-none opacity-90 transition-opacity group-hover:opacity-100">
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/45 backdrop-blur-md text-white text-[11px] font-semibold border border-white/20 shadow-xs">
-                        <Gift className="w-3.5 h-3.5 text-pink-300" />
+                        <Gift className="w-3.5 h-3.5 text-amber-300" />
                         <span>Tap to explore gifts in Gondia</span>
                       </span>
                     </div>
@@ -341,7 +341,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
                       className="w-full h-full rounded-full cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group relative flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/80"
                     >
                       <span className="absolute inset-0 bg-white/0 group-hover:bg-white/25 transition-all rounded-full pointer-events-none" />
-                      <span className="absolute -inset-1 rounded-full bg-pink-400/0 group-hover:bg-pink-400/30 blur-xs transition-all pointer-events-none" />
+                      <span className="absolute -inset-1 rounded-full bg-amber-400/0 group-hover:bg-amber-400/30 blur-xs transition-all pointer-events-none" />
                     </button>
                   </div>
 
@@ -442,7 +442,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
                   <span
                     className={`transition-all duration-300 rounded-full block ${
                       currentIndex === idx
-                        ? 'w-6 h-2 bg-[#E8436E] ring-2 ring-white/60'
+                        ? 'w-6 h-2 bg-amber-400 ring-2 ring-white/80'
                         : 'w-2 h-2 bg-white/70 hover:bg-white'
                     }`}
                   />
@@ -453,13 +453,13 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
         )}
       </div>
 
-      {/* Mobile-Friendly Trust Badges Strip (strictly confined within 100% width) */}
-      <div className="sm:hidden bg-white/80 backdrop-blur-xs border-t border-pink-200/80 px-3 py-2.5 grid grid-cols-2 gap-2 text-left w-full max-w-full">
+      {/* Mobile-Friendly Trust Badges Strip (strictly confined within 100% width, Warm Gold & Crisp White) */}
+      <div className="sm:hidden bg-white/95 backdrop-blur-xs border-t border-amber-200/80 px-3 py-2.5 grid grid-cols-2 gap-2 text-left w-full max-w-full">
         <a
           href="#contact"
-          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-pink-100 shadow-2xs min-w-0"
+          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-amber-200/60 shadow-2xs min-w-0 hover:border-amber-300"
         >
-          <div className="w-7 h-7 rounded-lg bg-pink-100 text-[#E8436E] flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
             <Truck className="w-3.5 h-3.5" />
           </div>
           <div className="min-w-0">
@@ -473,9 +473,9 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
             if (onCustomClick) onCustomClick();
             else onShopClick();
           }}
-          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-pink-100 shadow-2xs text-left min-w-0 cursor-pointer"
+          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-amber-200/60 shadow-2xs text-left min-w-0 cursor-pointer hover:border-amber-300"
         >
-          <div className="w-7 h-7 rounded-lg bg-pink-100 text-[#E8436E] flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
             <Gift className="w-3.5 h-3.5" />
           </div>
           <div className="min-w-0">
@@ -486,9 +486,9 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onCustomClick }) => {
 
         <button
           onClick={onShopClick}
-          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-pink-100 shadow-2xs text-left min-w-0 cursor-pointer"
+          className="flex items-center gap-2 p-2 rounded-xl bg-white border border-amber-200/60 shadow-2xs text-left min-w-0 cursor-pointer hover:border-amber-300"
         >
-          <div className="w-7 h-7 rounded-lg bg-pink-100 text-[#E8436E] flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
             <ShieldCheck className="w-3.5 h-3.5" />
           </div>
           <div className="min-w-0">

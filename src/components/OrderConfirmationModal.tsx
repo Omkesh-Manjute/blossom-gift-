@@ -125,10 +125,10 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
 
           <button
             onClick={() => onGoToTracking(order.orderNumber, order.customerPhone)}
-            className="w-full bg-[#292525] hover:bg-[#1C1917] text-white py-3 px-4 rounded-xl text-xs font-semibold shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer"
+            className="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold shadow-md shadow-amber-200 flex items-center justify-center gap-2 transition-all cursor-pointer"
           >
             <span>Track Order Status</span>
-            <ArrowRight className="w-4 h-4 text-[#F4C62E]" />
+            <ArrowRight className="w-4 h-4 text-stone-950" />
           </button>
 
           <a

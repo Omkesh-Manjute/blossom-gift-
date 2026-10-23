@@ -43,25 +43,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
   ];
 
   return (
-    <footer id="footer-contact" className="bg-[#FFF5F8] border-t border-pink-200/60 pt-12 pb-8 text-stone-700 relative overflow-hidden">
+    <footer id="footer-contact" className="bg-[#FFFDF7] border-t border-amber-200/70 pt-12 pb-8 text-stone-700 relative overflow-hidden">
       {/* Decorative ambient subtle background flowers */}
-      <div className="absolute top-0 right-0 w-48 h-48 bg-pink-200/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-200/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-48 h-48 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-200/20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 text-left pb-12 border-b border-pink-200/60">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 text-left pb-12 border-b border-amber-200/60">
           {/* Column 1: Brand Info (lg:col-span-4) */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#E8436E] to-[#FA709A] text-white flex items-center justify-center shadow-md shadow-pink-200">
-                <Gift className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 via-amber-500 to-yellow-500 text-stone-950 flex items-center justify-center shadow-md shadow-amber-200">
+                <Gift className="w-5 h-5 text-stone-950" />
               </div>
               <div>
                 <div className="flex items-baseline">
                   <span className="font-extrabold text-xl tracking-tight text-[#1E293B] leading-none">
                     BLOSSOM
                   </span>
-                  <span className="font-extrabold text-xl tracking-tight text-[#E8436E] ml-1.5 leading-none">
+                  <span className="font-extrabold text-xl tracking-tight text-amber-600 ml-1.5 leading-none">
                     GIFT
                   </span>
                 </div>
@@ -132,7 +132,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
               <li>
                 <button
                   onClick={() => onNavClick('shop')}
-                  className="text-stone-600 hover:text-[#E8436E] transition-colors cursor-pointer"
+                  className="text-stone-600 hover:text-amber-600 transition-colors cursor-pointer"
                 >
                   Home
                 </button>
@@ -140,7 +140,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
               <li>
                 <button
                   onClick={() => onNavClick('shop')}
-                  className="text-stone-600 hover:text-[#E8436E] transition-colors cursor-pointer"
+                  className="text-stone-600 hover:text-amber-600 transition-colors cursor-pointer"
                 >
                   Shop
                 </button>
@@ -148,7 +148,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
               <li>
                 <button
                   onClick={() => onNavClick('about')}
-                  className="text-stone-600 hover:text-[#E8436E] transition-colors cursor-pointer"
+                  className="text-stone-600 hover:text-amber-600 transition-colors cursor-pointer"
                 >
                   About Us
                 </button>
@@ -159,7 +159,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
                     const el = document.getElementById('footer-contact');
                     el?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="text-stone-600 hover:text-[#E8436E] transition-colors cursor-pointer"
+                  className="text-stone-600 hover:text-amber-600 transition-colors cursor-pointer"
                 >
                   Contact Us
                 </button>
@@ -167,7 +167,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
               <li>
                 <button
                   onClick={() => onNavClick('admin')}
-                  className="text-stone-600 hover:text-[#E8436E] transition-colors cursor-pointer"
+                  className="text-stone-600 hover:text-amber-600 transition-colors cursor-pointer"
                 >
                   My Account
                 </button>
@@ -175,7 +175,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
               <li>
                 <button
                   onClick={() => onNavClick('track')}
-                  className="text-stone-600 hover:text-[#E8436E] transition-colors cursor-pointer"
+                  className="text-stone-600 hover:text-amber-600 transition-colors cursor-pointer"
                 >
                   Track Order
                 </button>
@@ -183,7 +183,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
               <li>
                 <button
                   onClick={onOpenCatalogue}
-                  className="text-[#E8436E] font-bold hover:underline flex items-center gap-1.5 cursor-pointer"
+                  className="text-amber-700 font-bold hover:underline flex items-center gap-1.5 cursor-pointer"
                 >
                   <FileText className="w-3.5 h-3.5" />
                   <span>Download Catalogue (PDF)</span>
@@ -207,7 +207,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
                       const el = document.getElementById('catalog-section');
                       el?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="text-stone-600 hover:text-[#E8436E] transition-colors cursor-pointer"
+                    className="text-stone-600 hover:text-amber-600 transition-colors cursor-pointer"
                   >
                     {cat}
                   </button>
@@ -223,19 +223,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
             </h4>
             <div className="space-y-2.5 text-xs text-stone-600">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-[#E8436E] shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <span>Gupta Complex, Near N.M.D. College, Gondia (M.S.)</span>
               </div>
               <div className="flex items-center gap-2 font-mono">
-                <Phone className="w-4 h-4 text-[#E8436E] shrink-0" />
+                <Phone className="w-4 h-4 text-amber-600 shrink-0" />
                 <span>8208589775 | 9673155741</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[#E8436E] shrink-0" />
+                <Mail className="w-4 h-4 text-amber-600 shrink-0" />
                 <span>blossomgift@gmail.com</span>
               </div>
               <div className="flex items-start gap-2">
-                <Clock className="w-4 h-4 text-[#E8436E] shrink-0 mt-0.5" />
+                <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <div>
                   <p>Mon - Sat: 9:00 AM - 8:00 PM</p>
                   <p className="text-[11px] text-stone-500">Sunday: 10:00 AM - 5:00 PM</p>
@@ -259,12 +259,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onSelectCategory, on
                 placeholder="Enter your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#E8436E]"
+                className="w-full bg-white border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 required
               />
               <button
                 type="submit"
-                className="w-full bg-[#E8436E] hover:bg-[#d4335c] text-white py-2 rounded-xl text-xs font-bold transition-colors shadow-xs cursor-pointer"
+                className="w-full bg-amber-500 hover:bg-amber-600 text-stone-950 py-2 rounded-xl text-xs font-black transition-colors shadow-xs shadow-amber-200 cursor-pointer"
               >
                 {subscribed ? 'Subscribed! 🎉' : 'Subscribe'}
               </button>

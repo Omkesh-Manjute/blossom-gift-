@@ -33,10 +33,10 @@ export const GiftyTestimonials: React.FC = () => {
     <section className="py-14 bg-white border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-xl mx-auto mb-10">
-          <span className="text-xs font-bold text-[#E95D79] uppercase tracking-wider block mb-1">
+          <span className="text-xs font-bold text-amber-800 uppercase tracking-wider block mb-1">
             Trusted by Gondia Families
           </span>
-          <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#124282]">
+          <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-stone-900">
             What Our Customers Say
           </h2>
           <p className="text-xs sm:text-sm text-stone-500 mt-2">
@@ -48,13 +48,13 @@ export const GiftyTestimonials: React.FC = () => {
           {REVIEWS.map((rev, idx) => (
             <div
               key={idx}
-              className="bg-[#FAFBFD] p-6 rounded-2xl border border-stone-200/90 shadow-xs flex flex-col justify-between text-left relative"
+              className="bg-[#FFFDF7] p-6 rounded-2xl border border-amber-200/60 shadow-xs flex flex-col justify-between text-left relative"
             >
               <div>
                 {/* 5-Star Rating matching Judgeme widget */}
-                <div className="flex items-center gap-1 text-[#F4C62E] mb-3">
+                <div className="flex items-center gap-1 text-amber-400 mb-3">
                   {Array.from({ length: rev.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#F4C62E]" />
+                    <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                   <span className="text-xs font-bold text-stone-700 ml-1">5.0</span>
                 </div>
@@ -74,7 +74,7 @@ export const GiftyTestimonials: React.FC = () => {
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[10px] font-semibold text-[#124282] block">
+                  <span className="text-[10px] font-semibold text-amber-800 block">
                     {rev.gift}
                   </span>
                   <span className="text-[9px] text-stone-400">{rev.date}</span>

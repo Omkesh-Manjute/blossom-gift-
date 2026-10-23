@@ -322,13 +322,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
     <div className="min-h-screen bg-[#F8F9FA] flex flex-col lg:flex-row text-left font-sans text-stone-800 antialiased">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-5 right-5 z-50 bg-[#1E293B] text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold animate-bounce border border-pink-500/30">
-          <Sparkles className="w-4 h-4 text-pink-400" />
+        <div className="fixed top-5 right-5 z-50 bg-[#1E293B] text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold animate-bounce border border-amber-500/30">
+          <Sparkles className="w-4 h-4 text-amber-400" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* LEFT SIDEBAR (Matching Dashboard Screenshot: clean white, pink pill active) */}
+      {/* LEFT SIDEBAR (Matching Dashboard: clean white, amber pill active) */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-stone-200/80 shadow-xs flex flex-col justify-between transition-transform duration-300 lg:static lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -344,15 +344,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
               }}
               className="flex items-center gap-2.5 text-left cursor-pointer group"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#E8436E] to-[#FA709A] text-white flex items-center justify-center shadow-md shadow-pink-200 transition-transform group-hover:scale-105">
-                <Gift className="w-5 h-5 text-white" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-400 via-amber-500 to-yellow-500 text-stone-950 flex items-center justify-center shadow-md shadow-amber-200 transition-transform group-hover:scale-105">
+                <Gift className="w-5 h-5 text-stone-950" />
               </div>
               <div>
                 <div className="flex items-baseline">
                   <span className="font-extrabold text-lg tracking-tight text-[#1E293B] leading-none">
                     BLOSSOM
                   </span>
-                  <span className="font-extrabold text-lg tracking-tight text-[#E8436E] ml-1 leading-none">
+                  <span className="font-extrabold text-lg tracking-tight text-amber-600 ml-1 leading-none">
                     GIFT
                   </span>
                 </div>
@@ -383,14 +383,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     setActiveTab(item.id as any);
                     setSidebarOpen(false);
                   }}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
                     isActive
-                      ? 'bg-[#E8436E] text-white shadow-md shadow-pink-300/40'
-                      : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+                      ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-200/70 font-extrabold'
+                      : 'text-stone-600 hover:bg-amber-50/60 hover:text-stone-900'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-stone-500'}`} />
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-stone-950' : 'text-stone-500'}`} />
                     <span>{item.label}</span>
                   </div>
 
@@ -398,8 +398,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     <span
                       className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                         isActive
-                          ? 'bg-white text-[#E8436E]'
-                          : 'bg-[#E8436E] text-white'
+                          ? 'bg-white text-stone-950'
+                          : 'bg-amber-500 text-stone-950'
                       }`}
                     >
                       {item.badge}
@@ -412,7 +412,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
           {/* Bottom Promo Card (Matching the 3D gift box card from screenshot) */}
           <div className="p-3 border-t border-stone-100">
-            <div className="relative rounded-2xl overflow-hidden p-3 bg-gradient-to-br from-pink-50 to-rose-100 border border-pink-200/80 text-center shadow-xs">
+            <div className="relative rounded-2xl overflow-hidden p-3 bg-gradient-to-br from-amber-50 to-yellow-100 border border-amber-200/80 text-center shadow-xs">
               <img
                 src="/extracted/dash_promo.png"
                 alt="Blossom Gift Promo"
@@ -443,9 +443,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 placeholder="Search orders, products, customers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#FAF8F9] border border-stone-200 rounded-full pl-4 pr-10 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#E8436E]"
+                className="w-full bg-[#FAF8F9] border border-stone-200 rounded-full pl-4 pr-10 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
-              <button className="absolute right-1 w-7 h-7 rounded-full bg-[#E8436E] text-white flex items-center justify-center cursor-pointer">
+              <button className="absolute right-1 w-7 h-7 rounded-full bg-amber-500 text-stone-950 flex items-center justify-center cursor-pointer">
                 <Search className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -453,11 +453,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
           {/* Right Header Controls */}
           <div className="flex items-center gap-3 sm:gap-4">
-            {/* Visit Website Button (Pink solid, external link) */}
+            {/* Visit Website Button */}
             {onBackToStore && (
               <button
                 onClick={onBackToStore}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white text-xs font-bold transition-all shadow-sm cursor-pointer whitespace-nowrap"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs font-black transition-all shadow-sm shadow-amber-200 cursor-pointer whitespace-nowrap"
               >
                 <span>Visit Website</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -472,7 +472,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 title="Notifications"
               >
                 <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-4 h-4 bg-[#E8436E] text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                <span className="absolute top-1 right-1 w-4 h-4 bg-amber-500 text-stone-950 text-[9px] font-black rounded-full flex items-center justify-center">
                   3
                 </span>
               </button>
@@ -482,7 +482,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-2xl shadow-xl border border-stone-200 p-3 z-50 text-left">
                   <div className="flex items-center justify-between pb-2 border-b border-stone-100">
                     <h4 className="text-xs font-bold text-stone-900">Notifications</h4>
-                    <span className="text-[10px] text-[#E8436E] font-bold cursor-pointer">Mark all read</span>
+                    <span className="text-[10px] text-amber-700 font-bold cursor-pointer">Mark all read</span>
                   </div>
                   <div className="divide-y divide-stone-100">
                     {notificationsList.map((n) => (
@@ -502,7 +502,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                 className="flex items-center gap-2 cursor-pointer p-1 rounded-full hover:bg-stone-50"
               >
-                <div className="w-8 h-8 rounded-full bg-[#E8436E] text-white font-bold flex items-center justify-center text-xs shadow-xs">
+                <div className="w-8 h-8 rounded-full bg-amber-500 text-stone-950 font-black flex items-center justify-center text-xs shadow-xs">
                   A
                 </div>
                 <span className="hidden sm:inline text-xs font-bold text-stone-800">
@@ -532,7 +532,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                         onBackToStore();
                         setUserDropdownOpen(false);
                       }}
-                      className="w-full text-left px-3 py-2 hover:bg-stone-50 text-[#E8436E] font-semibold cursor-pointer"
+                      className="w-full text-left px-3 py-2 hover:bg-stone-50 text-amber-700 font-semibold cursor-pointer"
                     >
                       Go to Storefront
                     </button>
@@ -547,7 +547,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
         <main className="p-4 sm:p-6 lg:p-8 space-y-6">
           {activeTab === 'dashboard' ? (
             <>
-              {/* TOP 4 STAT CARDS (Exact match to screenshot) */}
+              {/* TOP 4 STAT CARDS (Warm amber/yellow & white) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {/* 1. Total Orders */}
                 <div className="bg-white p-5 rounded-3xl border border-stone-200/80 shadow-xs flex items-center justify-between">
@@ -561,7 +561,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     </div>
                     <span className="text-[10px] text-stone-400 mt-1 block">This Month</span>
                   </div>
-                  <div className="w-12 h-12 rounded-2xl bg-pink-50 text-[#E8436E] flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 border border-amber-200/60 flex items-center justify-center">
                     <ShoppingCart className="w-6 h-6" />
                   </div>
                 </div>
@@ -578,7 +578,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     </div>
                     <span className="text-[10px] text-stone-400 mt-1 block">This Month</span>
                   </div>
-                  <div className="w-12 h-12 rounded-2xl bg-pink-50 text-[#E8436E] flex items-center justify-center font-extrabold text-xl">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 border border-amber-200/60 flex items-center justify-center font-extrabold text-xl">
                     ₹
                   </div>
                 </div>
@@ -595,7 +595,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     </div>
                     <span className="text-[10px] text-stone-400 mt-1 block">Registered Users</span>
                   </div>
-                  <div className="w-12 h-12 rounded-2xl bg-pink-50 text-[#E8436E] flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 border border-amber-200/60 flex items-center justify-center">
                     <Users className="w-6 h-6" />
                   </div>
                 </div>
@@ -609,7 +609,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     </div>
                     <span className="text-[10px] text-stone-400 mt-1 block">Active Products</span>
                   </div>
-                  <div className="w-12 h-12 rounded-2xl bg-pink-50 text-[#E8436E] flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 border border-amber-200/60 flex items-center justify-center">
                     <Package className="w-6 h-6" />
                   </div>
                 </div>
@@ -629,11 +629,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                       {/* Legend */}
                       <div className="flex items-center gap-3 text-xs">
                         <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#E8436E]" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                           <span className="text-stone-600">Sales (₹)</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#FFB6C8]" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-200" />
                           <span className="text-stone-600">Orders</span>
                         </div>
                       </div>
@@ -686,15 +686,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
                             {/* Dual Bars */}
                             <div className="flex items-end gap-1">
-                              {/* Dark pink: Sales */}
+                              {/* Amber: Sales */}
                               <div
                                 style={{ height: `${salesHeight}%` }}
-                                className="w-2 sm:w-3 bg-[#E8436E] rounded-t-sm transition-all duration-300 group-hover:brightness-110"
+                                className="w-2 sm:w-3 bg-amber-500 rounded-t-sm transition-all duration-300 group-hover:brightness-110"
                               />
-                              {/* Light pink: Orders */}
+                              {/* Light yellow: Orders */}
                               <div
                                 style={{ height: `${ordersHeight}%` }}
-                                className="w-2 sm:w-3 bg-[#FFB6C8] rounded-t-sm transition-all duration-300 group-hover:brightness-110"
+                                className="w-2 sm:w-3 bg-amber-200 rounded-t-sm transition-all duration-300 group-hover:brightness-110"
                               />
                             </div>
                             <span className="text-[10px] text-stone-500 font-medium mt-2">{d.month}</span>
@@ -775,7 +775,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     <h3 className="font-sans font-bold text-base text-stone-900">Recent Orders</h3>
                     <button
                       onClick={() => setActiveTab('orders')}
-                      className="text-xs font-bold text-[#E8436E] hover:underline flex items-center gap-1 cursor-pointer"
+                      className="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <span>View All</span>
                       <span>→</span>
@@ -800,7 +800,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                           const statusColors: Record<string, string> = {
                             Pending: 'bg-amber-50 text-amber-600 border border-amber-200',
                             Confirmed: 'bg-blue-50 text-blue-600 border border-blue-200',
-                            Preparing: 'bg-pink-50 text-pink-600 border border-pink-200',
+                            Preparing: 'bg-amber-50 text-amber-700 border border-amber-300',
                             Ready: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
                             Delivered: 'bg-purple-50 text-purple-600 border border-purple-200',
                             Cancelled: 'bg-stone-50 text-stone-500 border border-stone-200',
@@ -808,7 +808,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
                           return (
                             <tr key={o.id} className="hover:bg-stone-50/70 transition-colors">
-                              <td className="py-3 font-mono font-bold text-[#E8436E]">{o.orderNumber}</td>
+                              <td className="py-3 font-mono font-bold text-amber-700">{o.orderNumber}</td>
                               <td className="py-3 font-bold text-stone-800">{o.customerName}</td>
                               <td className="py-3">
                                 <div className="flex items-center -space-x-1.5">
@@ -853,7 +853,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     <h3 className="font-sans font-bold text-base text-stone-900">Top Selling Products</h3>
                     <button
                       onClick={() => setActiveTab('products')}
-                      className="text-xs font-bold text-[#E8436E] hover:underline flex items-center gap-1 cursor-pointer"
+                      className="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <span>View All</span>
                       <span>→</span>
@@ -880,7 +880,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                           <span className="font-mono font-bold text-stone-900">₹{item.revenue.toLocaleString()}</span>
                           <button
                             onClick={() => showToast(`Added ${item.name} to batch order`)}
-                            className="w-7 h-7 rounded-full bg-pink-50 hover:bg-[#E8436E] text-[#E8436E] hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                            className="w-7 h-7 rounded-full bg-amber-50 hover:bg-amber-500 text-amber-700 hover:text-stone-950 flex items-center justify-center transition-colors cursor-pointer border border-amber-200/60"
                           >
                             <ShoppingCart className="w-3.5 h-3.5" />
                           </button>
@@ -900,7 +900,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                       <h3 className="font-sans font-bold text-sm text-stone-900">Low Stock Products</h3>
                       <button
                         onClick={() => setActiveTab('inventory')}
-                        className="text-xs font-bold text-[#E8436E] hover:underline flex items-center gap-1 cursor-pointer"
+                        className="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         <span>View All</span>
                         <span>→</span>
@@ -950,7 +950,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                       <h3 className="font-sans font-bold text-sm text-stone-900">New Customers</h3>
                       <button
                         onClick={() => setActiveTab('customers')}
-                        className="text-xs font-bold text-[#E8436E] hover:underline flex items-center gap-1 cursor-pointer"
+                        className="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         <span>View All</span>
                         <span>→</span>
@@ -1003,9 +1003,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                         });
                         setIsAddingProduct(true);
                       }}
-                      className="p-3 bg-pink-50/60 hover:bg-pink-100 rounded-2xl flex flex-col items-center justify-center text-center transition-all cursor-pointer group border border-pink-100"
+                      className="p-3 bg-amber-50/70 hover:bg-amber-100 rounded-2xl flex flex-col items-center justify-center text-center transition-all cursor-pointer group border border-amber-200/60"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-pink-100 text-[#E8436E] flex items-center justify-center mb-1.5 transition-transform group-hover:scale-110">
+                      <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center mb-1.5 transition-transform group-hover:scale-110">
                         <Package className="w-4 h-4" />
                       </div>
                       <span className="text-[11px] font-bold text-stone-800">Add Product</span>
@@ -1014,9 +1014,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     {/* New Category */}
                     <button
                       onClick={() => setIsAddingCategory(true)}
-                      className="p-3 bg-pink-50/60 hover:bg-pink-100 rounded-2xl flex flex-col items-center justify-center text-center transition-all cursor-pointer group border border-pink-100"
+                      className="p-3 bg-amber-50/70 hover:bg-amber-100 rounded-2xl flex flex-col items-center justify-center text-center transition-all cursor-pointer group border border-amber-200/60"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-pink-100 text-[#E8436E] flex items-center justify-center mb-1.5 transition-transform group-hover:scale-110">
+                      <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center mb-1.5 transition-transform group-hover:scale-110">
                         <Layers className="w-4 h-4" />
                       </div>
                       <span className="text-[11px] font-bold text-stone-800">New Category</span>
@@ -1025,9 +1025,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     {/* Create Offer */}
                     <button
                       onClick={() => setIsAddingCoupon(true)}
-                      className="p-3 bg-pink-50/60 hover:bg-pink-100 rounded-2xl flex flex-col items-center justify-center text-center transition-all cursor-pointer group border border-pink-100"
+                      className="p-3 bg-amber-50/70 hover:bg-amber-100 rounded-2xl flex flex-col items-center justify-center text-center transition-all cursor-pointer group border border-amber-200/60"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-pink-100 text-[#E8436E] flex items-center justify-center mb-1.5 transition-transform group-hover:scale-110">
+                      <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center mb-1.5 transition-transform group-hover:scale-110">
                         <Tag className="w-4 h-4" />
                       </div>
                       <span className="text-[11px] font-bold text-stone-800">Create Offer</span>
@@ -1058,9 +1058,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     {/* Store Settings */}
                     <button
                       onClick={() => setActiveTab('settings')}
-                      className="p-3 bg-rose-50/60 hover:bg-rose-100 rounded-2xl flex flex-col items-center justify-center text-center transition-all cursor-pointer group border border-rose-100"
+                      className="p-3 bg-amber-50/70 hover:bg-amber-100 rounded-2xl flex flex-col items-center justify-center text-center transition-all cursor-pointer group border border-amber-200/60"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-rose-100 text-[#E8436E] flex items-center justify-center mb-1.5 transition-transform group-hover:scale-110">
+                      <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center mb-1.5 transition-transform group-hover:scale-110">
                         <Settings className="w-4 h-4" />
                       </div>
                       <span className="text-[11px] font-bold text-stone-800">Store Settings</span>
@@ -1113,7 +1113,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                       .filter((o) => orderStatusFilter === 'all' || o.status === orderStatusFilter)
                       .map((o) => (
                         <tr key={o.id} className="hover:bg-stone-50/70">
-                          <td className="py-3 font-mono font-bold text-[#E8436E]">{o.orderNumber}</td>
+                          <td className="py-3 font-mono font-bold text-amber-700">{o.orderNumber}</td>
                           <td className="py-3 font-bold text-stone-900">{o.customerName}</td>
                           <td className="py-3 text-stone-600">
                             <div>{o.deliveryAddress}, {o.city}</div>
@@ -1141,7 +1141,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                           <td className="py-3 text-right space-x-1">
                             <button
                               onClick={() => setSlipOrder(o)}
-                              className="p-1.5 rounded-lg text-stone-500 hover:text-[#E8436E] hover:bg-pink-50 cursor-pointer"
+                              className="p-1.5 rounded-lg text-stone-500 hover:text-amber-700 hover:bg-amber-50 cursor-pointer"
                               title="Print Packing Slip"
                             >
                               <Printer className="w-4 h-4" />
@@ -1192,7 +1192,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     });
                     setIsAddingProduct(true);
                   }}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-[#E8436E] hover:bg-[#d4335c] text-white rounded-xl text-xs font-bold shadow-xs cursor-pointer"
+                  className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-stone-950 rounded-xl text-xs font-black shadow-xs shadow-amber-200 cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Product</span>
@@ -1215,7 +1215,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
                     <div className="mt-3 pt-2 border-t border-stone-100 flex items-center justify-between">
                       <div>
-                        <span className="font-mono font-bold text-[#E8436E] text-xs">₹{p.price}</span>
+                        <span className="font-mono font-bold text-amber-700 text-xs">₹{p.price}</span>
                         <span className="text-[10px] text-stone-400 block font-mono">Stock: {p.stock}</span>
                       </div>
                       <div className="flex items-center gap-1">
@@ -1276,7 +1276,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                         <td className="py-3 font-mono">{c.phone}</td>
                         <td className="py-3">{c.city}</td>
                         <td className="py-3 font-mono font-bold">{c.totalOrders}</td>
-                        <td className="py-3 font-mono font-bold text-[#E8436E]">₹{c.totalSpent}</td>
+                        <td className="py-3 font-mono font-bold text-amber-700">₹{c.totalSpent}</td>
                         <td className="py-3 text-right">
                           <a
                             href={`https://wa.me/91${c.phone}`}
@@ -1372,7 +1372,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-[#E8436E] hover:bg-[#d4335c] text-white font-bold rounded-xl cursor-pointer"
+                  className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-stone-950 font-black rounded-xl cursor-pointer shadow-md shadow-amber-200"
                 >
                   Save Store Settings
                 </button>
@@ -1385,7 +1385,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
               <div className="bg-white p-5 sm:p-6 rounded-3xl border border-stone-200/80 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-xl bg-pink-100 text-[#E8436E] flex items-center justify-center font-bold">
+                    <span className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
                       <ImageIcon className="w-4 h-4" />
                     </span>
                     <h2 className="text-xl font-bold text-stone-900">Hero Banners & Video Slider</h2>
@@ -1416,7 +1416,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                       });
                       setIsAddingSlide(true);
                     }}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#E8436E] hover:bg-[#d4335c] text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs font-black rounded-xl shadow-sm shadow-amber-200 transition-all cursor-pointer"
                   >
                     <Plus className="w-4 h-4" />
                     <span>+ Add Slide / Video</span>
@@ -1425,9 +1425,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
               </div>
 
               {/* Sequence & Order Info Banner */}
-              <div className="bg-pink-50/80 border border-pink-200/90 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <div className="bg-amber-50/80 border border-amber-200/90 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-pink-100 text-[#E8436E] flex items-center justify-center font-bold shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold shrink-0">
                     ⇅
                   </div>
                   <div>
@@ -1437,7 +1437,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     </p>
                   </div>
                 </div>
-                <div className="text-[11px] font-mono text-[#E8436E] font-bold bg-white px-2.5 py-1 rounded-lg border border-pink-200 shrink-0">
+                <div className="text-[11px] font-mono text-amber-800 font-bold bg-white px-2.5 py-1 rounded-lg border border-amber-200 shrink-0">
                   Total {heroSlides.length} Slides ({heroSlides.filter(s => s.isActive).length} Active)
                 </div>
               </div>
@@ -1447,7 +1447,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 {heroSlides.map((slide, idx) => (
                   <div
                     key={slide.id}
-                    className={`bg-white rounded-3xl border ${slide.isActive ? 'border-pink-200 shadow-sm' : 'border-stone-200 opacity-60'} overflow-hidden flex flex-col justify-between`}
+                    className={`bg-white rounded-3xl border ${slide.isActive ? 'border-amber-300 shadow-sm ring-1 ring-amber-200' : 'border-stone-200 opacity-60'} overflow-hidden flex flex-col justify-between`}
                   >
                     {/* Media Preview Box */}
                     <div className="relative aspect-[16/9] bg-stone-900 overflow-hidden flex items-center justify-center">
@@ -1470,7 +1470,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
                       {/* Type Badge */}
                       <div className="absolute top-3 left-3 flex items-center gap-2">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold text-white shadow-xs ${slide.type === 'video' ? 'bg-red-600 flex items-center gap-1' : 'bg-[#E8436E]'}`}>
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-black text-stone-950 shadow-xs ${slide.type === 'video' ? 'bg-amber-400 flex items-center gap-1' : 'bg-yellow-400'}`}>
                           {slide.type === 'video' && <Video className="w-3 h-3" />}
                           {slide.type.toUpperCase()} SLIDE #{idx + 1}
                         </span>
@@ -1494,7 +1494,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     <div className="p-4 sm:p-5 space-y-3">
                       <div>
                         {slide.kicker && (
-                          <span className="text-[10px] font-bold text-[#E8436E] uppercase tracking-wider block mb-0.5">
+                          <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider block mb-0.5">
                             {slide.kicker}
                           </span>
                         )}
@@ -1622,15 +1622,15 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     <span className="font-bold text-sm">Active Coupons</span>
                     <button
                       onClick={() => setIsAddingCoupon(true)}
-                      className="px-3 py-1.5 bg-[#E8436E] text-white rounded-xl text-xs font-bold"
+                      className="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-stone-950 rounded-xl text-xs font-black shadow-xs shadow-amber-200"
                     >
                       + Add Coupon
                     </button>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {coupons.map((c) => (
-                      <div key={c.id} className="border border-stone-200 p-3 rounded-2xl bg-pink-50/30">
-                        <span className="font-mono font-extrabold text-sm text-[#E8436E]">{c.code}</span>
+                      <div key={c.id} className="border border-stone-200 p-3 rounded-2xl bg-amber-50/40">
+                        <span className="font-mono font-extrabold text-sm text-amber-800">{c.code}</span>
                         <p className="text-xs text-stone-600 mt-1">{c.discountPercent}% Discount on min ₹{c.minOrder}</p>
                         <span className="text-[10px] text-stone-400 block mt-2">Used {c.usedCount} times</span>
                       </div>
@@ -1674,7 +1674,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                           <td className="py-2.5 text-right">
                             <button
                               onClick={() => handleQuickRestock(p.id, 10)}
-                              className="px-2 py-1 bg-pink-50 text-[#E8436E] rounded font-bold hover:bg-pink-100"
+                              className="px-2 py-1 bg-amber-50 text-amber-800 rounded font-bold hover:bg-amber-100 border border-amber-200"
                             >
                               +10 Units
                             </button>
@@ -1731,7 +1731,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
             <div className="border-t border-stone-100 pt-3 flex items-center justify-between">
               <span className="font-bold text-sm">Total Amount:</span>
-              <span className="font-mono font-extrabold text-base text-[#E8436E]">₹{selectedOrder.totalAmount}</span>
+              <span className="font-mono font-extrabold text-base text-amber-700">₹{selectedOrder.totalAmount}</span>
             </div>
 
             <div className="flex gap-2 pt-2">
@@ -1746,7 +1746,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
               </button>
               <button
                 onClick={() => setSelectedOrder(null)}
-                className="flex-1 py-2 rounded-xl bg-[#E8436E] text-white font-bold text-xs hover:bg-[#d4335c]"
+                className="flex-1 py-2 rounded-xl bg-amber-500 text-stone-950 font-bold text-xs hover:bg-amber-600 shadow-md shadow-amber-200"
               >
                 Close
               </button>
@@ -1846,7 +1846,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
               <div className="pt-2 flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 bg-[#E8436E] text-white font-bold rounded-xl hover:bg-[#d4335c]"
+                  className="flex-1 py-2.5 bg-amber-500 text-stone-950 font-black rounded-xl hover:bg-amber-600 shadow-md shadow-amber-200"
                 >
                   Save Product
                 </button>
@@ -1913,7 +1913,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
               <div className="pt-2 flex gap-2">
                 <button
                   type="submit"
-                  className="flex-1 py-2 bg-[#E8436E] text-white font-bold rounded-xl"
+                  className="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-stone-950 font-black rounded-xl shadow-md shadow-amber-200"
                 >
                   Create Offer
                 </button>
@@ -1936,7 +1936,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
           <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto text-left">
             <div className="flex items-center justify-between border-b border-stone-100 pb-3">
               <div className="flex items-center gap-2">
-                <span className="w-7 h-7 rounded-lg bg-pink-100 text-[#E8436E] flex items-center justify-center">
+                <span className="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
                   <Film className="w-4 h-4" />
                 </span>
                 <h3 className="font-bold text-base text-stone-900">
@@ -1964,7 +1964,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     onClick={() => setSlideForm({ ...slideForm, type: 'video' })}
                     className={`py-2 px-3 rounded-xl border flex items-center justify-center gap-2 font-bold cursor-pointer transition-all ${
                       slideForm.type === 'video'
-                        ? 'bg-red-50 text-red-600 border-red-300 ring-2 ring-red-400/20'
+                        ? 'bg-amber-100 text-amber-900 border-amber-300 ring-2 ring-amber-400/20'
                         : 'bg-stone-50 text-stone-600 border-stone-200'
                     }`}
                   >
@@ -1977,7 +1977,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     onClick={() => setSlideForm({ ...slideForm, type: 'image' })}
                     className={`py-2 px-3 rounded-xl border flex items-center justify-center gap-2 font-bold cursor-pointer transition-all ${
                       slideForm.type === 'image'
-                        ? 'bg-pink-50 text-[#E8436E] border-pink-300 ring-2 ring-pink-400/20'
+                        ? 'bg-amber-100 text-amber-900 border-amber-300 ring-2 ring-amber-400/20'
                         : 'bg-stone-50 text-stone-600 border-stone-200'
                     }`}
                   >
@@ -1994,7 +1994,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                 </label>
 
                 {/* Direct File Picker / Drag & Drop */}
-                <div className="border-2 border-dashed border-pink-300 hover:border-[#E8436E] rounded-2xl p-4 bg-pink-50/50 text-center transition-all cursor-pointer relative group">
+                <div className="border-2 border-dashed border-amber-300 hover:border-amber-500 rounded-2xl p-4 bg-amber-50/50 text-center transition-all cursor-pointer relative group">
                   <input
                     type="file"
                     accept="video/*,image/*"
@@ -2002,7 +2002,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                     className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
                   />
                   <div className="flex flex-col items-center justify-center gap-1.5 pointer-events-none">
-                    <div className="w-10 h-10 rounded-full bg-white shadow-xs text-[#E8436E] flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="w-10 h-10 rounded-full bg-white shadow-xs text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                       <Upload className="w-5 h-5" />
                     </div>
                     <span className="font-bold text-xs text-stone-800">
@@ -2020,7 +2020,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                   <button
                     type="button"
                     onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/videos/video_1.mp4', type: 'video', showOverlay: false })}
-                    className="text-[11px] bg-red-100 hover:bg-red-200 text-red-700 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
+                    className="text-[11px] bg-amber-100 hover:bg-amber-200 text-amber-800 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <Video className="w-3.5 h-3.5" />
                     <span>video 1.mp4</span>
@@ -2028,7 +2028,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                   <button
                     type="button"
                     onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/videos/video_2.mp4', type: 'video', showOverlay: false })}
-                    className="text-[11px] bg-amber-100 hover:bg-amber-200 text-amber-800 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
+                    className="text-[11px] bg-yellow-100 hover:bg-yellow-200 text-yellow-900 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <Video className="w-3.5 h-3.5" />
                     <span>video 2.mp4</span>
@@ -2036,7 +2036,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                   <button
                     type="button"
                     onClick={() => setSlideForm({ ...slideForm, mediaUrl: '/hero_banner_clean.png', mobileMediaUrl: '/hero_banner_mobile.png', type: 'image', showOverlay: true })}
-                    className="text-[11px] bg-pink-100 hover:bg-pink-200 text-[#E8436E] px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
+                    className="text-[11px] bg-amber-100 hover:bg-amber-200 text-amber-900 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <ImageIcon className="w-3.5 h-3.5" />
                     <span>Flagship Banner</span>
@@ -2124,10 +2124,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
 
               {/* Clean Video Mode Toggle (Only for Video Slides) */}
               {slideForm.type === 'video' && (
-                <div className="p-3.5 bg-pink-50/70 border border-pink-200 rounded-2xl flex items-center justify-between gap-3">
+                <div className="p-3.5 bg-amber-50/80 border border-amber-200 rounded-2xl flex items-center justify-between gap-3">
                   <div>
                     <span className="font-bold text-stone-900 block text-xs flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-[#E8436E]" />
+                      <Sparkles className="w-3.5 h-3.5 text-amber-600" />
                       <span>Clean Video Mode (No Clutter on Video)</span>
                     </span>
                     <span className="text-[11px] text-stone-500 block mt-0.5">
@@ -2246,7 +2246,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
                   id="slideActiveCheck"
                   checked={slideForm.isActive}
                   onChange={(e) => setSlideForm({ ...slideForm, isActive: e.target.checked })}
-                  className="rounded text-[#E8436E] focus:ring-[#E8436E] w-4 h-4 cursor-pointer"
+                  className="rounded text-amber-500 focus:ring-amber-500 w-4 h-4 cursor-pointer"
                 />
                 <label htmlFor="slideActiveCheck" className="font-bold text-stone-800 cursor-pointer">
                   Activate this slide immediately in hero carousel
@@ -2257,7 +2257,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackToStore }) => {
               <div className="pt-3 flex gap-3 border-t border-stone-100">
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 bg-[#E8436E] hover:bg-[#d4335c] text-white font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+                  className="flex-1 py-2.5 bg-amber-500 hover:bg-amber-600 text-stone-950 font-black rounded-xl shadow-xs shadow-amber-200 transition-colors cursor-pointer"
                 >
                   {editingSlide ? 'Update Slide' : 'Add to Hero Slider'}
                 </button>

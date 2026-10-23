@@ -35,24 +35,24 @@ export const GiftyPromoBanners: React.FC<GiftyPromoBannersProps> = ({
   }, []);
 
   return (
-    <section className="py-10 bg-[#FAFBFD]">
+    <section className="py-10 bg-[#FCFCFA]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
           {/* Promo Card 1: Heat-Reveal Magic Mug Showcase with Live Countdown */}
-          <div className="relative rounded-3xl bg-gradient-to-br from-[#124282] via-[#1a4f94] to-[#0d2f5e] text-white p-7 sm:p-9 shadow-xl overflow-hidden flex flex-col justify-between min-h-[320px]">
+          <div className="relative rounded-3xl bg-gradient-to-br from-stone-900 via-stone-950 to-stone-900 text-white p-7 sm:p-9 shadow-xl overflow-hidden flex flex-col justify-between min-h-[320px] border border-amber-500/30">
             {/* Ambient Background Glow */}
-            <div className="absolute -right-16 -top-16 w-64 h-64 bg-[#F4C62E]/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -right-16 -top-16 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10">
               <div className="flex flex-wrap items-center gap-2 mb-3">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-xs text-[#F4C62E] text-xs font-bold border border-white/20">
-                  <Flame className="w-3.5 h-3.5 text-[#F4C62E] animate-bounce" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 backdrop-blur-xs text-amber-400 text-xs font-bold border border-amber-400/30">
+                  <Flame className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
                   <span>DEAL OF THE DAY · 40% OFF</span>
                 </div>
 
                 {/* Live Countdown Timer */}
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-xs text-white text-[11px] font-mono border border-white/10">
-                  <Clock className="w-3 h-3 text-amber-300" />
+                  <Clock className="w-3 h-3 text-amber-400" />
                   <span>
                     {String(timeLeft.hours).padStart(2, '0')}:
                     {String(timeLeft.minutes).padStart(2, '0')}:
@@ -63,10 +63,10 @@ export const GiftyPromoBanners: React.FC<GiftyPromoBannersProps> = ({
 
               <h3 className="font-heading text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-2">
                 Personalized Magic <br />
-                <span className="text-[#F4C62E]">Heat-Reveal Photo Mug</span>
+                <span className="text-amber-400">Heat-Reveal Photo Mug</span>
               </h3>
 
-              <p className="text-xs sm:text-sm text-blue-100 max-w-sm leading-relaxed mb-6">
+              <p className="text-xs sm:text-sm text-stone-300 max-w-sm leading-relaxed mb-6">
                 Pour hot coffee or tea and watch your favorite romantic memories and photos reveal like magic before your eyes!
               </p>
             </div>
@@ -75,32 +75,32 @@ export const GiftyPromoBanners: React.FC<GiftyPromoBannersProps> = ({
               <button
                 type="button"
                 onClick={onCustomizeClick}
-                className="px-5 py-2.5 bg-[#F4C62E] hover:bg-[#e0b422] text-[#124282] font-bold rounded-xl text-xs sm:text-sm shadow-md transition-all flex items-center gap-2 cursor-pointer"
+                className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-stone-950 font-black rounded-xl text-xs sm:text-sm shadow-md shadow-amber-200 transition-all flex items-center gap-2 cursor-pointer"
               >
                 <span>Customize at ₹299</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 text-stone-950" />
               </button>
 
               <div className="text-right font-mono">
-                <span className="text-xs line-through text-blue-300 block">MRP ₹499</span>
-                <span className="text-base font-bold text-white">Save ₹200 (40%)</span>
+                <span className="text-xs line-through text-stone-400 block">MRP ₹499</span>
+                <span className="text-base font-bold text-amber-400">Save ₹200 (40%)</span>
               </div>
             </div>
           </div>
 
           {/* Promo Card 2: Handcrafted Oak Frame & Gourmet Hamper */}
-          <div className="relative rounded-3xl bg-gradient-to-br from-[#FFF5F7] via-[#FFF8E8] to-[#FFF0F3] border border-rose-200/80 text-stone-900 p-7 sm:p-9 shadow-md overflow-hidden flex flex-col justify-between min-h-[320px]">
-            <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-[#E95D79]/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative rounded-3xl bg-gradient-to-br from-[#FFFDF7] via-[#FFFBEB] to-[#FEF3C7] border border-amber-200 text-stone-900 p-7 sm:p-9 shadow-md overflow-hidden flex flex-col justify-between min-h-[320px]">
+            <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E95D79]/10 text-[#E95D79] text-xs font-bold mb-3 border border-[#E95D79]/20">
-                <Gift className="w-3.5 h-3.5 text-[#E95D79]" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold mb-3 border border-amber-200">
+                <Gift className="w-3.5 h-3.5 text-amber-700" />
                 <span>CURATED LUXURY GIFTING</span>
               </div>
 
-              <h3 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#881337] leading-tight mb-2">
+              <h3 className="font-heading text-2xl sm:text-3xl font-extrabold text-stone-900 leading-tight mb-2">
                 Handcrafted Keepsakes <br />
-                <span className="text-[#E95D79] font-script text-3xl font-normal">& Gourmet Hampers</span>
+                <span className="text-amber-700 font-script text-3xl font-normal">& Gourmet Hampers</span>
               </h3>
 
               <p className="text-xs sm:text-sm text-stone-600 max-w-sm leading-relaxed mb-6">
@@ -108,19 +108,19 @@ export const GiftyPromoBanners: React.FC<GiftyPromoBannersProps> = ({
               </p>
             </div>
 
-            <div className="relative z-10 flex items-center justify-between pt-2 border-t border-rose-200/60">
+            <div className="relative z-10 flex items-center justify-between pt-2 border-t border-amber-200">
               <button
                 type="button"
                 onClick={onShopClick}
-                className="px-5 py-2.5 bg-[#881337] hover:bg-[#6e0f2c] text-white font-bold rounded-xl text-xs sm:text-sm shadow-md transition-all flex items-center gap-2 cursor-pointer"
+                className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-stone-950 font-black rounded-xl text-xs sm:text-sm shadow-md shadow-amber-200 transition-all flex items-center gap-2 cursor-pointer"
               >
                 <span>Explore Hampers</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 text-stone-950" />
               </button>
 
               <div className="text-right">
                 <span className="text-xs text-stone-500 block">Starting from</span>
-                <span className="text-base font-bold text-[#881337] font-mono">₹149 Onwards</span>
+                <span className="text-base font-bold text-amber-800 font-mono">₹149 Onwards</span>
               </div>
             </div>
           </div>

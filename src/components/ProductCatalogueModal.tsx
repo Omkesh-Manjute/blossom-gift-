@@ -50,16 +50,16 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 print:p-0 print:bg-white print:fixed print:inset-0">
       <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden print:max-h-none print:shadow-none print:rounded-none">
         {/* Top Action Bar (Hidden on print) */}
-        <div className="px-5 py-3.5 bg-gradient-to-r from-[#E8436E] to-[#C2185B] text-white flex items-center justify-between shrink-0 print:hidden">
+        <div className="px-5 py-3.5 bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-600 text-stone-950 flex items-center justify-between shrink-0 print:hidden font-sans">
           <div className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center text-white">
+            <span className="w-8 h-8 rounded-xl bg-black/10 flex items-center justify-center text-stone-950">
               <Gift className="w-4 h-4" />
             </span>
             <div>
-              <h3 className="font-extrabold text-sm sm:text-base leading-tight">
+              <h3 className="font-extrabold text-sm sm:text-base leading-tight text-stone-950">
                 BLOSSOM GIFT — Official Product Catalogue (PDF)
               </h3>
-              <p className="text-[11px] text-pink-100">
+              <p className="text-[11px] text-amber-950/80 font-medium">
                 Print or Save as PDF for offline viewing & WhatsApp ordering
               </p>
             </div>
@@ -68,15 +68,15 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white text-[#C2185B] hover:bg-pink-50 font-bold text-xs transition-all shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white text-stone-950 hover:bg-amber-50 font-extrabold text-xs transition-all shadow-xs cursor-pointer"
             >
-              <Printer className="w-3.5 h-3.5" />
+              <Printer className="w-3.5 h-3.5 text-amber-600" />
               <span>Print / Save as PDF</span>
             </button>
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full hover:bg-white/20 text-white cursor-pointer transition-colors"
+              className="p-1.5 rounded-full hover:bg-black/10 text-stone-950 cursor-pointer transition-colors"
               aria-label="Close"
             >
               <X className="w-5 h-5" />
@@ -87,9 +87,9 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
         {/* Printable Catalogue Body */}
         <div ref={printRef} className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6 text-stone-900 print:overflow-visible print:p-4">
           {/* Catalogue Header / Letterhead */}
-          <div className="border-b-2 border-[#E8436E] pb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="border-b-2 border-amber-400 pb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#E8436E] to-[#FA709A] text-white flex items-center justify-center shadow-md">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-400 to-yellow-500 text-stone-950 flex items-center justify-center shadow-md">
                 <Gift className="w-8 h-8" />
               </div>
               <div>
@@ -97,7 +97,7 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
                   <span className="font-extrabold text-2xl tracking-tight text-[#1E293B]">
                     BLOSSOM
                   </span>
-                  <span className="font-extrabold text-2xl tracking-tight text-[#E8436E] ml-1.5">
+                  <span className="font-extrabold text-2xl tracking-tight text-amber-600 ml-1.5">
                     GIFT
                   </span>
                 </div>
@@ -112,7 +112,7 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
 
             <div className="text-left sm:text-right text-xs space-y-1 text-stone-600 font-medium">
               <div className="flex items-center sm:justify-end gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-[#E8436E] shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                 <span>Gupta Complex, Near N.M.D. College, Gondia (M.S.)</span>
               </div>
               <div className="flex items-center sm:justify-end gap-1.5 font-mono">
@@ -130,9 +130,9 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
           </div>
 
           {/* Quick Info Banner */}
-          <div className="p-3.5 rounded-2xl bg-pink-50/70 border border-pink-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/80 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#E8436E]" />
+              <Sparkles className="w-4 h-4 text-amber-600" />
               <span className="font-bold text-stone-900">
                 Customization Available:
               </span>
@@ -140,7 +140,7 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
                 Send your photo & text on WhatsApp to preview before printing!
               </span>
             </div>
-            <span className="px-2.5 py-1 bg-white text-[#E8436E] font-bold rounded-full border border-pink-200 text-[11px]">
+            <span className="px-2.5 py-1 bg-white text-amber-900 font-bold rounded-full border border-amber-300 text-[11px]">
               Gondia Doorstep Delivery Available
             </span>
           </div>
@@ -150,7 +150,7 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
             {Object.entries(categorizedProducts).map(([category, items]) => (
               <div key={category} className="space-y-3">
                 <div className="flex items-center gap-2 border-b border-stone-200 pb-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#E8436E]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                   <h4 className="font-extrabold text-base text-stone-900 tracking-tight">
                     {category}
                   </h4>
@@ -163,7 +163,7 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
                   {items.map((prod) => (
                     <div
                       key={prod.id}
-                      className="p-3 rounded-2xl border border-stone-200 bg-stone-50/50 flex gap-3 text-left hover:border-pink-300 transition-colors"
+                      className="p-3 rounded-2xl border border-stone-200 bg-stone-50/50 flex gap-3 text-left hover:border-amber-300 transition-colors"
                     >
                       <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-white shrink-0 border border-stone-100">
                         <img
@@ -179,7 +179,7 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
                               {prod.name}
                             </h5>
                             {prod.badge && (
-                              <span className="px-1.5 py-0.5 rounded bg-pink-100 text-[#E8436E] text-[9px] font-bold shrink-0">
+                              <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[9px] font-bold shrink-0">
                                 {prod.badge}
                               </span>
                             )}
@@ -191,7 +191,7 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
 
                         <div className="flex items-baseline justify-between mt-1 pt-1 border-t border-stone-200/60">
                           <div>
-                            <span className="font-mono font-bold text-sm text-[#E8436E]">
+                            <span className="font-mono font-bold text-sm text-amber-700">
                               ₹{prod.price}
                             </span>
                             {prod.comparePrice && (
@@ -239,7 +239,7 @@ export const ProductCatalogueModal: React.FC<ProductCatalogueModalProps> = ({
 
           <button
             onClick={handlePrint}
-            className="flex-1 py-2.5 px-4 rounded-xl bg-[#E8436E] hover:bg-[#d4335c] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs cursor-pointer transition-all"
+            className="flex-1 py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-black text-xs flex items-center justify-center gap-2 shadow-md shadow-amber-200 cursor-pointer transition-all"
           >
             <Download className="w-4 h-4" />
             <span>Print or Save PDF</span>

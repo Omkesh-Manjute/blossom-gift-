@@ -198,11 +198,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   onClick={() => setViewMode('3d-mockup')}
                   className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                     viewMode === '3d-mockup'
-                      ? 'bg-white text-[#124282] shadow-xs'
+                      ? 'bg-white text-stone-900 shadow-xs font-bold'
                       : 'text-stone-600 hover:text-stone-900'
                   }`}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                   <span>3D Live Wrapped Mockup</span>
                 </button>
                 {product.images && product.images.length > 0 && (
@@ -211,7 +211,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     onClick={() => setViewMode('real-photo')}
                     className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                       viewMode === 'real-photo'
-                        ? 'bg-white text-[#124282] shadow-xs'
+                        ? 'bg-white text-stone-900 shadow-xs font-bold'
                         : 'text-stone-600 hover:text-stone-900'
                     }`}
                   >
@@ -264,7 +264,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="mt-3.5 p-3 rounded-2xl bg-white border border-amber-200/70 shadow-xs">
                 <div className="flex items-center justify-between text-xs font-bold text-stone-800 mb-2">
                   <span className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#E8436E]" />
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     <span>Test Instant Photo Projection:</span>
                   </span>
                   <span className="text-[10px] text-stone-400 font-normal">Click to test wrap</span>
@@ -281,7 +281,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       }}
                       className={`px-2 py-1.5 rounded-lg text-[10px] font-semibold border transition-all truncate text-left cursor-pointer flex items-center gap-1 ${
                         photoUrl === sample.url
-                          ? 'border-[#E8436E] bg-rose-50 text-[#E8436E] font-bold shadow-xs'
+                          ? 'border-amber-500 bg-amber-50 text-amber-900 font-bold shadow-xs ring-1 ring-amber-300'
                           : 'border-stone-200 bg-stone-50 text-stone-700 hover:bg-stone-100'
                       }`}
                     >
@@ -311,7 +311,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <div>
             {/* Header / Badges */}
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#E8436E] bg-pink-50 px-2 py-0.5 rounded-md">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-md border border-amber-200">
                 {product.category}
               </span>
               <div className="flex items-center gap-1 text-xs font-bold text-amber-500">
@@ -327,7 +327,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
             {/* Price section with dynamic delta breakdown */}
             <div className="flex flex-wrap items-baseline gap-2.5 mt-2 mb-4">
-              <span className="font-mono text-2xl font-black text-[#124282] tabular-nums">
+              <span className="font-mono text-2xl font-black text-amber-700 tabular-nums">
                 ₹{unitPrice}
               </span>
               {product.comparePrice && (
@@ -336,7 +336,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </span>
               )}
               {totalVariantsDelta !== 0 && (
-                <span className="text-[11px] font-bold text-blue-700 bg-blue-50 border border-blue-200/80 px-2 py-0.5 rounded-full">
+                <span className="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-full">
                   {totalVariantsDelta > 0 ? `+₹${totalVariantsDelta}` : `-₹${Math.abs(totalVariantsDelta)}`} options delta
                 </span>
               )}
@@ -363,11 +363,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="space-y-4 mb-5 p-3.5 bg-stone-50/80 border border-stone-200/80 rounded-2xl">
                 <div className="flex items-center justify-between border-b border-stone-200/60 pb-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-stone-600 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     <span>Select Configuration & Variants</span>
                   </span>
                   {totalVariantsDelta !== 0 && (
-                    <span className="text-[11px] font-mono font-bold text-blue-600">
+                    <span className="text-[11px] font-mono font-bold text-amber-700">
                       Total Delta: {totalVariantsDelta > 0 ? `+₹${totalVariantsDelta}` : `-₹${Math.abs(totalVariantsDelta)}`}
                     </span>
                   )}
@@ -385,7 +385,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           <span className="text-[11px] font-semibold text-stone-500">
                             Selected: <strong className="text-stone-800">{currentSelected.value}</strong>
                             {currentSelected.priceDelta !== 0 && (
-                              <span className="ml-1 text-blue-600 font-mono">
+                              <span className="ml-1 text-amber-700 font-mono">
                                 ({currentSelected.priceDelta > 0 ? `+₹${currentSelected.priceDelta}` : `-₹${Math.abs(currentSelected.priceDelta)}`})
                               </span>
                             )}
@@ -408,19 +408,19 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                               }
                               className={`p-2.5 rounded-xl border text-xs text-left transition-all cursor-pointer flex flex-col justify-between relative ${
                                 isSelected
-                                  ? 'border-[#124282] bg-blue-50 text-[#124282] font-bold shadow-xs ring-2 ring-blue-500/20'
+                                  ? 'border-amber-500 bg-amber-50 text-stone-900 font-bold shadow-xs ring-2 ring-amber-400/30'
                                   : 'border-stone-200 hover:border-stone-300 bg-white text-stone-700'
                               }`}
                             >
                               <div className="flex items-center justify-between w-full">
                                 <span className="truncate">{v.value}</span>
                                 {isSelected && (
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-[#124282] shrink-0" />
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                                 )}
                               </div>
                               <div className="mt-1 flex items-center justify-between text-[10px]">
                                 {v.priceDelta !== 0 ? (
-                                  <span className={`font-mono font-semibold ${isSelected ? 'text-blue-700' : 'text-stone-500'}`}>
+                                  <span className={`font-mono font-semibold ${isSelected ? 'text-amber-800' : 'text-stone-500'}`}>
                                     {v.priceDelta > 0 ? `+₹${v.priceDelta}` : `-₹${Math.abs(v.priceDelta)}`}
                                   </span>
                                 ) : (
@@ -440,8 +440,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             {/* CUSTOMIZATION WORKFLOW: PHOTO UPLOAD & RECIPIENT MESSAGE */}
             {product.isCustomizable && (
               <div className="space-y-4 pt-3 border-t border-stone-200 mb-5">
-                <div className="flex items-center gap-1.5 text-xs font-extrabold text-[#124282] uppercase tracking-wide">
-                  <Sparkles className="w-4 h-4 text-[#F59E0B]" />
+                <div className="flex items-center gap-1.5 text-xs font-extrabold text-stone-900 uppercase tracking-wide">
+                  <Sparkles className="w-4 h-4 text-amber-500" />
                   <span>Personalization Details (Guaranteed Print Clarity)</span>
                 </div>
 
@@ -451,7 +451,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     <label className="block text-xs font-bold text-stone-700 mb-1.5">
                       Upload Your High-Resolution Photo *
                     </label>
-                    <div className="relative border-2 border-dashed border-stone-300 hover:border-[#124282] rounded-2xl p-4 text-center bg-stone-50 transition-colors">
+                    <div className="relative border-2 border-dashed border-stone-300 hover:border-amber-500 rounded-2xl p-4 text-center bg-stone-50 transition-colors">
                       <input
                         type="file"
                         accept="image/*"
@@ -459,7 +459,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                       />
                       <div className="flex flex-col items-center">
-                        <Upload className="w-6 h-6 text-[#124282] mb-1.5" />
+                        <Upload className="w-6 h-6 text-amber-600 mb-1.5" />
                         <span className="text-xs font-bold text-stone-800">
                           {photoFileName ? `Selected: ${photoFileName}` : 'Click to Upload or Drag Photo'}
                         </span>
@@ -482,7 +482,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     value={recipientName}
                     onChange={(e) => setRecipientName(e.target.value)}
                     maxLength={35}
-                    className="w-full bg-[#FAF8F9] border border-stone-200 rounded-xl px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#124282] focus:bg-white transition-all shadow-inner"
+                    className="w-full bg-[#FAF8F9] border border-stone-200 rounded-xl px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition-all shadow-inner"
                   />
                 </div>
 
@@ -497,7 +497,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     value={customMessage}
                     onChange={(e) => setCustomMessage(e.target.value)}
                     maxLength={100}
-                    className="w-full bg-[#FAF8F9] border border-stone-200 rounded-xl px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#124282] focus:bg-white transition-all shadow-inner resize-none"
+                    className="w-full bg-[#FAF8F9] border border-stone-200 rounded-xl px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition-all shadow-inner resize-none"
                   />
                   <span className="block text-right text-[10px] text-stone-400 mt-0.5">
                     {100 - customMessage.length} characters left
@@ -515,7 +515,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       onClick={() => setGiftWrap('none')}
                       className={`p-2 rounded-xl border text-[11px] text-center transition-all cursor-pointer ${
                         giftWrap === 'none'
-                          ? 'border-[#124282] bg-blue-50/50 font-bold text-[#124282]'
+                          ? 'border-amber-500 bg-amber-50 font-bold text-stone-900 ring-1 ring-amber-300'
                           : 'border-stone-200 text-stone-600 hover:bg-stone-50'
                       }`}
                     >
@@ -526,7 +526,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       onClick={() => setGiftWrap('classic_wrap')}
                       className={`p-2 rounded-xl border text-[11px] text-center transition-all cursor-pointer ${
                         giftWrap === 'classic_wrap'
-                          ? 'border-[#124282] bg-blue-50/50 font-bold text-[#124282]'
+                          ? 'border-amber-500 bg-amber-50 font-bold text-stone-900 ring-1 ring-amber-300'
                           : 'border-stone-200 text-stone-600 hover:bg-stone-50'
                       }`}
                     >
@@ -537,7 +537,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       onClick={() => setGiftWrap('luxury_satin_box')}
                       className={`p-2 rounded-xl border text-[11px] text-center transition-all cursor-pointer ${
                         giftWrap === 'luxury_satin_box'
-                          ? 'border-[#124282] bg-blue-50/50 font-bold text-[#124282]'
+                          ? 'border-amber-500 bg-amber-50 font-bold text-stone-900 ring-1 ring-amber-300'
                           : 'border-stone-200 text-stone-600 hover:bg-stone-50'
                       }`}
                     >
@@ -579,9 +579,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 type="button"
                 onClick={handleAddToCart}
                 disabled={isOutOfStock || isPhotoLoading}
-                className="flex-1 bg-[#124282] hover:bg-[#0e3568] disabled:bg-stone-300 text-white font-bold py-3 px-5 rounded-xl text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="flex-1 bg-amber-500 hover:bg-amber-600 disabled:bg-stone-300 text-stone-950 font-black py-3 px-5 rounded-xl text-xs sm:text-sm shadow-md shadow-amber-200 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <ShoppingBag className="w-4 h-4 text-[#F4C62E]" />
+                <ShoppingBag className="w-4 h-4 text-stone-950" />
                 <span>
                   {isOutOfStock
                     ? 'Out of Stock'
@@ -596,7 +596,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <span>Cash on Delivery Available</span>
               </span>
               <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-[#124282]" />
+                <ShieldCheck className="w-3 h-3 text-amber-600" />
                 <span>Quality Tested in Gondia</span>
               </span>
             </div>

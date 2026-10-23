@@ -103,13 +103,13 @@ export const InstagramMoments: React.FC = () => {
   const [activeVideo, setActiveVideo] = useState<VideoMoment | null>(null);
 
   return (
-    <section className="py-12 bg-white border-t border-pink-100">
+    <section className="py-12 bg-[#FCFCFA] border-t border-amber-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with Creator Profile Link & Callout */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 text-center md:text-left">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-rose-50 to-pink-50 text-[#E8436E] border border-pink-200/80 text-xs font-bold mb-2 shadow-2xs">
-              <Instagram className="w-3.5 h-3.5 text-[#E8436E]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-50 to-yellow-50 text-amber-900 border border-amber-200/80 text-xs font-bold mb-2 shadow-2xs">
+              <Instagram className="w-3.5 h-3.5 text-amber-600" />
               <span>OFFICIAL INSTAGRAM & YOUTUBE · @theblossomgiftshop</span>
             </div>
             <h3 className="font-sans text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
@@ -128,7 +128,7 @@ export const InstagramMoments: React.FC = () => {
               href={OFFICIAL_CHANNELS.instaUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 hover:opacity-95 text-white text-xs font-bold shadow-md shadow-pink-200 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 hover:opacity-95 text-white text-xs font-bold shadow-md shadow-amber-200 transition-all transform hover:-translate-y-0.5 cursor-pointer"
             >
               <Instagram className="w-4 h-4" />
               <span>Follow on Instagram</span>
@@ -180,33 +180,33 @@ export const InstagramMoments: React.FC = () => {
 
               {/* Top Tag & Views */}
               <div className="relative z-10 p-2.5 flex items-center justify-between text-[10px] font-bold">
-                <span className="bg-[#E8436E] text-white px-2 py-0.5 rounded-full shadow-xs">
+                <span className="bg-amber-500 text-stone-950 font-black px-2 py-0.5 rounded-full shadow-xs">
                   {item.badge}
                 </span>
                 <span className="text-white/90 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-full flex items-center gap-1">
-                  <Eye className="w-3 h-3 text-pink-400" />
+                  <Eye className="w-3 h-3 text-amber-400" />
                   <span>{item.views}</span>
                 </span>
               </div>
 
               {/* Center Play Button with Pulse animation */}
               <div className="relative z-10 my-auto flex items-center justify-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 group-hover:bg-[#E8436E] text-stone-900 group-hover:text-white flex items-center justify-center shadow-lg transition-all transform group-hover:scale-115">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 group-hover:bg-amber-500 text-stone-900 group-hover:text-stone-950 flex items-center justify-center shadow-lg transition-all transform group-hover:scale-115">
                   <Play className="w-5 h-5 fill-current ml-0.5" />
                 </div>
               </div>
 
               {/* Bottom Caption & Channel Tag */}
               <div className="relative z-10 p-3 text-left">
-                <span className="text-[10px] text-pink-300 font-bold block mb-0.5">
+                <span className="text-[10px] text-amber-300 font-bold block mb-0.5">
                   {item.creator}
                 </span>
                 <h4 className="text-[11px] font-bold text-white line-clamp-2 leading-tight">
                   {item.title}
                 </h4>
                 <div className="flex items-center gap-2 mt-2 pt-1 border-t border-white/15 text-[10px] text-white/80">
-                  <span className="flex items-center gap-1 text-rose-400 font-bold">
-                    <Heart className="w-3 h-3 fill-rose-500 text-rose-500" />
+                  <span className="flex items-center gap-1 text-amber-400 font-bold">
+                    <Heart className="w-3 h-3 fill-amber-500 text-amber-500" />
                     <span>{item.likes}</span>
                   </span>
                   <span className="text-white/60">· {item.tag}</span>
@@ -233,7 +233,7 @@ export const InstagramMoments: React.FC = () => {
                     href={OFFICIAL_CHANNELS.instaUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-[10px] text-pink-400 hover:underline font-bold"
+                    className="text-[10px] text-amber-400 hover:underline font-bold"
                   >
                     {activeVideo.creator} · Follow on Instagram ↗
                   </a>
@@ -293,8 +293,8 @@ export const InstagramMoments: React.FC = () => {
             {/* Bottom Footer Details */}
             <div className="p-4 bg-stone-900 flex flex-wrap items-center justify-between gap-3 text-xs text-stone-300">
               <div className="flex items-center gap-3">
-                <span className="flex items-center gap-1 font-bold text-rose-400">
-                  <Heart className="w-4 h-4 fill-rose-500" />
+                <span className="flex items-center gap-1 font-bold text-amber-400">
+                  <Heart className="w-4 h-4 fill-amber-500 text-amber-500" />
                   <span>{activeVideo.likes} Likes</span>
                 </span>
                 <span className="text-stone-400 font-mono">👁️ {activeVideo.views} Views</span>

@@ -175,7 +175,7 @@ export default function App() {
 
   return (
     <CartProvider>
-      <div className="min-h-screen flex flex-col bg-[#FAFAF8] text-[#1F2937]">
+      <div className="min-h-screen flex flex-col bg-[#FCFCFA] text-[#1F2937]">
         {/* Navigation Bar (Desktop & Mobile) */}
         <Navbar
           activeTab={activeTab}
@@ -239,7 +239,7 @@ export default function App() {
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6 sm:mb-8 text-left">
                 <div>
                   <div className="flex items-center gap-2">
-                    <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-[#E8436E] fill-[#E8436E]" />
+                    <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500 fill-amber-400" />
                     <h2 className="font-sans text-xl sm:text-2xl md:text-3xl font-extrabold text-stone-900 tracking-tight">
                       {selectedCategory !== 'all' ? selectedCategory : 'Featured Products'}
                     </h2>
@@ -258,7 +258,7 @@ export default function App() {
                         setSelectedOccasion('all');
                         setSearchQuery('');
                       }}
-                      className="text-xs text-stone-500 hover:text-[#E8436E] underline cursor-pointer"
+                      className="text-xs text-stone-500 hover:text-amber-600 underline cursor-pointer"
                     >
                       Clear Filters
                     </button>
@@ -271,7 +271,7 @@ export default function App() {
                       const el = document.getElementById('catalog-section');
                       el?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8436E] hover:bg-[#d4335c] text-white text-xs sm:text-sm font-bold shadow-md shadow-pink-200 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-600 text-stone-950 text-xs sm:text-sm font-extrabold shadow-md shadow-amber-200 transition-all transform hover:-translate-y-0.5 cursor-pointer"
                   >
                     <span>View All Products</span>
                     <ArrowRight className="w-4 h-4" />
@@ -282,7 +282,7 @@ export default function App() {
               {/* Product Grid: Responsive 2 cols on mobile, 3 on tablet, 6 on desktop */}
               {mainCatalogProducts.length === 0 ? (
                 <div className="py-16 text-center bg-white rounded-3xl border border-stone-200 p-8 max-w-md mx-auto shadow-xs">
-                  <div className="w-16 h-16 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-[#E8436E]">
+                  <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-amber-600 border border-amber-200">
                     <Package className="w-8 h-8" />
                   </div>
                   <h3 className="font-sans text-lg font-bold text-stone-900">
@@ -297,7 +297,7 @@ export default function App() {
                       setSelectedOccasion('all');
                       setSearchQuery('');
                     }}
-                    className="px-5 py-2.5 bg-[#E8436E] text-white text-xs font-bold rounded-xl hover:bg-[#d4335c] cursor-pointer shadow-sm"
+                    className="px-5 py-2.5 bg-amber-500 text-stone-950 text-xs font-extrabold rounded-xl hover:bg-amber-600 cursor-pointer shadow-sm"
                   >
                     Reset & View All Gifts
                   </button>
